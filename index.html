@@ -27,6 +27,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+    <link href="css/aquarium.css" rel="stylesheet">
 
     
     </head>
@@ -428,8 +429,8 @@
             }
 
             function formatPrice(price) {
-                return `Rs. ${Number(price).toLocaleString("en-LK")}`;
-            }
+    return `${Number(price || 0).toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
             function renderHomeFishProducts() {
                 const carousel = document.getElementById("home-fish-carousel");

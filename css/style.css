@@ -1,3 +1,4 @@
+@import url("aquarium.css");
 
 /* ===== Ancistrus Land Aquarium Colour Theme ===== */
 :root {
@@ -790,4 +791,3 @@
 .anc-shop-navbar { height: 92px; }
 @media (max-width:1199.98px) { .anc-shop-navbar { height:auto; min-height:76px; } }
 
-@import url(" aquarium.css);
