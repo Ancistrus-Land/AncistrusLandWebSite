@@ -1,20 +1,36 @@
 # Software Requirements Specification (SRS) & Verification Traceability Matrix
 
-**Project**: Ancistrus Land Canada E-Commerce Platform  
-**Document Version**: 1.0.0  
-**Classification**: Commercial Store Platform Specification  
-**Status**: Implemented & Verified  
+```
+========================================================================================
+Document Title: Software Requirements Specification (SRS) & Traceability Matrix
+Project       : Ancistrus Land Canada - Web E-Commerce Platform
+Classification: Commercial Store Platform Specification
+Document ID   : DOC-SRS-2026-V1
+Version       : 1.0.0 (Production-Ready)
+Copyright     : (c) 2026 Ancistrus Land Canada. All Rights Reserved.
+========================================================================================
+```
+
+## 📚 Master Documentation Index
+* 📄 **[Master Repository Manual](../README.md)** — Architectural Overview & Local Testing
+* 📄 **[Production Deployment & Pricing Strategy](DEPLOYMENT_STRATEGY.md)** — Executive Cloud Hosting & Zero-Cost Analysis
+* 📄 **[Commercial License Agreement](../LICENSE)** — Proprietary Commercial Software License
 
 ---
 
-## 1. Scope & Objective
-This document details all business, functional, non-functional, and operational requirements implemented in the Ancistrus Land Canada e-commerce web platform. It serves as the official specification for store management, compliance verification, and quality assurance testing.
+## 1. Executive Scope & Objective
+
+This document defines the formal Software Requirements Specification (SRS) for **Ancistrus Land Canada**. It establishes the complete functional, technical, operational, and compliance requirements implemented in the production storefront. 
+
+This document serves as the official baseline for store management sign-off, quality assurance auditing, and continuous enhancement tracking.
 
 ---
 
 ## 2. Requirements Traceability Matrix (RTM)
 
-| Req ID | Requirement Description | Category | Source Module / File | Verification Method | Status |
+The matrix below maps each business and technical requirement to its functional category, implementation file, test procedure, and quality assurance result.
+
+| Req ID | Requirement Description | Category | Implementation Module | Verification Method | QA Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **REQ-CAT-01** | Support hierarchical taxonomy across 4 main departments (Fish, Invertebrates, Plants, Dry Goods) and 21 subcategories. | Functional | `js/products.js`, `includes/header.html` | Navigation menu inspection & URL query filter test | **PASS** |
 | **REQ-CAT-02** | Display product cards with image, title, subcategory pill, CAD ($) price, and stock status. | Presentation | `shop.html`, `js/services.js` | Visual verification on `shop.html` | **PASS** |
@@ -36,37 +52,53 @@ This document details all business, functional, non-functional, and operational 
 | **REQ-ADM-06** | 1-Click Export capability to download updated `products.js` for permanent source control commit. | Operational | `admin.html` | Click "Download Updated products.js"; verify file structure | **PASS** |
 | **REQ-POL-01** | Dedicated Live Arrival Guarantee (LAG) & DOA reporting documentation (2-hour photo/video protocol). | Compliance | `faqs.html`, `terms-of-use.html` | Review policy clauses and legal terms | **PASS** |
 | **REQ-POL-02** | Sub-zero Canadian winter packaging specifications (1.5" molded EPS boxes, 72-hr Uniheat packs, pure oxygen). | Compliance | `faqs.html`, `why-us.html` | Review packaging guidelines and dispatch calendar (Mon/Tue) | **PASS** |
-| **REQ-POL-03** | Comprehensive informational pages: Why Us, Careers, Contact Us, Helpful Articles, Privacy Policy, Terms of Use. | Presentation | Entire root page suite | Inspect all 14 pages; verify active links and Canadian content | **PASS** |
+| **REQ-POL-03** | Comprehensive informational pages: Why Us, Careers, Contact Us, Helpful Articles, Privacy Policy, Terms of Use, License. | Presentation | Entire root page suite | Inspect all 14 pages; verify active links and Canadian content | **PASS** |
 
 ---
 
 ## 3. Test Cases & Verification Procedures
 
 ### Test Case TC-01: End-to-End Customer Purchase Journey
-1. **Navigate** to `http://localhost:3000/shop.html`.
-2. **Search** for `"Discus"` and select `"Red Melon Discus"` ($79.99).
-3. **Set quantity** to `2` on `shop-detail.html?id=P-003` and click **"Add to Cart"**.
-4. **Inspect** the header cart badge; verify it displays `2`.
-5. **Proceed** to `cart.html`; verify Subtotal is `$159.98 CAD`.
-6. **Proceed** to `checkout.html`, fill in Canadian customer details (e.g. Ottawa, ON, K1P 5N6), select **Interac e-Transfer**, and click **"Place Order Now"**.
-7. **Verify**:
-   * Order ID generated (`ANC-CA-XXXXXX`).
-   * Cart count resets to `0`.
-   * Order Confirmation screen displays receipt with free thermal packaging.
-   * "Send to WhatsApp" link formats message containing items, price, and customer address.
+* **Goal**: Validate complete flow from catalogue browsing to receipt and dual store notifications.
+* **Execution Steps**:
+  1. Navigate to `http://localhost:3000/shop.html`.
+  2. Search for `"Discus"` and select `"Red Melon Discus"` ($79.99 CAD).
+  3. Set quantity to `2` on `shop-detail.html?id=P-003` and click **"Add to Cart"**.
+  4. Verify header cart badge updates to `2`.
+  5. Navigate to `cart.html`; verify Subtotal is `$159.98 CAD`.
+  6. Proceed to `checkout.html`, input customer data (Ottawa, ON, K1P 5N6), select **Interac e-Transfer**, and click **"Place Order Now"**.
+* **Expected Result**:
+  * Unique Order ID generated (`ANC-CA-XXXXXX`).
+  * Session cart resets to zero.
+  * Confirmation page displays complete receipt with zero-cost thermal packaging.
+  * WhatsApp button generates formatted payload for dispatch phone (`+1 613 266 5285`).
+  * Email button generates formatted invoice for `sudarsha.wijenayake@gmail.com`.
+* **Result**: **PASS**
 
 ### Test Case TC-02: Real-Time Admin Inventory Control
-1. **Navigate** to `http://localhost:3000/admin.html`.
-2. **Authenticate** using PIN: `1234`.
-3. Locate `"P-001 - Caridina Shrimp"` and click **"In Stock"** to toggle it to **"Out of Stock"**.
-4. **Open** `http://localhost:3000/shop.html` in a new tab.
-5. **Verify**: Product card shows **"Out of Stock"** with button disabled.
-6. **Return** to `admin.html` and click **"Out of Stock"** to toggle back to **"In Stock"**.
-7. **Refresh** `shop.html`; verify product returns to active state.
+* **Goal**: Verify administrative stock override and instant storefront reflection.
+* **Execution Steps**:
+  1. Navigate to `http://localhost:3000/admin.html`.
+  2. Enter PIN: `1234`.
+  3. Locate product `"P-001 - Caridina Shrimp"` and click **"In Stock"** to switch state.
+  4. Open `shop.html` in an adjacent tab.
+* **Expected Result**:
+  * Product immediately displays a red **"Out of Stock"** badge.
+  * Action button is replaced with disabled **"Sold Out"** state.
+* **Result**: **PASS**
 
 ---
 
-## 4. Sign-off & Store Approval
-* **Technical Reviewer**: Engineering Lead  
-* **Store Representative**: Ancistrus Land Store Management  
-* **Date**: November 2026
+## 4. Formal Sign-Off & Corporate Approval
+
+This document constitutes the official Software Requirements Specification and Verification Matrix for Ancistrus Land Canada.
+
+```
+Reviewed and Approved by:
+
+________________________________________         ___________________________
+Lead Systems Architect                            Date
+
+________________________________________         ___________________________
+Store Operations / Managing Director              Date
+```

@@ -1,16 +1,28 @@
 # Executive Proposal: Production Deployment Strategy & Zero-Cost Architecture
 
-**Prepared for**: Store Management & Owners — Ancistrus Land Canada  
-**Author**: Engineering Team  
-**Subject**: Technical Architecture, Production Hosting Strategy, and Ongoing Operating Cost Analysis  
+```
+========================================================================================
+Document Title: Production Deployment Strategy & Operating Cost Analysis
+Project       : Ancistrus Land Canada - Web E-Commerce Platform
+Classification: Executive Commercial Proposal
+Document ID   : DOC-DEP-2026-V1
+Version       : 1.0.0 (Production-Ready)
+Copyright     : (c) 2026 Ancistrus Land Canada. All Rights Reserved.
+========================================================================================
+```
+
+## 📚 Master Documentation Index
+* 📄 **[Master Repository Manual](../README.md)** — Architectural Overview & Local Testing
+* 📄 **[Requirements Specification (SRS & RTM)](REQUIREMENTS_SPECIFICATION.md)** — Implemented Requirements & QA Matrix
+* 📄 **[Commercial License Agreement](../LICENSE)** — Proprietary Commercial Software License
 
 ---
 
 ## 1. Executive Summary
 
-This document presents a deployment strategy designed to give **Ancistrus Land Canada** an enterprise-grade, high-availability e-commerce presence with **$0.00 in recurring monthly hosting fees**.
+This proposal presents a production deployment architecture designed to give **Ancistrus Land Canada** an enterprise-grade, high-availability e-commerce storefront with **$0.00 in recurring monthly hosting fees**.
 
-Traditional e-commerce platforms (such as Shopify, BigCommerce, or dedicated cPanel hosting) carry recurring costs between **$400 to $1,500+ CAD per year**, in addition to transaction processing fees. By utilizing modern **Jamstack edge-cloud infrastructure**, Ancistrus Land can leverage world-class global networks (Cloudflare, Vercel, or GitHub) with zero server overhead and maximum security.
+Traditional e-commerce platforms (such as Shopify, BigCommerce, or dedicated cPanel hosting) carry recurring costs between **$400 to $1,500+ CAD annually**, in addition to platform transaction surcharges. By utilizing modern **Jamstack edge-cloud infrastructure**, Ancistrus Land can leverage world-class global networks (Cloudflare, Vercel, or GitHub) with zero server overhead and maximum security.
 
 ---
 
@@ -22,8 +34,8 @@ The following table contrasts the proposed zero-cost architecture with conventio
 | :--- | :--- | :--- | :--- |
 | **Hosting Fee** | \$51.00 CAD / mo | \$12.00 – \$25.00 CAD / mo | **\$0.00 / mo (Free Forever)** |
 | **Custom Domain** | Paid by Store | Paid by Store | Already Owned by Store (3 Years Paid) |
-| **SSL (HTTPS) Certificate** | Included | \$0 – \$60.00 CAD / yr | **\$0.00 (Automated Wildcard SSL)** |
-| **Transaction Platform Surcharge** | 2.0% per sale | 0% | **0% Platform Fee** |
+| **SSL (HTTPS) Certificate** | Included | \$0 – \$60.00 CAD / yr | **\$0.00 (Automated 256-bit TLS/SSL)** |
+| **Transaction Platform Surcharge** | 2.0% per sale | 0% | **0% Platform Surcharge** |
 | **Database Storage** | Bundled | Bundled MySQL | **\$0.00 (Firebase / Local Storage Free Tier)** |
 | **DDoS Protection & Global CDN** | Basic | Additional cost | **Enterprise Cloudflare Edge Included ($0)** |
 | **Annual Fixed Overhead** | **~$612.00+ CAD / yr** | **~$150.00 – $300.00 CAD / yr** | **$0.00 CAD / yr** |

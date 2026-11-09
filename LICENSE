@@ -1,32 +1,51 @@
 COMMERCIAL PROPRIETARY SOFTWARE LICENSE AGREEMENT
 
-Copyright (c) 2026 Ancistrus Land Canada. All Rights Reserved.
+========================================================================================
+Document Title: Commercial Software License Agreement
+Project       : Ancistrus Land Canada - Web E-Commerce Platform
+Classification: Legal & Intellectual Property Document
+Version       : 1.0.0 (Production-Ready)
+Copyright     : (c) 2026 Ancistrus Land Canada. All Rights Reserved.
+========================================================================================
 
-NOTICE: This codebase, including all source code, HTML templates, CSS styles, JavaScript modules,
-data structures, graphical assets, branding, and documentation, is the confidential and proprietary
-property of Ancistrus Land Canada ("Owner").
+RELATED DOCUMENTATION:
+* Platform Manual             : README.md
+* Requirements Specification  : docs/REQUIREMENTS_SPECIFICATION.md
+* Deployment & Pricing Strategy: docs/DEPLOYMENT_STRATEGY.md
+* On-Site Public Legal Page   : license.html
+
+----------------------------------------------------------------------------------------
+
+NOTICE: This codebase, including all source code, HTML templates, CSS styles, JavaScript
+modules, data structures, graphical assets, branding, and documentation, is the exclusive
+and proprietary property of Ancistrus Land Canada ("Owner").
 
 1. GRANT OF LICENSE
-Subject to the terms of this Agreement, Owner grants the authorized store operator a non-exclusive,
-non-transferable, revocable license to use, execute, display, and maintain this software solely for
-the legitimate commercial e-commerce operations of Ancistrus Land Canada.
+Subject to the terms of this Agreement, Owner grants the authorized store operator a
+non-exclusive, non-transferable, revocable license to use, execute, display, and maintain
+this software solely for the legitimate commercial e-commerce operations of Ancistrus
+Land Canada in the Canadian market.
 
 2. RESTRICTIONS
 You may not:
-(a) Modify, reverse engineer, decompile, or disassemble any portion of this software outside of
-    authorized store operational customization;
-(b) Sublicense, lease, rent, sell, distribute, or transfer the software or any derivative works
-    to any third party without express written consent of the Owner;
-(c) Remove, alter, or obscure any copyright notices, trademarks, or proprietary markings embedded
-    in the code, assets, or web user interface.
+(a) Modify, reverse engineer, decompile, or disassemble any portion of this software
+    outside of authorized store operational customization;
+(b) Sublicense, lease, rent, sell, distribute, or transfer the software or any derivative
+    works to any third party without express written consent of the Owner;
+(c) Remove, alter, or obscure any copyright notices, trademarks, or proprietary markings
+    embedded in the code, assets, or web user interface.
 
 3. INTELLECTUAL PROPERTY
-All title, ownership rights, trademarks ("Ancistrus Land", "Ancistrus Land Canada"), logos, product
-descriptions, and intellectual property rights in and to the software shall remain exclusively with
-Ancistrus Land Canada.
+All title, ownership rights, trademarks ("Ancistrus Land", "Ancistrus Land Canada"),
+logos, product photography, descriptions, and intellectual property rights in and to the
+software shall remain exclusively with Ancistrus Land Canada.
 
 4. DISCLAIMER OF WARRANTIES
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+
+========================================================================================
+Ancistrus Land Canada | Ottawa, Ontario, Canada | info: sudarsha.wijenayake@gmail.com
+========================================================================================
