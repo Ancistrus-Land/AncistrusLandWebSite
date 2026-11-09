@@ -1,8 +1,10 @@
 /**
  * Ancistrus Land Canada - Layout Loader
- * Injects modular header and footer templates, attaches cart listeners
+ * Injects modular header and footer templates, attaches cart listeners,
+ * and initializes the interactive aquarium tank ambience engine.
  */
 import { CartService } from './services.js';
+import './aquarium.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     // 1. Fetch Header
