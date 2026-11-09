@@ -1,17 +1,17 @@
 /**
  * Ancistrus Land Canada - Aquarium Ambience Engine
- * Generates rising air bubbles, animated aquatic plants, and swimming fish.
- * Pure CSS animations + lightweight DOM layering with zero performance lag.
+ * Gentle, refined underwater ambience:
+ * - Rising micro air bubbles
+ * - Realistic swimming fish silhouettes (Pleco, Discus, Betta, Tetras)
+ * - Delicate, graceful swaying aquatic plants
  */
 
 (function () {
     "use strict";
 
     function initAquariumTank() {
-        // Prevent duplicate creation
         if (document.getElementById("aquarium-tank-container")) return;
 
-        // Container covers whole viewport fixed behind content
         const container = document.createElement("div");
         container.id = "aquarium-tank-container";
         container.setAttribute("aria-hidden", "true");
@@ -21,18 +21,17 @@
         waterLight.className = "tank-water-shimmer";
         container.appendChild(waterLight);
 
-        // 2. Rising Bubbles Layer
+        // 2. Rising Micro Bubbles Layer
         const bubblesLayer = document.createElement("div");
         bubblesLayer.className = "tank-bubbles-layer";
-        // Create 20 natural floating bubbles with randomized drift and speeds
-        for (let i = 0; i < 22; i++) {
+        for (let i = 0; i < 24; i++) {
             const bubble = document.createElement("div");
             bubble.className = "tank-bubble";
-            const size = Math.floor(Math.random() * 16) + 8; // 8px to 24px
-            const left = Math.random() * 98; // 0% to 98%
-            const duration = (Math.random() * 8 + 7).toFixed(1); // 7s to 15s
-            const delay = (Math.random() * 10).toFixed(1); // 0s to 10s
-            const drift = (Math.random() * 40 - 20).toFixed(0); // -20px to 20px wobble
+            const size = Math.floor(Math.random() * 12) + 6; // 6px to 18px
+            const left = Math.random() * 98;
+            const duration = (Math.random() * 7 + 8).toFixed(1); // 8s to 15s
+            const delay = (Math.random() * 8).toFixed(1);
+            const drift = (Math.random() * 30 - 15).toFixed(0);
 
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
@@ -45,18 +44,17 @@
         }
         container.appendChild(bubblesLayer);
 
-        // 3. Swimming Fish Layer (Subtle, gentle silhouettes swimming across depth planes)
+        // 3. Swimming Fish Fleet (Gentle, elegant depth silhouettes)
         const fishLayer = document.createElement("div");
         fishLayer.className = "tank-fish-layer";
 
-        // Species types: pleco, discus, betta, tetra
         const fishFleet = [
-            { type: "discus", top: "18%", speed: "26s", delay: "0s", direction: "left-to-right", scale: 0.9, opacity: 0.65 },
-            { type: "pleco", bottom: "8%", speed: "32s", delay: "4s", direction: "right-to-left", scale: 0.85, opacity: 0.5 },
-            { type: "tetra", top: "42%", speed: "18s", delay: "2s", direction: "left-to-right", scale: 0.5, opacity: 0.6 },
-            { type: "tetra", top: "45%", speed: "20s", delay: "2.8s", direction: "left-to-right", scale: 0.45, opacity: 0.5 },
-            { type: "tetra", top: "40%", speed: "19s", delay: "3.5s", direction: "left-to-right", scale: 0.48, opacity: 0.55 },
-            { type: "betta", top: "65%", speed: "28s", delay: "10s", direction: "right-to-left", scale: 0.8, opacity: 0.6 }
+            { type: "discus", top: "20%", speed: "30s", delay: "0s", direction: "left-to-right", scale: 0.85, opacity: 0.55 },
+            { type: "pleco", bottom: "70px", speed: "35s", delay: "5s", direction: "right-to-left", scale: 0.8, opacity: 0.45 },
+            { type: "tetra", top: "38%", speed: "20s", delay: "3s", direction: "left-to-right", scale: 0.5, opacity: 0.55 },
+            { type: "tetra", top: "41%", speed: "22s", delay: "3.7s", direction: "left-to-right", scale: 0.45, opacity: 0.5 },
+            { type: "tetra", top: "36%", speed: "21s", delay: "4.3s", direction: "left-to-right", scale: 0.48, opacity: 0.52 },
+            { type: "betta", top: "60%", speed: "28s", delay: "12s", direction: "right-to-left", scale: 0.75, opacity: 0.5 }
         ];
 
         fishFleet.forEach(f => {
@@ -67,77 +65,68 @@
             swimmer.style.animationDuration = f.speed;
             swimmer.style.animationDelay = f.delay;
             swimmer.style.opacity = f.opacity;
-            swimmer.style.transform = `scale(${f.scale})`;
+            swimmer.style.setProperty("--scale", f.scale);
 
-            // SVG fish silhouette for smooth vector rendering
             swimmer.innerHTML = getFishSVG(f.type);
             fishLayer.appendChild(swimmer);
         });
         container.appendChild(fishLayer);
 
-        // 4. Swaying Water Plants at the Bottom
+        // 4. Graceful Ribbon-Leaf Water Plants
         const plantsLayer = document.createElement("div");
         plantsLayer.className = "tank-plants-layer";
         plantsLayer.innerHTML = `
             <div class="tank-plant plant-left">
-                <svg viewBox="0 0 120 300" preserveAspectRatio="none">
-                    <path class="plant-stem stem-1" d="M30,300 Q20,200 45,130 T35,0" />
-                    <path class="plant-stem stem-2" d="M60,300 Q80,210 50,140 T70,20" />
-                    <path class="plant-stem stem-3" d="M90,300 Q70,230 95,160 T85,40" />
+                <svg viewBox="0 0 100 240" width="90" height="230">
+                    <path class="plant-leaf leaf-1" d="M15,240 C10,170 35,100 25,10 C28,70 15,160 20,240 Z" fill="#2d7d46" opacity="0.45"/>
+                    <path class="plant-leaf leaf-2" d="M35,240 C45,160 20,90 35,25 C30,85 45,165 40,240 Z" fill="#388e3c" opacity="0.5"/>
+                    <path class="plant-leaf leaf-3" d="M55,240 C40,180 65,110 50,45 C55,105 45,185 60,240 Z" fill="#43a047" opacity="0.4"/>
                 </svg>
             </div>
             <div class="tank-plant plant-right">
-                <svg viewBox="0 0 140 320" preserveAspectRatio="none">
-                    <path class="plant-stem stem-1" d="M40,320 Q20,220 50,150 T30,10" />
-                    <path class="plant-stem stem-2" d="M80,320 Q110,230 75,160 T105,30" />
-                    <path class="plant-stem stem-3" d="M110,320 Q90,240 120,170 T100,50" />
+                <svg viewBox="0 0 110 260" width="100" height="250">
+                    <path class="plant-leaf leaf-1" d="M30,260 C20,180 50,110 35,15 C40,85 25,175 35,260 Z" fill="#2d7d46" opacity="0.45"/>
+                    <path class="plant-leaf leaf-2" d="M60,260 C75,170 45,95 65,30 C55,100 70,180 65,260 Z" fill="#388e3c" opacity="0.5"/>
+                    <path class="plant-leaf leaf-3" d="M85,260 C70,195 95,125 80,55 C88,120 75,200 90,260 Z" fill="#43a047" opacity="0.4"/>
                 </svg>
             </div>
         `;
         container.appendChild(plantsLayer);
 
-        // Inject as first child of body so it stays in background behind everything
         document.body.prepend(container);
     }
 
-    // High quality vector silhouettes of Discus, Pleco, Betta, Tetra
     function getFishSVG(type) {
         if (type === "discus") {
             return `
-                <svg viewBox="0 0 140 130" width="90" height="85" fill="currentColor">
-                    <!-- Discus round body with dorsal and anal fins -->
-                    <path d="M70,10 C105,10 125,35 125,65 C125,95 105,120 70,120 C35,120 15,95 15,65 C15,35 35,10 70,10 Z" opacity="0.85"/>
-                    <path d="M120,65 L140,40 L135,65 L140,90 Z" />
-                    <path d="M50,60 Q65,65 50,70 Z" fill="#ffffff" opacity="0.3"/>
-                    <circle cx="35" cy="50" r="4" fill="#ffdd66" opacity="0.9"/>
-                    <circle cx="35" cy="50" r="2" fill="#000000"/>
+                <svg viewBox="0 0 120 100" width="75" height="65">
+                    <ellipse cx="55" cy="50" rx="45" ry="40" fill="#e65100"/>
+                    <path d="M95,50 L115,30 L110,50 L115,70 Z" fill="#e65100"/>
+                    <circle cx="30" cy="40" r="3.5" fill="#ffd54f"/>
+                    <circle cx="30" cy="40" r="1.5" fill="#000000"/>
                 </svg>
             `;
         } else if (type === "pleco") {
             return `
-                <svg viewBox="0 0 150 70" width="100" height="50" fill="currentColor">
-                    <!-- Ancistrus Bristlenose pleco body with wide head and broad tail -->
-                    <path d="M20,35 C10,30 5,35 15,40 C35,48 70,52 110,42 L145,55 L135,35 L145,15 L110,28 C70,18 35,22 15,30 Z"/>
-                    <path d="M75,22 L90,5 L85,24 Z"/>
-                    <circle cx="30" cy="30" r="3" fill="#ffaa33" opacity="0.9"/>
+                <svg viewBox="0 0 130 50" width="85" height="35">
+                    <path d="M15,25 C10,20 15,15 35,17 C65,19 95,22 110,25 C95,28 65,31 35,33 C15,35 10,30 15,25 Z" fill="#37474f"/>
+                    <path d="M105,25 L125,12 L118,25 L125,38 Z" fill="#37474f"/>
+                    <circle cx="28" cy="22" r="2.5" fill="#ffb300"/>
                 </svg>
             `;
         } else if (type === "betta") {
             return `
-                <svg viewBox="0 0 130 80" width="85" height="55" fill="currentColor">
-                    <!-- Flowing betta fins -->
-                    <path d="M30,40 C45,30 75,35 95,40 C115,20 130,35 125,50 C115,65 95,45 85,45 C65,55 45,50 30,40 Z"/>
-                    <path d="M65,33 Q85,10 105,15 Q80,25 75,33 Z" opacity="0.7"/>
-                    <circle cx="40" cy="38" r="3" fill="#ffffff" opacity="0.8"/>
+                <svg viewBox="0 0 110 60" width="70" height="40">
+                    <path d="M25,30 C40,22 65,25 80,30 C95,18 105,28 100,38 C90,48 75,34 65,34 C48,42 35,38 25,30 Z" fill="#5e35b1"/>
+                    <circle cx="32" cy="28" r="2.5" fill="#ffffff"/>
                 </svg>
             `;
         } else {
-            // Neon / Cardinal Tetra
             return `
-                <svg viewBox="0 0 70 30" width="50" height="22" fill="currentColor">
-                    <path d="M10,15 C20,8 45,9 55,15 L68,7 L64,15 L68,23 L55,15 C45,21 20,22 10,15 Z"/>
-                    <line x1="20" y1="12" x2="48" y2="12" stroke="#00d4ff" stroke-width="2" opacity="0.8"/>
-                    <circle cx="16" cy="13" r="2" fill="#ffffff"/>
+                <svg viewBox="0 0 60 24" width="45" height="18">
+                    <path d="M8,12 C18,6 38,7 46,12 L56,6 L53,12 L56,18 L46,12 C38,17 18,18 8,12 Z" fill="#0277bd"/>
+                    <line x1="16" y1="10" x2="40" y2="10" stroke="#00e5ff" stroke-width="2"/>
+                    <circle cx="14" cy="11" r="1.5" fill="#ffffff"/>
                 </svg>
             `;
         }

@@ -3,7 +3,6 @@
    AQUARIUM UNDERWATER TANK AMBIENCE SYSTEM
    ========================================================================== */
 
-/* 1. Master Container (Fixed behind all content) */
 #aquarium-tank-container {
     position: fixed;
     top: 0;
@@ -14,13 +13,12 @@
     z-index: 0;
     overflow: hidden;
     background: linear-gradient(180deg, 
-        rgba(235, 245, 255, 0.45) 0%, 
-        rgba(215, 238, 252, 0.55) 40%, 
-        rgba(190, 225, 248, 0.65) 75%, 
-        rgba(165, 210, 240, 0.75) 100%);
+        rgba(238, 247, 255, 0.40) 0%, 
+        rgba(220, 240, 253, 0.50) 40%, 
+        rgba(200, 230, 250, 0.60) 75%, 
+        rgba(175, 215, 242, 0.70) 100%);
 }
 
-/* Ensure foreground page content floats smoothly above the tank */
 body {
     background-color: transparent !important;
     position: relative;
@@ -35,32 +33,31 @@ footer {
     z-index: 2;
 }
 
-/* Semi-translucent glass effect on content cards so water ambience shines through */
 .card, 
 .bg-light, 
 .fruite-item {
-    background-color: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(5px);
 }
 
-/* 2. Water Shimmer & Caustics Effect */
+/* Water Shimmer */
 .tank-water-shimmer {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 160px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
-    opacity: 0.7;
+    height: 140px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0.6;
     animation: waterShimmer 6s ease-in-out infinite alternate;
 }
 
 @keyframes waterShimmer {
-    0% { opacity: 0.4; transform: scaleY(1); }
-    100% { opacity: 0.8; transform: scaleY(1.15); }
+    0% { opacity: 0.3; transform: scaleY(1); }
+    100% { opacity: 0.7; transform: scaleY(1.15); }
 }
 
-/* 3. Rising Air Bubbles */
+/* Rising Bubbles */
 .tank-bubbles-layer {
     position: absolute;
     top: 0;
@@ -99,7 +96,7 @@ footer {
     }
 }
 
-/* 4. Swimming Fish Layer */
+/* Swimming Fish Fleet */
 .tank-fish-layer {
     position: absolute;
     top: 0;
@@ -110,77 +107,58 @@ footer {
 
 .tank-swimming-fish {
     position: absolute;
-    color: #0d6efd;
-    filter: drop-shadow(0 4px 8px rgba(0, 50, 120, 0.2));
+    filter: drop-shadow(0 3px 6px rgba(0, 40, 90, 0.18));
 }
 
-.tank-swimming-fish.fish-discus {
-    color: #e65100; /* Warm discus glow */
-}
-
-.tank-swimming-fish.fish-pleco {
-    color: #2e3d30; /* Bristlenose pleco dark bottom dweller */
-}
-
-.tank-swimming-fish.fish-betta {
-    color: #6a1b9a; /* Rich royal betta */
-}
-
-.tank-swimming-fish.fish-tetra {
-    color: #0288d1; /* Electric neon/cardinal tetra */
-}
-
-/* Left-to-Right Swim Path */
 .tank-swimming-fish.dir-left-to-right {
-    left: -150px;
+    left: -140px;
     animation: swimLeftToRight linear infinite;
 }
 
 @keyframes swimLeftToRight {
     0% {
-        left: -150px;
-        transform: scale(var(--scale, 0.8)) translateY(0) rotate(2deg);
+        left: -140px;
+        transform: scale(var(--scale, 0.8)) translateY(0) rotate(1deg);
     }
     25% {
-        transform: scale(var(--scale, 0.8)) translateY(-25px) rotate(-1deg);
+        transform: scale(var(--scale, 0.8)) translateY(-20px) rotate(-1deg);
     }
     50% {
-        transform: scale(var(--scale, 0.8)) translateY(15px) rotate(2deg);
+        transform: scale(var(--scale, 0.8)) translateY(12px) rotate(2deg);
     }
     75% {
-        transform: scale(var(--scale, 0.8)) translateY(-20px) rotate(0deg);
+        transform: scale(var(--scale, 0.8)) translateY(-15px) rotate(0deg);
     }
     100% {
-        left: calc(100vw + 150px);
+        left: calc(100vw + 140px);
         transform: scale(var(--scale, 0.8)) translateY(5px) rotate(1deg);
     }
 }
 
-/* Right-to-Left Swim Path (Flipped horizontally) */
 .tank-swimming-fish.dir-right-to-left {
-    right: -150px;
+    right: -140px;
     transform: scaleX(-1);
     animation: swimRightToLeft linear infinite;
 }
 
 @keyframes swimRightToLeft {
     0% {
-        right: -150px;
+        right: -140px;
         transform: scaleX(-1) translateY(0) rotate(1deg);
     }
     30% {
-        transform: scaleX(-1) translateY(20px) rotate(-2deg);
+        transform: scaleX(-1) translateY(18px) rotate(-2deg);
     }
     70% {
-        transform: scaleX(-1) translateY(-15px) rotate(2deg);
+        transform: scaleX(-1) translateY(-14px) rotate(2deg);
     }
     100% {
-        right: calc(100vw + 150px);
+        right: calc(100vw + 140px);
         transform: scaleX(-1) translateY(0) rotate(0deg);
     }
 }
 
-/* 5. Aquatic Bottom Plants */
+/* Aquatic Ribbon Plants */
 .tank-plants-layer {
     position: absolute;
     bottom: -10px;
@@ -192,43 +170,26 @@ footer {
 .tank-plant {
     position: absolute;
     bottom: 0;
-    opacity: 0.35;
+    overflow: visible;
 }
 
 .tank-plant.plant-left {
-    left: 10px;
-    width: 110px;
-    height: 280px;
+    left: 15px;
     transform-origin: bottom center;
     animation: swayPlant 5.5s ease-in-out infinite alternate;
 }
 
 .tank-plant.plant-right {
-    right: 15px;
-    width: 130px;
-    height: 300px;
+    right: 20px;
     transform-origin: bottom center;
     animation: swayPlant 6.5s ease-in-out infinite alternate-reverse;
 }
 
-.plant-stem {
-    fill: none;
-    stroke: #2e7d32;
-    stroke-width: 9;
-    stroke-linecap: round;
-}
-
-.plant-stem.stem-2 {
-    stroke: #388e3c;
-    stroke-width: 7;
-}
-
-.plant-stem.stem-3 {
-    stroke: #43a047;
-    stroke-width: 6;
+.plant-leaf {
+    filter: drop-shadow(0 2px 4px rgba(0, 40, 20, 0.2));
 }
 
 @keyframes swayPlant {
-    0% { transform: rotate(-3deg) skewX(-2deg); }
-    100% { transform: rotate(5deg) skewX(4deg); }
+    0% { transform: rotate(-2deg) skewX(-2deg); }
+    100% { transform: rotate(4deg) skewX(3deg); }
 }
