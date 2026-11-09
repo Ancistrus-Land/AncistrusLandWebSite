@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Order Confirmation - Ancistrus Land</title>
+    <title>Order Confirmation - Ancistrus Land Canada</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,25 +58,25 @@
             const order = JSON.parse(orderRaw);
             const c = order.customer;
 
-            // Generate clean WhatsApp message
-            let waText = `*NEW ORDER - ANCESTRUS LAND*\n`;
+            // Generate Canadian order notification for WhatsApp
+            let waText = `*NEW ORDER - ANCESTRUS LAND CANADA*\n`;
             waText += `*Order ID:* ${order.orderId}\n`;
             waText += `*Customer:* ${c.name}\n`;
             waText += `*Phone:* ${c.phone}\n`;
             waText += `*Email:* ${c.email}\n`;
-            waText += `*Address:* ${c.address}, ${c.city}\n`;
+            waText += `*Address:* ${c.address}, ${c.city}, ${c.province} (${c.postalCode})\n`;
             waText += `*Payment:* ${c.paymentMethod}\n`;
             if (c.notes) waText += `*Notes:* ${c.notes}\n`;
             waText += `\n*ITEMS ORDERED:*\n`;
             order.items.forEach(item => {
-                waText += `- ${item.name} (x${item.quantity}) - Rs. ${(item.price * item.quantity).toLocaleString("en-LK")}\n`;
+                waText += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
             });
-            waText += `\n*TOTAL AMOUNT:* Rs. ${order.total.toLocaleString("en-LK")}`;
+            waText += `\n*TOTAL AMOUNT:* $${Number(order.total).toFixed(2)} CAD`;
 
             const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
 
             // Generate mailto link
-            const emailSubject = `Order ${order.orderId} - ${c.name}`;
+            const emailSubject = `Order ${order.orderId} - ${c.name} (${c.province})`;
             const emailBody = waText.replace(/\*/g, "");
             const mailtoUrl = `mailto:${STORE_CONFIG.storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
@@ -86,13 +86,13 @@
                         <div class="text-center mb-4">
                             <div class="display-3 text-success mb-2"><i class="fas fa-check-circle"></i></div>
                             <h2 class="fw-bold">Thank You For Your Order!</h2>
-                            <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been received.</p>
+                            <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been successfully logged.</p>
                         </div>
 
                         <!-- Notification Buttons to Store -->
                         <div class="bg-light p-4 rounded mb-4 text-center">
-                            <h5 class="fw-bold text-dark mb-2">Order Notifications</h5>
-                            <p class="small text-muted mb-3">Notify the store via WhatsApp or Email for instant preparation &amp; dispatch scheduling:</p>
+                            <h5 class="fw-bold text-dark mb-2">Instant Dispatch Notification</h5>
+                            <p class="small text-muted mb-3">Notify our dispatch team via WhatsApp or Email to ensure immediate packing and next express transit dispatch:</p>
                             <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
                                 <a href="${waUrl}" target="_blank" class="btn btn-success rounded-pill px-4 py-2">
                                     <i class="fab fa-whatsapp me-2"></i> Send to WhatsApp (${STORE_CONFIG.storePhone})
@@ -105,17 +105,17 @@
 
                         <div class="row g-4 mb-4">
                             <div class="col-md-6">
-                                <h6 class="text-muted text-uppercase small fw-bold">Customer Details</h6>
+                                <h6 class="text-muted text-uppercase small fw-bold">Customer Shipping Info</h6>
                                 <p class="mb-1"><strong>${c.name}</strong></p>
                                 <p class="mb-1 text-muted"><i class="fas fa-phone-alt me-2"></i>${c.phone}</p>
                                 <p class="mb-1 text-muted"><i class="fas fa-envelope me-2"></i>${c.email}</p>
-                                <p class="mb-0 text-muted"><i class="fas fa-map-marker-alt me-2"></i>${c.address}, ${c.city}</p>
+                                <p class="mb-0 text-muted"><i class="fas fa-map-marker-alt me-2"></i>${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
                             </div>
                             <div class="col-md-6">
                                 <h6 class="text-muted text-uppercase small fw-bold">Order Details</h6>
                                 <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
-                                <p class="mb-1"><strong>Payment:</strong> ${c.paymentMethod}</p>
-                                <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">Pending Confirmation</span></p>
+                                <p class="mb-1"><strong>Payment Selected:</strong> ${c.paymentMethod}</p>
+                                <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">Processing for Dispatch</span></p>
                                 ${c.notes ? `<p class="mb-0 small text-muted"><strong>Notes:</strong> ${c.notes}</p>` : ''}
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                     <tr>
                                         <th>Item</th>
                                         <th>Qty</th>
-                                        <th class="text-end">Price</th>
+                                        <th class="text-end">Price (CAD)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -143,8 +143,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="2" class="text-end">Live Arrival Pack:</th>
-                                        <th class="text-end text-success">Included</th>
+                                        <th colspan="2" class="text-end">Insulated Packaging &amp; Heat/Ice Pack:</th>
+                                        <th class="text-end text-success">Included (FREE)</th>
                                     </tr>
                                     <tr>
                                         <th colspan="2" class="text-end fs-5">Grand Total:</th>
