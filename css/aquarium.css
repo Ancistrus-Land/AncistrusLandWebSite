@@ -110,51 +110,57 @@ footer {
     filter: drop-shadow(0 3px 6px rgba(0, 40, 90, 0.18));
 }
 
+/* 
+ * SVGs naturally face LEFT (head at x=10..30, tail at x=110..125).
+ * Left-to-Right swim: Needs scaleX(-1) so head faces RIGHT (forward into the motion).
+ */
 .tank-swimming-fish.dir-left-to-right {
-    left: -140px;
+    left: -160px;
     animation: swimLeftToRight linear infinite;
 }
 
 @keyframes swimLeftToRight {
     0% {
-        left: -140px;
-        transform: scale(var(--scale, 0.8)) translateY(0) rotate(1deg);
+        left: -160px;
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(0) rotate(-1deg);
     }
     25% {
-        transform: scale(var(--scale, 0.8)) translateY(-20px) rotate(-1deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-20px) rotate(1deg);
     }
     50% {
-        transform: scale(var(--scale, 0.8)) translateY(12px) rotate(2deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(12px) rotate(-2deg);
     }
     75% {
-        transform: scale(var(--scale, 0.8)) translateY(-15px) rotate(0deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-15px) rotate(0deg);
     }
     100% {
-        left: calc(100vw + 140px);
-        transform: scale(var(--scale, 0.8)) translateY(5px) rotate(1deg);
+        left: calc(100vw + 160px);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(5px) rotate(-1deg);
     }
 }
 
+/* 
+ * Right-to-Left swim: Natural SVG orientation faces LEFT, so head naturally leads forward!
+ */
 .tank-swimming-fish.dir-right-to-left {
-    right: -140px;
-    transform: scaleX(-1);
+    right: -160px;
     animation: swimRightToLeft linear infinite;
 }
 
 @keyframes swimRightToLeft {
     0% {
-        right: -140px;
-        transform: scaleX(-1) translateY(0) rotate(1deg);
+        right: -160px;
+        transform: scale(var(--scale, 0.8)) translateY(0) rotate(1deg);
     }
     30% {
-        transform: scaleX(-1) translateY(18px) rotate(-2deg);
+        transform: scale(var(--scale, 0.8)) translateY(18px) rotate(-2deg);
     }
     70% {
-        transform: scaleX(-1) translateY(-14px) rotate(2deg);
+        transform: scale(var(--scale, 0.8)) translateY(-14px) rotate(2deg);
     }
     100% {
-        right: calc(100vw + 140px);
-        transform: scaleX(-1) translateY(0) rotate(0deg);
+        right: calc(100vw + 160px);
+        transform: scale(var(--scale, 0.8)) translateY(0) rotate(0deg);
     }
 }
 
