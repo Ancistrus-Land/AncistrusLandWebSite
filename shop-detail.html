@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Product Details - Ancistrus Land</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/products.js"></script>
+    <script src="js/layout.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="container-fluid page-header py-5" style="margin-top: 100px; background: #002244; color: white;">
+        <h1 class="text-center text-white display-6" id="prod-header-title">Product Details</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
+            <li class="breadcrumb-item"><a href="shop.html" class="text-white">Shop</a></li>
+            <li class="breadcrumb-item active text-white" id="prod-breadcrumb">Detail</li>
+        </ol>
+    </div>
+
+    <div class="container-fluid py-5 mt-5">
+        <div class="container py-5">
+            <div id="product-detail-view" class="row g-4 mb-5">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Related Products -->
+            <div class="mt-5">
+                <h3 class="fw-bold mb-4">Related Aquatic Pets</h3>
+                <div class="row g-4" id="related-products-grid">
+                    <!-- Dynamic related -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let currentProduct = null;
+        let qty = 1;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get("id");
+            const catalog = getActiveCatalog();
+
+            currentProduct = catalog.find(p => p.id === productId) || catalog[0];
+
+            if (!currentProduct) {
+                document.getElementById("product-detail-view").innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <h3>Product not found</h3>
+                        <a href="shop.html" class="btn btn-primary rounded-pill px-4 text-white">Back to Shop</a>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById("prod-header-title").textContent = currentProduct.name;
+            document.getElementById("prod-breadcrumb").textContent = currentProduct.name;
+
+            const isAvail = currentProduct.available !== false;
+            const container = document.getElementById("product-detail-view");
+
+            container.innerHTML = `
+                <div class="col-lg-6">
+                    <div class="border rounded p-2 bg-light text-center">
+                        <img src="${currentProduct.image || 'img/Fish 1.jpg'}" class="img-fluid rounded w-100" style="max-height: 450px; object-fit: cover;" alt="${currentProduct.name}" onerror="this.src='img/Fish 1.jpg'">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge bg-secondary me-2 text-uppercase">${currentProduct.category}</span>
+                        ${currentProduct.subcategory ? `<span class="badge bg-light text-dark border">${currentProduct.subcategory}</span>` : ''}
+                        <span class="ms-auto badge ${isAvail ? 'bg-success' : 'bg-danger'}">${isAvail ? 'In Stock' : 'Out of Stock'}</span>
+                    </div>
+
+                    <h2 class="fw-bold mb-3">${currentProduct.name}</h2>
+                    <h3 class="fw-bold text-primary mb-3">${formatPrice(currentProduct.price)}</h3>
+
+                    <p class="mb-4">${currentProduct.description || "Premium aquarium pet carefully quarantine-checked, disease-free, and acclimated to local water conditions. Guaranteed live arrival with proper packing."}</p>
+
+                    <!-- Water Parameters & Care Specs -->
+                    <div class="card bg-light border-0 p-3 mb-4">
+                        <h6 class="fw-bold text-dark mb-2"><i class="fas fa-water text-primary me-2"></i>Recommended Parameters:</h6>
+                        <div class="row g-2 small text-muted">
+                            <div class="col-6">&bull; Temperature: 24&deg;C - 28&deg;C</div>
+                            <div class="col-6">&bull; pH Level: 6.5 - 7.5</div>
+                            <div class="col-6">&bull; Diet: High-protein flakes/pellets &amp; frozen</div>
+                            <div class="col-6">&bull; Temperament: Peaceful community</div>
+                        </div>
+                    </div>
+
+                    ${isAvail ? `
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="input-group quantity me-3" style="width: 130px;">
+                                <button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQty(-1)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input type="text" id="detail-qty-input" class="form-control form-control-sm text-center border-0" value="1" readonly>
+                                <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQty(1)">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            <button onclick="handleAddToCart()" class="btn btn-primary rounded-pill px-4 py-2 text-white">
+                                <i class="fa fa-shopping-bag me-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    ` : `
+                        <div class="alert alert-warning py-2 mb-4">Currently out of stock. Check back soon or contact us via WhatsApp for next restock date.</div>
+                    `}
+
+                    <div class="border-top pt-3">
+                        <p class="mb-1 small"><strong>SKU:</strong> ${currentProduct.id}</p>
+                        <p class="mb-1 small"><strong>Safe Packaging:</strong> Insulated box + Oxygen breathing bag</p>
+                        <p class="mb-0 small text-success"><i class="fas fa-shield-alt me-1"></i> Live Arrival Guarantee backed</p>
+                    </div>
+                </div>
+            `;
+
+            // Render Related Products
+            const related = catalog.filter(p => p.category === currentProduct.category && p.id !== currentProduct.id).slice(0, 4);
+            const relatedGrid = document.getElementById("related-products-grid");
+            if (related.length > 0) {
+                relatedGrid.innerHTML = related.map(p => `
+                    <div class="col-md-6 col-lg-3">
+                        <div class="rounded position-relative border border-secondary border-top-0 d-flex flex-column h-100">
+                            <div class="fruite-img">
+                                <a href="shop-detail.html?id=${p.id}">
+                                    <img src="${p.image || 'img/Fish 1.jpg'}" class="img-fluid w-100 rounded-top" style="height: 180px; object-fit: cover;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
+                                </a>
+                            </div>
+                            <div class="p-3 d-flex flex-column flex-grow-1">
+                                <h6 class="mb-1"><a href="shop-detail.html?id=${p.id}" class="text-dark">${p.name}</a></h6>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold text-dark">${formatPrice(p.price)}</span>
+                                    <a href="shop-detail.html?id=${p.id}" class="btn btn-sm btn-outline-primary rounded-pill px-2">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join("");
+            } else {
+                relatedGrid.parentElement.style.display = "none";
+            }
+        });
+
+        function updateQty(delta) {
+            qty = Math.max(1, qty + delta);
+            document.getElementById("detail-qty-input").value = qty;
+        }
+
+        function handleAddToCart() {
+            if (currentProduct) {
+                addToCart(currentProduct.id, qty);
+            }
+        }
+    </script>
+</body>
+</html>

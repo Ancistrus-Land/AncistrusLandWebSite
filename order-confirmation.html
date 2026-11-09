@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Order Confirmation - Ancistrus Land</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/products.js"></script>
+    <script src="js/layout.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="container-fluid page-header py-5" style="margin-top: 100px; background: #002244; color: white;">
+        <h1 class="text-center text-white display-6">Order Confirmation</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
+            <li class="breadcrumb-item active text-white">Order Success</li>
+        </ol>
+    </div>
+
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div id="confirmation-content" class="mx-auto" style="max-width: 800px;">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("confirmation-content");
+            const orderRaw = sessionStorage.getItem("last_order");
+
+            if (!orderRaw) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                        <h3>No recent order found</h3>
+                        <p class="text-muted">You can review our catalogue and place an order anytime.</p>
+                        <a href="shop.html" class="btn btn-primary rounded-pill px-4 py-2 text-white">Go to Shop</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const order = JSON.parse(orderRaw);
+            const c = order.customer;
+
+            // Generate clean WhatsApp message
+            let waText = `*NEW ORDER - ANCESTRUS LAND*\n`;
+            waText += `*Order ID:* ${order.orderId}\n`;
+            waText += `*Customer:* ${c.name}\n`;
+            waText += `*Phone:* ${c.phone}\n`;
+            waText += `*Email:* ${c.email}\n`;
+            waText += `*Address:* ${c.address}, ${c.city}\n`;
+            waText += `*Payment:* ${c.paymentMethod}\n`;
+            if (c.notes) waText += `*Notes:* ${c.notes}\n`;
+            waText += `\n*ITEMS ORDERED:*\n`;
+            order.items.forEach(item => {
+                waText += `- ${item.name} (x${item.quantity}) - Rs. ${(item.price * item.quantity).toLocaleString("en-LK")}\n`;
+            });
+            waText += `\n*TOTAL AMOUNT:* Rs. ${order.total.toLocaleString("en-LK")}`;
+
+            const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+
+            // Generate mailto link
+            const emailSubject = `Order ${order.orderId} - ${c.name}`;
+            const emailBody = waText.replace(/\*/g, "");
+            const mailtoUrl = `mailto:${STORE_CONFIG.storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+            container.innerHTML = `
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <div class="display-3 text-success mb-2"><i class="fas fa-check-circle"></i></div>
+                            <h2 class="fw-bold">Thank You For Your Order!</h2>
+                            <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been received.</p>
+                        </div>
+
+                        <!-- Notification Buttons to Store -->
+                        <div class="bg-light p-4 rounded mb-4 text-center">
+                            <h5 class="fw-bold text-dark mb-2">Order Notifications</h5>
+                            <p class="small text-muted mb-3">Notify the store via WhatsApp or Email for instant preparation &amp; dispatch scheduling:</p>
+                            <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+                                <a href="${waUrl}" target="_blank" class="btn btn-success rounded-pill px-4 py-2">
+                                    <i class="fab fa-whatsapp me-2"></i> Send to WhatsApp (${STORE_CONFIG.storePhone})
+                                </a>
+                                <a href="${mailtoUrl}" class="btn btn-primary rounded-pill px-4 py-2 text-white">
+                                    <i class="fas fa-envelope me-2"></i> Send to Email (${STORE_CONFIG.storeEmail})
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-muted text-uppercase small fw-bold">Customer Details</h6>
+                                <p class="mb-1"><strong>${c.name}</strong></p>
+                                <p class="mb-1 text-muted"><i class="fas fa-phone-alt me-2"></i>${c.phone}</p>
+                                <p class="mb-1 text-muted"><i class="fas fa-envelope me-2"></i>${c.email}</p>
+                                <p class="mb-0 text-muted"><i class="fas fa-map-marker-alt me-2"></i>${c.address}, ${c.city}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted text-uppercase small fw-bold">Order Details</h6>
+                                <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
+                                <p class="mb-1"><strong>Payment:</strong> ${c.paymentMethod}</p>
+                                <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">Pending Confirmation</span></p>
+                                ${c.notes ? `<p class="mb-0 small text-muted"><strong>Notes:</strong> ${c.notes}</p>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mb-4">
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th class="text-end">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>
+                                                <strong>${item.name}</strong><br>
+                                                <small class="text-muted">${formatPrice(item.price)} each</small>
+                                            </td>
+                                            <td>x ${item.quantity}</td>
+                                            <td class="text-end">${formatPrice(item.price * item.quantity)}</td>
+                                        </tr>
+                                    `).join("")}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="2" class="text-end">Live Arrival Pack:</th>
+                                        <th class="text-end text-success">Included</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-end fs-5">Grand Total:</th>
+                                        <th class="text-end fs-5 text-primary">${formatPrice(order.total)}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="text-center pt-3 border-top">
+                            <a href="shop.html" class="btn btn-outline-secondary rounded-pill px-4 me-2">Continue Shopping</a>
+                            <button onclick="window.print()" class="btn btn-light rounded-pill px-4"><i class="fas fa-print me-1"></i> Print Receipt</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
