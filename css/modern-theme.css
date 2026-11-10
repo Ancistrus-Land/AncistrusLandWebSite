@@ -1,0 +1,211 @@
+/* ==========================================================================
+   MODERN AQUATIC THEME OVERRIDES (Glassmorphism & High-Contrast Typography)
+   ========================================================================== */
+
+:root {
+    --anc-primary: #0077b6;
+    --anc-primary-dark: #023e8a;
+    --anc-accent: #00b4d8;
+    --anc-teal: #48cae4;
+    --anc-gold: #ffb703;
+    --anc-dark: #0f1c2e;
+}
+
+/* 1. Header Navigation Modernization */
+.anc-shop-navbar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 119, 182, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 20, 40, 0.06);
+    border-radius: 0 0 20px 20px;
+}
+
+.anc-shop-navbar .nav-link {
+    font-weight: 600;
+    color: var(--anc-dark) !important;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.anc-shop-navbar .nav-link:hover,
+.anc-shop-navbar .nav-link.active {
+    color: var(--anc-primary) !important;
+    transform: translateY(-1px);
+}
+
+.anc-shop-now {
+    background: linear-gradient(135deg, var(--anc-primary) 0%, var(--anc-accent) 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700;
+    padding: 10px 24px;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
+    transition: all 0.25s ease;
+}
+
+.anc-shop-now:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 119, 182, 0.45);
+    color: #ffffff !important;
+}
+
+/* 2. Glassmorphic Cards & Contrast Containers */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.93) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 30, 60, 0.12);
+}
+
+.card, 
+.bg-light, 
+.fruite-item {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 119, 182, 0.12) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fruite-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 35px rgba(0, 50, 100, 0.16) !important;
+}
+
+/* 3. Hero Showcase Carousel */
+.hero-slideshow-container {
+    position: relative;
+    max-width: 580px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 15px 45px rgba(0, 40, 80, 0.22);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+}
+
+.hero-slideshow-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+}
+
+.hero-slideshow-caption {
+    background: linear-gradient(180deg, rgba(15, 28, 46, 0) 0%, rgba(15, 28, 46, 0.92) 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 20px 16px;
+    color: #ffffff;
+}
+
+.hero-slideshow-badge {
+    background: var(--anc-accent);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.hero-slideshow-indicators {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.hero-slideshow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--anc-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+
+.hero-slideshow-btn:hover {
+    background: #ffffff;
+    color: var(--anc-primary);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.hero-slideshow-btn.btn-prev { left: 12px; }
+.hero-slideshow-btn.btn-next { right: 12px; }
+
+/* 4. Value Highlights Grid (Canadian Guarantees) */
+.value-card {
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 18px;
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08);
+    border: 1px solid rgba(0, 119, 182, 0.12);
+    height: 100%;
+    transition: transform 0.25s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-4px);
+}
+
+.value-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(0, 119, 182, 0.12) 0%, rgba(0, 180, 216, 0.2) 100%);
+    color: var(--anc-primary);
+}
+
+/* 5. Typography Boost & Legibility Over Aquatic Background */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--anc-dark);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+
+.text-primary {
+    color: var(--anc-primary) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--anc-primary) 0%, var(--anc-accent) 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 119, 182, 0.45);
+}
