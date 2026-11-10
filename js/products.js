@@ -298,3 +298,8 @@ const ANCISTRUS_PRODUCTS = [
 if (typeof module !== "undefined") {
     module.exports = { ANCISTRUS_CATEGORIES, ANCISTRUS_PRODUCTS };
 }
+
+if (typeof window !== "undefined") {
+    window.ANCISTRUS_CATEGORIES = ANCISTRUS_CATEGORIES;
+    window.ANCISTRUS_PRODUCTS = ANCISTRUS_PRODUCTS;
+}

@@ -120,7 +120,16 @@
         let filteredProducts = [];
 
         function initShop() {
-            allProducts = getActiveCatalog();
+            if (typeof getActiveCatalog === "function") {
+                allProducts = getActiveCatalog();
+            } else if (typeof CatalogService !== "undefined" && CatalogService.getAll) {
+                allProducts = CatalogService.getAll();
+            } else if (typeof ANCISTRUS_PRODUCTS !== "undefined") {
+                allProducts = ANCISTRUS_PRODUCTS;
+            } else {
+                setTimeout(initShop, 50);
+                return;
+            }
 
             // Count per category
             document.getElementById("count-all").textContent = `(${allProducts.length})`;
@@ -228,6 +237,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", initShop);
+        window.addEventListener("catalog:updated", initShop);
     </script>
 </body>
 </html>

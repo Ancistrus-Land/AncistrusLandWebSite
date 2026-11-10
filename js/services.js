@@ -187,11 +187,12 @@ export function formatCurrency(amount) {
     })}`;
 }
 
-// Attach to window for backwards compatibility with HTML inline scripts
+// Universal Global Bindings for inline page scripts
 if (typeof window !== "undefined") {
     window.CatalogService = CatalogService;
     window.CartService = CartService;
     window.OrderService = OrderService;
+    window.getActiveCatalog = () => CatalogService.getAll();
     window.formatPrice = formatCurrency;
     window.addToCart = (id, q = 1) => {
         try {
