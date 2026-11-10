@@ -11,21 +11,24 @@
     --anc-dark: #0f1c2e;
 }
 
-/* 1. Header Navigation Modernization */
-.anc-shop-navbar {
-    background: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 119, 182, 0.15);
-    box-shadow: 0 4px 20px rgba(0, 20, 40, 0.06);
-    border-radius: 0 0 20px 20px;
+/* 1. Header Navigation Modernization (Floating Glass Dock) */
+.modern-glass-nav {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 10px 30px rgba(0, 30, 60, 0.12);
+    border-radius: 40px !important;
+    padding: 8px 24px !important;
+    transition: all 0.3s ease;
 }
 
 .anc-shop-navbar .nav-link {
     font-weight: 600;
     color: var(--anc-dark) !important;
     font-size: 15px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
+    padding: 8px 16px !important;
     transition: color 0.25s ease, transform 0.2s ease;
 }
 
@@ -40,7 +43,7 @@
     color: #ffffff !important;
     border: none !important;
     font-weight: 700;
-    padding: 10px 24px;
+    padding: 9px 24px;
     box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
     transition: all 0.25s ease;
 }
@@ -51,14 +54,45 @@
     color: #ffffff !important;
 }
 
+.anc-header-logo {
+    height: 52px;
+    width: 52px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 30, 60, 0.15);
+}
+
+/* Submenu dropdown glass style */
+.anc-category-menu {
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 119, 182, 0.15);
+    border-radius: 16px;
+    padding: 8px 0;
+}
+
+.anc-category-menu .anc-submenu-link {
+    display: block;
+    padding: 8px 20px;
+    color: var(--anc-dark);
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.anc-category-menu .anc-submenu-link:hover {
+    background: rgba(0, 119, 182, 0.08);
+    color: var(--anc-primary);
+}
+
 /* 2. Glassmorphic Cards & Contrast Containers */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.93) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.75);
     border-radius: 20px;
-    box-shadow: 0 10px 35px rgba(0, 30, 60, 0.12);
+    box-shadow: 0 10px 35px rgba(0, 30, 60, 0.10);
 }
 
 .card, 
@@ -94,7 +128,7 @@
     width: 100%;
     height: 320px;
     object-fit: cover;
-    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .hero-slideshow-caption {
@@ -137,7 +171,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.88);
     border: none;
     width: 42px;
     height: 42px;
@@ -165,7 +199,7 @@
 .value-card {
     background: rgba(255, 255, 255, 0.94);
     border-radius: 18px;
-    padding: 28px 22px;
+    padding: 26px 20px;
     text-align: center;
     box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08);
     border: 1px solid rgba(0, 119, 182, 0.12);
@@ -189,7 +223,64 @@
     color: var(--anc-primary);
 }
 
-/* 5. Typography Boost & Legibility Over Aquatic Background */
+/* 5. Modern Deep-Sea Glassmorphic Footer (No crude black bar) */
+.modern-aquatic-footer {
+    background: linear-gradient(180deg, 
+        rgba(10, 32, 54, 0.85) 0%, 
+        rgba(5, 20, 35, 0.95) 100%) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0, 180, 216, 0.25);
+    color: #e2e8f0;
+}
+
+.footer-col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--anc-accent);
+    padding-left: 4px;
+}
+
+.social-glass-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.social-glass-btn:hover {
+    background: var(--anc-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* 6. Typography Boost */
 h1, h2, h3, h4, h5, h6 {
     color: var(--anc-dark);
     font-family: 'Raleway', sans-serif;

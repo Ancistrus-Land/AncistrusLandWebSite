@@ -1,65 +1,69 @@
 <!-- Navbar start -->
-<div class="container-fluid fixed-top">
-    <div class="container px-0">
-        <nav class="navbar navbar-light bg-white navbar-expand-xl anc-shop-navbar">
-            <a class="navbar-brand anc-brand" href="index.html">
-                <img src="img/logo-trans.png" alt="Ancistrus Land" class="anc-header-logo" onerror="this.onerror=null;this.parentElement.innerHTML='<h2 class=\'text-primary fw-bold mb-0\'>Ancistrus Land</h2>';">
+<div class="container-fluid fixed-top px-0">
+    <div class="container px-2 px-md-3">
+        <nav class="navbar navbar-expand-xl anc-shop-navbar modern-glass-nav my-2">
+            <!-- Brand Logo & Title -->
+            <a class="navbar-brand anc-brand d-flex align-items-center me-3" href="index.html">
+                <img src="img/logo-trans.png" alt="Ancistrus Land" class="anc-header-logo me-2" onerror="this.onerror=null;this.parentElement.innerHTML='<h2 class=\'text-primary fw-bold mb-0\'>Ancistrus Land</h2>';">
+                <div class="d-none d-sm-block text-start lh-1">
+                    <span class="fw-bold text-dark fs-5 tracking-tight">Ancistrus Land</span>
+                    <span class="d-block text-muted small" style="font-size: 11px;">Freshwater Wonders &bull; Canada</span>
+                </div>
             </a>
+
             <!-- Mobile: Shop Now + Cart + Menu -->
             <div class="anc-mobile-actions d-xl-none">
-                <a class="btn border border-secondary rounded-pill anc-shop-now" href="shop.html">Shop Now</a>
+                <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 anc-shop-now" href="shop.html">Shop</a>
                 <a class="position-relative anc-cart-link" href="cart.html">
-                    <i class="fa fa-shopping-bag fa-lg"></i>
-                    <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1 anc-cart-count" id="cart-count-mobile">0</span>
+                    <i class="fa fa-shopping-bag fa-lg text-primary"></i>
+                    <span class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-white px-1 anc-cart-count" id="cart-count-mobile">0</span>
                 </a>
-                <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler anc-menu-button py-2 px-2" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
+                <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler anc-menu-button py-2 px-2 border-0" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
             </div>
-            <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+
+            <!-- Main Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto anc-category-nav">
                     <a class="nav-item nav-link" href="index.html">Home</a>
                     <div class="nav-item dropdown anc-category-dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=invertebrate">Invertebrate</a>
-                        <div class="dropdown-menu m-0 bg-light anc-category-menu">
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=caridina-shrimp">Caridina Shrimp</a>
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=neocaridina-shrimp">Neocaridina Shrimp</a>
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=other-Livestock">Other Livestock</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=fish">Fish</a>
+                        <div class="dropdown-menu m-0 anc-category-menu shadow-lg">
+                            <a class="anc-submenu-link fw-bold text-primary" href="shop.html?category=fish&amp;subcategory=catfish"><i class="fas fa-fish me-2"></i>Catfish &amp; Ancistrus Plecos</a>
+                            <div class="dropdown-divider my-1"></div>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=discus">Discus Collection</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=bettasp">Betta SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=cichlids">Cichlids (Golden Rams)</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=corydoras">Corydoras</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=tetrasp">Tetra SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=angel">Angel</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=killifish">Killifish</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=livebearer">Livebearer</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rainbowssp">Rainbows SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rarefinds">Rare Finds</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown anc-category-dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=fish">Fish</a>
-                        <div class="dropdown-menu m-0 bg-light anc-category-menu">
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=angel">Angel</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=bettasp">Betta SP</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=catfish">Catfish</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=cichlids">Cichlids</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=corydoras">Corydoras</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=danio">Danio</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=discus">Discus</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=goby">Goby</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=gourami">Gourami</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=killifish">Killifish</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=livebearer">Livebearer</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=loach">Loach</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rainbowssp">Rainbows SP</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rarefinds">Rare Finds</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rasborasp">Rasbora SP</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=ricefish">Ricefish</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=tetrasp">Tetra Sp</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=invertebrate">Invertebrate</a>
+                        <div class="dropdown-menu m-0 anc-category-menu shadow-lg">
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=caridina-shrimp">Caridina Shrimp</a>
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=neocaridina-shrimp">Neocaridina Shrimp</a>
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=other-Livestock">Mystery Snails &amp; Others</a>
                         </div>
                     </div>
-                    <a class="nav-item nav-link" href="shop.html?category=dry-goods">Dry Goods</a>
                     <a class="nav-item nav-link" href="shop.html?category=plants">Plants</a>
+                    <a class="nav-item nav-link" href="shop.html?category=dry-goods">Dry Goods</a>
                     <a class="nav-item nav-link" href="why-us.html">Why Us</a>
                     <a class="nav-item nav-link" href="contact.html">Contact</a>
                 </div>
-                <!-- Desktop: Shop Now + Cart + Admin Link -->
-                <div class="d-none d-xl-flex align-items-center m-3 me-0 anc-desktop-actions">
-                    <a class="btn border border-secondary rounded-pill px-4 me-3 anc-shop-now" href="shop.html">Shop Now</a>
-                    <a class="position-relative me-4 my-auto anc-cart-link" href="cart.html">
-                        <i class="fa fa-shopping-bag fa-2x"></i>
-                        <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" id="cart-count" style="top:-5px;left:15px;height:20px;min-width:20px;">0</span>
+
+                <!-- Desktop: Shop Now + Cart Action -->
+                <div class="d-none d-xl-flex align-items-center ms-3 me-2 anc-desktop-actions">
+                    <a class="btn rounded-pill px-4 me-3 anc-shop-now" href="shop.html">Shop Now</a>
+                    <a class="position-relative my-auto anc-cart-link" href="cart.html" title="Shopping Cart">
+                        <i class="fa fa-shopping-bag fa-xl text-primary"></i>
+                        <span class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-white px-1" id="cart-count" style="top:-8px;left:14px;height:20px;min-width:20px;font-size:12px;font-weight:700;">0</span>
                     </a>
                 </div>
             </div>
