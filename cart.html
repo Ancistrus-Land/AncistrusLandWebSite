@@ -36,6 +36,10 @@
     <script>
         function renderCartPage() {
             const container = document.getElementById("cart-content");
+            if (typeof getCart !== "function") {
+                setTimeout(renderCartPage, 50);
+                return;
+            }
             const cart = getCart();
 
             if (!cart || cart.length === 0) {

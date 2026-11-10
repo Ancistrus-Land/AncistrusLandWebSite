@@ -189,11 +189,17 @@ export function formatCurrency(amount) {
 
 // Universal Global Bindings for inline page scripts
 if (typeof window !== "undefined") {
+    window.STORE_CONFIG = STORE_CONFIG;
     window.CatalogService = CatalogService;
     window.CartService = CartService;
     window.OrderService = OrderService;
     window.getActiveCatalog = () => CatalogService.getAll();
     window.formatPrice = formatCurrency;
+    window.getCart = () => CartService.getItems();
+    window.clearCart = () => CartService.clear();
+    window.removeFromCart = (id) => CartService.remove(id);
+    window.updateCartQuantity = (id, q) => CartService.updateQuantity(id, q);
+    window.ORDERS_KEY = STORE_CONFIG.storageKeys.orders;
     window.addToCart = (id, q = 1) => {
         try {
             const p = CartService.add(id, q);

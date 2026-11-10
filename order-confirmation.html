@@ -35,8 +35,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        function renderConfirmation() {
             const container = document.getElementById("confirmation-content");
+            if (typeof STORE_CONFIG === "undefined" || typeof formatPrice !== "function") {
+                setTimeout(renderConfirmation, 50);
+                return;
+            }
+
             const orderRaw = sessionStorage.getItem("last_order");
 
             if (!orderRaw) {
@@ -69,12 +74,15 @@
             });
             waText += `\n*TOTAL AMOUNT:* $${Number(order.total).toFixed(2)} CAD`;
 
-            const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+            const waPhone = STORE_CONFIG.whatsappNumber || "16132665285";
+            const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
 
             // Generate mailto link
             const emailSubject = `Order ${order.orderId} - ${c.name} (${c.province})`;
             const emailBody = waText.replace(/\*/g, "");
-            const mailtoUrl = `mailto:${STORE_CONFIG.storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            const storeEmail = STORE_CONFIG.email || "sudarsha.wijenayake@gmail.com";
+            const storePhone = STORE_CONFIG.phoneDisplay || "+1 (613) 266-5285";
+            const mailtoUrl = `mailto:${storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
             container.innerHTML = `
                 <div class="anc-glass-card shadow-sm border-0">
@@ -91,10 +99,10 @@
                             <p class="small text-muted mb-3">Notify our dispatch team via WhatsApp or Email to ensure immediate packing and next express transit dispatch:</p>
                             <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
                                 <a href="${waUrl}" target="_blank" class="btn btn-success rounded-pill px-4 py-2">
-                                    <i class="fab fa-whatsapp me-2"></i> Send to WhatsApp (${STORE_CONFIG.storePhone})
+                                    <i class="fab fa-whatsapp me-2"></i> Send to WhatsApp (${storePhone})
                                 </a>
                                 <a href="${mailtoUrl}" class="btn btn-primary rounded-pill px-4 py-2 text-white">
-                                    <i class="fas fa-envelope me-2"></i> Send to Email (${STORE_CONFIG.storeEmail})
+                                    <i class="fas fa-envelope me-2"></i> Send to Email (${storeEmail})
                                 </a>
                             </div>
                         </div>
@@ -157,7 +165,9 @@
                     </div>
                 </div>
             `;
-        });
+        }
+
+        document.addEventListener("DOMContentLoaded", renderConfirmation);
     </script>
 </body>
 </html>

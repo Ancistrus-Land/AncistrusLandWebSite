@@ -152,7 +152,11 @@
         let currentCart = [];
         let grandTotal = 0;
 
-        document.addEventListener("DOMContentLoaded", function () {
+        function initCheckout() {
+            if (typeof getCart !== "function") {
+                setTimeout(initCheckout, 50);
+                return;
+            }
             currentCart = getCart();
             if (!currentCart || currentCart.length === 0) {
                 document.getElementById("checkout-container").innerHTML = `
@@ -186,7 +190,9 @@
             grandTotal = subtotal;
             document.getElementById("summary-subtotal").textContent = formatPrice(subtotal);
             document.getElementById("summary-total").textContent = formatPrice(grandTotal);
-        });
+        }
+
+        document.addEventListener("DOMContentLoaded", initCheckout);
 
         function handlePlaceOrder(e) {
             e.preventDefault();
