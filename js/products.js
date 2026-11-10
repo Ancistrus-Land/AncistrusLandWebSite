@@ -10,11 +10,11 @@ const ANCISTRUS_CATEGORIES = {
         { slug: "green-water-farm", name: "Green Water Farm" }
     ],
     fish: [
+        { slug: "catfish", name: "Catfish & Ancistrus Plecos" },
         { slug: "discus", name: "Discus" },
         { slug: "angel", name: "Angel" },
         { slug: "corydoras", name: "Corydoras" },
         { slug: "bettasp", name: "Betta SP" },
-        { slug: "catfish", name: "Catfish" },
         { slug: "cichlids", name: "Cichlids" },
         { slug: "danio", name: "Danio" },
         { slug: "goby", name: "Goby" },
@@ -37,6 +37,108 @@ const ANCISTRUS_CATEGORIES = {
 };
 
 const ANCISTRUS_PRODUCTS = [
+    /* --- NEW ANCESTRUS PLECO BREED STOCK (Direct Store Stock) --- */
+    {
+        id: "P-015",
+        name: "Common Bristlenose Pleco (Ancistrus sp.) - Juvenile",
+        category: "fish",
+        subcategory: "catfish",
+        price: 14.99,
+        image: "img/catalog/ancistrus-stock-1.jpg",
+        detailUrl: "shop-detail.html?id=P-015",
+        available: true,
+        description: "Hardy captive-bred common Bristlenose Pleco. Excellent, gentle community tank algae grazer. Fully acclimated to Canadian tap water."
+    },
+    {
+        id: "P-016",
+        name: "Calico Bristlenose Pleco (Ancistrus sp.)",
+        category: "fish",
+        subcategory: "catfish",
+        price: 26.99,
+        image: "img/catalog/ancistrus-stock-2.jpg",
+        detailUrl: "shop-detail.html?id=P-016",
+        available: true,
+        description: "Eye-catching marbled orange, brown, and black calico patterning. Active bottom dweller that thrives on driftwood and vegetable wafers."
+    },
+    {
+        id: "P-017",
+        name: "White Seam / Starry Night Ancistrus (L183 / Starlight)",
+        category: "fish",
+        subcategory: "catfish",
+        price: 39.99,
+        image: "img/catalog/ancistrus-stock-3.jpg",
+        detailUrl: "shop-detail.html?id=P-017",
+        available: true,
+        description: "Deep jet-black body covered in tiny white starlight spots with a crisp white margin on the dorsal and caudal fin. Exceptional show specimen."
+    },
+    {
+        id: "P-018",
+        name: "Brown Marbled Bristlenose Pleco - Adult Male",
+        category: "fish",
+        subcategory: "catfish",
+        price: 34.99,
+        image: "img/catalog/ancistrus-stock-4.jpg",
+        detailUrl: "shop-detail.html?id=P-018",
+        available: true,
+        description: "Mature adult male showing developed facial bristles (tentacles). Proven breeder lineage, peaceful temperament."
+    },
+    {
+        id: "P-019",
+        name: "Super Red Longfin Bristlenose Pleco",
+        category: "fish",
+        subcategory: "catfish",
+        price: 49.99,
+        image: "img/catalog/ancistrus-stock-5.jpg",
+        detailUrl: "shop-detail.html?id=P-019",
+        available: true,
+        description: "Flowing veil fins with deep velvet-red coloration. High grade lineage bred in our Ottawa breeding station."
+    },
+    {
+        id: "P-020",
+        name: "Green Dragon Bristlenose Pleco",
+        category: "fish",
+        subcategory: "catfish",
+        price: 32.99,
+        image: "img/catalog/ancistrus-stock-6.jpg",
+        detailUrl: "shop-detail.html?id=P-020",
+        available: true,
+        description: "Solid olive-slate hue with no spotting. Rare, sleek coloration that stands out in lush planted aquascapes."
+    },
+    {
+        id: "P-021",
+        name: "Albino Bristlenose Pleco (L144 Lemon / Albino)",
+        category: "fish",
+        subcategory: "catfish",
+        price: 18.99,
+        image: "img/catalog/ancistrus-stock-7.jpg",
+        detailUrl: "shop-detail.html?id=P-021",
+        available: true,
+        description: "Bright golden-yellow coloration. Active cleaner that stays compact (max 4-5 inches) and will not harm live plants."
+    },
+    {
+        id: "P-022",
+        name: "Spotted Bristlenose Pleco (Ancistrus cirrhosus)",
+        category: "fish",
+        subcategory: "catfish",
+        price: 16.99,
+        image: "img/catalog/ancistrus-stock-8.jpg",
+        detailUrl: "shop-detail.html?id=P-022",
+        available: true,
+        description: "Fine honeycomb spot pattern across dark armor plating. Great for planted and hardscape tanks."
+    },
+    {
+        id: "P-023",
+        name: "Breeder Pair - Bristlenose Plecos (1 Male + 1 Female)",
+        category: "fish",
+        subcategory: "catfish",
+        price: 54.99,
+        image: "img/catalog/ancistrus-stock-9.jpg",
+        detailUrl: "shop-detail.html?id=P-023",
+        available: true,
+        description: "Selected bonded breeding pair. Ready to spawn in standard terracotta or ceramic breeding caves."
+    },
+
+    /* --- DISCUS, SHRIMPS, BETTAS & COMMUNITY SPECIES --- */
     {
         id: "P-001",
         name: "Caridina Shrimp (Pure Red Line)",
@@ -175,7 +277,7 @@ const ANCISTRUS_PRODUCTS = [
         category: "fish",
         subcategory: "catfish",
         price: 24.99,
-        image: "img/Fish 1.jpg",
+        image: "img/catalog/ancistrus-stock-5.jpg",
         detailUrl: "shop-detail.html?id=P-013",
         available: true,
         description: "Our signature captive-bred Ancistrus pleco. Unmatched algae cleaner with rich velvet red coloration."
