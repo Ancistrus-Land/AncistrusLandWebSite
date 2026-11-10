@@ -45,42 +45,52 @@
         }
         container.appendChild(bubblesLayer);
 
-        // 3. Swimming Fish Fleet (Active, Photorealistic Tropical Ecosystem)
+        // 3. Swimming Fish Fleet (Thriving, Active Tropical Ecosystem - 28 Swimmers)
         const fishLayer = document.createElement("div");
         fishLayer.className = "tank-fish-layer";
 
         const fishFleet = [
-            // Prominent, realistic Super Red Ancistrus Pleco cruising the lower substrate
+            // --- Ancistrus Plecos (Substrate & Mid-Driftwood Explorers) ---
             { type: "pleco", img: "img/fish-pleco.png", width: 145, bottom: "55px", speed: "30s", delay: "0s", direction: "right-to-left", scale: 1.05, opacity: 0.85 },
+            { type: "pleco", img: "img/fish-pleco.png", width: 130, bottom: "120px", speed: "34s", delay: "6s", direction: "left-to-right", scale: 0.9, opacity: 0.8 },
+            { type: "pleco", img: "img/fish-pleco.png", width: 110, bottom: "80px", speed: "32s", delay: "14s", direction: "right-to-left", scale: 0.82, opacity: 0.82 },
+            { type: "pleco", img: "img/fish-pleco.png", width: 140, bottom: "45px", speed: "29s", delay: "18s", direction: "left-to-right", scale: 1.0, opacity: 0.85 },
+            { type: "pleco", img: "img/fish-pleco.png", width: 120, bottom: "150px", speed: "36s", delay: "24s", direction: "right-to-left", scale: 0.85, opacity: 0.78 },
+            { type: "pleco", img: "img/fish-pleco.png", width: 100, bottom: "95px", speed: "31s", delay: "28s", direction: "left-to-right", scale: 0.78, opacity: 0.8 },
             
-            // Regal Pigeon Blood Discus in upper-mid water
-            { type: "discus", img: "img/fish-discus.png", width: 135, top: "20%", speed: "26s", delay: "2s", direction: "left-to-right", scale: 1.0, opacity: 0.85 },
-            
-            // Royal Blue Halfmoon Betta with lush flowing fins in mid depth
-            { type: "betta", img: "img/fish-betta.png", width: 130, top: "48%", speed: "24s", delay: "5s", direction: "right-to-left", scale: 0.95, opacity: 0.82 },
-            
-            // Second Ancistrus Pleco exploring higher driftwood on the left
-            { type: "pleco", img: "img/fish-pleco.png", width: 125, bottom: "120px", speed: "34s", delay: "8s", direction: "left-to-right", scale: 0.88, opacity: 0.78 },
-            
-            // Second Discus cruising gently across mid-lower water in opposite direction
-            { type: "discus", img: "img/fish-discus.png", width: 120, top: "62%", speed: "28s", delay: "12s", direction: "right-to-left", scale: 0.9, opacity: 0.8 },
-            
-            // Second Betta near upper water column
-            { type: "betta", img: "img/fish-betta.png", width: 115, top: "14%", speed: "25s", delay: "15s", direction: "left-to-right", scale: 0.85, opacity: 0.78 },
-            
-            // Third young Pleco grazing along lower plants
-            { type: "pleco", img: "img/fish-pleco.png", width: 110, bottom: "85px", speed: "32s", delay: "18s", direction: "right-to-left", scale: 0.8, opacity: 0.8 },
+            // --- Pigeon Blood Discus (Graceful Mid & Upper-Water Cruisers) ---
+            { type: "discus", img: "img/fish-discus.png", width: 135, top: "20%", speed: "26s", delay: "1s", direction: "left-to-right", scale: 1.0, opacity: 0.86 },
+            { type: "discus", img: "img/fish-discus.png", width: 125, top: "62%", speed: "28s", delay: "8s", direction: "right-to-left", scale: 0.92, opacity: 0.82 },
+            { type: "discus", img: "img/fish-discus.png", width: 130, top: "28%", speed: "27s", delay: "15s", direction: "right-to-left", scale: 0.95, opacity: 0.84 },
+            { type: "discus", img: "img/fish-discus.png", width: 120, top: "42%", speed: "25s", delay: "21s", direction: "left-to-right", scale: 0.88, opacity: 0.8 },
 
-            // Vibrant School of Cardinal Tetras 1 (Left to Right)
-            { type: "tetra", top: "34%", speed: "18s", delay: "1s", direction: "left-to-right", scale: 0.75, opacity: 0.78 },
-            { type: "tetra", top: "37%", speed: "19s", delay: "1.7s", direction: "left-to-right", scale: 0.7, opacity: 0.72 },
-            { type: "tetra", top: "32%", speed: "18.5s", delay: "2.4s", direction: "left-to-right", scale: 0.72, opacity: 0.75 },
-            { type: "tetra", top: "39%", speed: "19.2s", delay: "3.1s", direction: "left-to-right", scale: 0.68, opacity: 0.7 },
+            // --- Royal Blue Halfmoon Bettas (Flowing Elegance) ---
+            { type: "betta", img: "img/fish-betta.png", width: 130, top: "48%", speed: "24s", delay: "3s", direction: "right-to-left", scale: 0.95, opacity: 0.84 },
+            { type: "betta", img: "img/fish-betta.png", width: 120, top: "14%", speed: "25s", delay: "11s", direction: "left-to-right", scale: 0.88, opacity: 0.8 },
+            { type: "betta", img: "img/fish-betta.png", width: 125, top: "58%", speed: "23s", delay: "17s", direction: "left-to-right", scale: 0.9, opacity: 0.82 },
+            { type: "betta", img: "img/fish-betta.png", width: 115, top: "24%", speed: "26s", delay: "25s", direction: "right-to-left", scale: 0.85, opacity: 0.78 },
 
-            // Second School of Tetras (Right to Left)
-            { type: "tetra", top: "52%", speed: "17s", delay: "9s", direction: "right-to-left", scale: 0.72, opacity: 0.75 },
-            { type: "tetra", top: "55%", speed: "18s", delay: "9.6s", direction: "right-to-left", scale: 0.68, opacity: 0.7 },
-            { type: "tetra", top: "50%", speed: "17.4s", delay: "10.3s", direction: "right-to-left", scale: 0.7, opacity: 0.72 }
+            // --- Cardinal Tetra School 1 (Upper-Mid, Left to Right) ---
+            { type: "tetra", top: "33%", speed: "18s", delay: "0.5s", direction: "left-to-right", scale: 0.75, opacity: 0.8 },
+            { type: "tetra", top: "36%", speed: "19s", delay: "1.2s", direction: "left-to-right", scale: 0.7, opacity: 0.75 },
+            { type: "tetra", top: "31%", speed: "18.5s", delay: "1.9s", direction: "left-to-right", scale: 0.72, opacity: 0.78 },
+            { type: "tetra", top: "38%", speed: "19.2s", delay: "2.6s", direction: "left-to-right", scale: 0.68, opacity: 0.72 },
+
+            // --- Cardinal Tetra School 2 (Mid-Lower, Right to Left) ---
+            { type: "tetra", top: "52%", speed: "17s", delay: "7s", direction: "right-to-left", scale: 0.72, opacity: 0.78 },
+            { type: "tetra", top: "55%", speed: "18s", delay: "7.6s", direction: "right-to-left", scale: 0.68, opacity: 0.72 },
+            { type: "tetra", top: "49%", speed: "17.4s", delay: "8.3s", direction: "right-to-left", scale: 0.7, opacity: 0.75 },
+
+            // --- Cardinal Tetra School 3 (Lower-Mid, Left to Right) ---
+            { type: "tetra", top: "66%", speed: "18.2s", delay: "13s", direction: "left-to-right", scale: 0.7, opacity: 0.75 },
+            { type: "tetra", top: "69%", speed: "19s", delay: "13.7s", direction: "left-to-right", scale: 0.66, opacity: 0.7 },
+            { type: "tetra", top: "64%", speed: "18.6s", delay: "14.4s", direction: "left-to-right", scale: 0.68, opacity: 0.72 },
+            { type: "tetra", top: "71%", speed: "19.4s", delay: "15.1s", direction: "left-to-right", scale: 0.65, opacity: 0.68 },
+
+            // --- Cardinal Tetra School 4 (Upper Surface Patrol, Right to Left) ---
+            { type: "tetra", top: "18%", speed: "16.8s", delay: "19s", direction: "right-to-left", scale: 0.68, opacity: 0.74 },
+            { type: "tetra", top: "21%", speed: "17.5s", delay: "19.7s", direction: "right-to-left", scale: 0.64, opacity: 0.7 },
+            { type: "tetra", top: "16%", speed: "17.1s", delay: "20.4s", direction: "right-to-left", scale: 0.66, opacity: 0.72 }
         ];
 
         fishFleet.forEach(f => {
