@@ -39,7 +39,8 @@
     color: var(--anc-dark) !important;
     font-size: 15px;
     letter-spacing: 0.2px;
-    padding: 8px 16px !important;
+    padding: 8px 12px !important;
+    white-space: nowrap !important;
     transition: color 0.25s ease, transform 0.2s ease;
 }
 
@@ -54,7 +55,11 @@
     color: #ffffff !important;
     border: none !important;
     font-weight: 700;
-    padding: 9px 24px;
+    padding: 8px 20px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
     transition: all 0.25s ease;
 }
@@ -231,28 +236,31 @@
 
 /* 4. Value Highlights Grid (Canadian Guarantees) */
 .value-card {
-    background: rgba(255, 255, 255, 0.94);
-    border-radius: 20px;
-    padding: 26px 20px;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+    padding: 18px !important;
     text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08);
-    border: 1px solid rgba(0, 119, 182, 0.12);
+    box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08) !important;
     height: 100%;
-    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .value-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 30, 60, 0.13) !important;
 }
 
 .value-icon {
-    width: 65px;
-    height: 65px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     background: linear-gradient(135deg, rgba(0, 119, 182, 0.12) 0%, rgba(0, 180, 216, 0.2) 100%);
     color: var(--anc-primary);
 }
@@ -334,6 +342,32 @@ h1, h2, h3, h4, h5, h6 {
     background: linear-gradient(135deg, var(--anc-primary) 0%, var(--anc-accent) 100%) !important;
     border: none !important;
     box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+}
+
+.btn-primary i,
+.btn-outline-dark i,
+.btn-outline-primary i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.btn-hero-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    padding: 10px 24px !important;
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    gap: 8px;
 }
 
 .btn-primary:hover {
