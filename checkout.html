@@ -25,52 +25,53 @@
                 <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
                     <div class="row g-4">
                         <div class="col-md-12 col-lg-7">
-                            <div class="anc-glass-card">
+                            <div class="anc-glass-card h-100">
                                 <h4 class="mb-3 fw-bold text-dark">Shipping &amp; Delivery Details</h4>
                                 <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label my-1">Full Name <sup>*</sup></label>
-                                    <input type="text" id="cust-name" class="form-control" required placeholder="Alex Tremblay">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label my-1">Phone / Mobile (SMS/WhatsApp) <sup>*</sup></label>
-                                    <input type="tel" id="cust-phone" class="form-control" required placeholder="+1 (613) 555-0123">
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label my-1">Email Address <sup>*</sup></label>
-                                    <input type="email" id="cust-email" class="form-control" required placeholder="alex@example.ca">
-                                    <small class="text-muted">Order invoice &amp; tracking number will be sent here.</small>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label my-1">Street Address <sup>*</sup></label>
-                                    <input type="text" id="cust-address" class="form-control" required placeholder="123 Bank Street, Apt 4B">
-                                </div>
-                                <div class="col-md-5">
-                                    <label class="form-label my-1">City <sup>*</sup></label>
-                                    <input type="text" id="cust-city" class="form-control" required placeholder="Ottawa / Toronto / Montreal / Vancouver">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label my-1">Province <sup>*</sup></label>
-                                    <select id="cust-province" class="form-select" required>
-                                        <option value="Ontario">Ontario (ON)</option>
-                                        <option value="Quebec">Quebec (QC)</option>
-                                        <option value="British Columbia">British Columbia (BC)</option>
-                                        <option value="Alberta">Alberta (AB)</option>
-                                        <option value="Manitoba">Manitoba (MB)</option>
-                                        <option value="Saskatchewan">Saskatchewan (SK)</option>
-                                        <option value="Nova Scotia">Nova Scotia (NS)</option>
-                                        <option value="New Brunswick">New Brunswick (NB)</option>
-                                        <option value="Newfoundland and Labrador">Newfoundland (NL)</option>
-                                        <option value="Prince Edward Island">PEI</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label my-1">Postal Code <sup>*</sup></label>
-                                    <input type="text" id="cust-postcode" class="form-control" required placeholder="K1P 5N6">
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label my-1">Delivery Instructions &amp; Acclimation Notes (Optional)</label>
-                                    <textarea id="cust-notes" class="form-control" spellcheck="false" cols="30" rows="3" placeholder="Leave with concierge, hold for pickup, preferred delivery day..."></textarea>
+                                    <div class="col-md-6">
+                                        <label class="form-label my-1">Full Name <sup>*</sup></label>
+                                        <input type="text" id="cust-name" class="form-control" required placeholder="Alex Tremblay">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label my-1">Phone / Mobile (SMS/WhatsApp) <sup>*</sup></label>
+                                        <input type="tel" id="cust-phone" class="form-control" required placeholder="+1 (613) 555-0123">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label my-1">Email Address <sup>*</sup></label>
+                                        <input type="email" id="cust-email" class="form-control" required placeholder="alex@example.ca">
+                                        <small class="text-muted">Order invoice &amp; tracking number will be sent here.</small>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label my-1">Street Address <sup>*</sup></label>
+                                        <input type="text" id="cust-address" class="form-control" required placeholder="123 Bank Street, Apt 4B">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label my-1">City <sup>*</sup></label>
+                                        <input type="text" id="cust-city" class="form-control" required placeholder="Ottawa / Toronto / Montreal / Vancouver">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label my-1">Province <sup>*</sup></label>
+                                        <select id="cust-province" class="form-select" required>
+                                            <option value="Ontario">Ontario (ON)</option>
+                                            <option value="Quebec">Quebec (QC)</option>
+                                            <option value="British Columbia">British Columbia (BC)</option>
+                                            <option value="Alberta">Alberta (AB)</option>
+                                            <option value="Manitoba">Manitoba (MB)</option>
+                                            <option value="Saskatchewan">Saskatchewan (SK)</option>
+                                            <option value="Nova Scotia">Nova Scotia (NS)</option>
+                                            <option value="New Brunswick">New Brunswick (NB)</option>
+                                            <option value="Newfoundland and Labrador">Newfoundland (NL)</option>
+                                            <option value="Prince Edward Island">PEI</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label my-1">Postal Code <sup>*</sup></label>
+                                        <input type="text" id="cust-postcode" class="form-control" required placeholder="K1P 5N6">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label my-1">Delivery Instructions &amp; Acclimation Notes (Optional)</label>
+                                        <textarea id="cust-notes" class="form-control" spellcheck="false" cols="30" rows="3" placeholder="Leave with concierge, hold for pickup, preferred delivery day..."></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -106,25 +107,18 @@
                                 </div>
 
                                 <h5 class="mt-4 mb-3">Select Payment Method</h5>
-                                <div class="form-check mb-2">
+                                <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="paymentMethod" id="payEtransfer" value="Interac e-Transfer" checked>
                                     <label class="form-check-label" for="payEtransfer">
                                         <strong>Interac e-Transfer (Direct Canadian Bank)</strong>
                                         <div class="text-muted small">Instant, secure transfer via your Canadian banking app to sudarsha.wijenayake@gmail.com.</div>
                                     </label>
                                 </div>
-                                <div class="form-check mb-2">
+                                <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="Cash on Delivery / Local Pickup">
                                     <label class="form-check-label" for="payCOD">
                                         <strong>Cash on Delivery / Local Pickup (Ottawa Area)</strong>
                                         <div class="text-muted small">Pay when receiving in Ottawa/Gatineau region.</div>
-                                    </label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="Credit Card / Invoice Link">
-                                    <label class="form-check-label" for="payCard">
-                                        <strong>Credit Card / Debit (Square / Stripe Link)</strong>
-                                        <div class="text-muted small">We'll send a secure payment link directly to your email.</div>
                                     </label>
                                 </div>
 
