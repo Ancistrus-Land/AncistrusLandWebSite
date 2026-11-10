@@ -158,11 +158,17 @@ body.dark-mode .theme-toggle-btn {
 
 
 /* 1. Header Navigation: Transparent full-width container + Floating White Pill */
+#header-placeholder {
+    position: relative;
+    z-index: 99999 !important;
+}
+
 .floating-header-wrapper,
 .fixed-top {
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
+    z-index: 99999 !important;
 }
 
 .modern-glass-nav {
@@ -174,6 +180,21 @@ body.dark-mode .theme-toggle-btn {
     border-radius: 45px !important;
     padding: 8px 26px !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 99999 !important;
+}
+
+.anc-category-dropdown,
+.dropdown {
+    position: relative;
+    z-index: 100000 !important;
+}
+
+.anc-category-menu,
+.dropdown-menu {
+    position: absolute !important;
+    z-index: 100001 !important;
+    box-shadow: 0 16px 45px rgba(0, 25, 60, 0.28) !important;
 }
 
 .modern-glass-nav:hover {
