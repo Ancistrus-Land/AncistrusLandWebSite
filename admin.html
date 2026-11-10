@@ -442,7 +442,11 @@
             saveCatalogOverride(catalog);
             prodModal.hide();
             loadDashboardData();
-            alert("Product saved successfully! Site has been updated.");
+            if (window.showToast) {
+                showToast("Product saved successfully! Site has been updated.", "success", "Catalog Updated");
+            } else {
+                alert("Product saved successfully! Site has been updated.");
+            }
         }
 
         function downloadUpdatedProductsJs() {

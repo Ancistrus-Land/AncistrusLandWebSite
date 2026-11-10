@@ -187,6 +187,82 @@ export function formatCurrency(amount) {
     })}`;
 }
 
+/* ==========================================================================
+   5. Professional Aquatic Toast / Notification System
+   ========================================================================== */
+export function showToast(message, type = "success", title = null, durationMs = 3800) {
+    if (typeof document === "undefined") return;
+
+    let container = document.getElementById("anc-toast-container");
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "anc-toast-container";
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement("div");
+    toast.className = `anc-toast anc-toast-${type}`;
+
+    let iconClass = "fas fa-check";
+    let defaultTitle = "Success";
+    if (type === "info") {
+        iconClass = "fas fa-info";
+        defaultTitle = "Notice";
+    } else if (type === "warning") {
+        iconClass = "fas fa-exclamation-triangle";
+        defaultTitle = "Warning";
+    } else if (type === "error" || type === "danger") {
+        iconClass = "fas fa-times-circle";
+        defaultTitle = "Notice";
+    }
+
+    const displayTitle = title !== null ? title : defaultTitle;
+
+    toast.innerHTML = `
+        <div class="anc-toast-icon">
+            <i class="${iconClass}"></i>
+        </div>
+        <div class="anc-toast-body">
+            ${displayTitle ? `<div class="anc-toast-title">${displayTitle}</div>` : ""}
+            <div class="anc-toast-message">${message}</div>
+        </div>
+        <button type="button" class="anc-toast-close" aria-label="Close notification" title="Dismiss">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="anc-toast-progress" style="animation-duration: ${durationMs}ms;"></div>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger enter animation
+    requestAnimationFrame(() => {
+        toast.classList.add("show");
+    });
+
+    let dismissTimer = null;
+
+    const dismiss = () => {
+        if (dismissTimer) clearTimeout(dismissTimer);
+        toast.classList.remove("show");
+        toast.classList.add("hide");
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.parentElement.removeChild(toast);
+            }
+        }, 400);
+    };
+
+    const closeBtn = toast.querySelector(".anc-toast-close");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dismiss();
+        });
+    }
+
+    dismissTimer = setTimeout(dismiss, durationMs);
+}
+
 // Universal Global Bindings for inline page scripts
 if (typeof window !== "undefined") {
     window.STORE_CONFIG = STORE_CONFIG;
@@ -200,12 +276,13 @@ if (typeof window !== "undefined") {
     window.removeFromCart = (id) => CartService.remove(id);
     window.updateCartQuantity = (id, q) => CartService.updateQuantity(id, q);
     window.ORDERS_KEY = STORE_CONFIG.storageKeys.orders;
+    window.showToast = showToast;
     window.addToCart = (id, q = 1) => {
         try {
             const p = CartService.add(id, q);
-            alert(`"${p.name}" added to cart!`);
+            showToast(`<strong>${p.name}</strong> added to cart!`, "success", "Added to Cart");
         } catch (e) {
-            alert(e.message);
+            showToast(e.message, "error", "Cannot Add Item");
         }
     };
     window.updateCartCount = () => CartService.notify();
