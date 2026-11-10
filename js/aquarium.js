@@ -21,17 +21,18 @@
         waterLight.className = "tank-water-shimmer";
         container.appendChild(waterLight);
 
-        // 2. Rising Micro Bubbles Layer
+        // 2. Rising Micro Bubbles Layer (Rich underwater aeration stream)
         const bubblesLayer = document.createElement("div");
         bubblesLayer.className = "tank-bubbles-layer";
-        for (let i = 0; i < 24; i++) {
+        // Create 65 natural bubbles with varied sizes, speeds, and natural horizontal wavering
+        for (let i = 0; i < 65; i++) {
             const bubble = document.createElement("div");
             bubble.className = "tank-bubble";
-            const size = Math.floor(Math.random() * 12) + 6; // 6px to 18px
-            const left = Math.random() * 98;
-            const duration = (Math.random() * 7 + 8).toFixed(1); // 8s to 15s
-            const delay = (Math.random() * 8).toFixed(1);
-            const drift = (Math.random() * 30 - 15).toFixed(0);
+            const size = Math.floor(Math.random() * 14) + 4; // 4px to 18px
+            const left = (Math.random() * 98).toFixed(1);
+            const duration = (Math.random() * 8 + 6).toFixed(1); // 6s to 14s rise
+            const delay = (Math.random() * 10).toFixed(1);
+            const drift = (Math.random() * 40 - 20).toFixed(0);
 
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
@@ -44,17 +45,23 @@
         }
         container.appendChild(bubblesLayer);
 
-        // 3. Swimming Fish Fleet (Gentle, elegant depth silhouettes)
+        // 3. Swimming Fish Fleet (Photorealistic Tropical Ecosystem)
         const fishLayer = document.createElement("div");
         fishLayer.className = "tank-fish-layer";
 
         const fishFleet = [
-            { type: "discus", top: "20%", speed: "30s", delay: "0s", direction: "left-to-right", scale: 0.85, opacity: 0.55 },
-            { type: "pleco", bottom: "70px", speed: "35s", delay: "5s", direction: "right-to-left", scale: 0.8, opacity: 0.45 },
-            { type: "tetra", top: "38%", speed: "20s", delay: "3s", direction: "left-to-right", scale: 0.5, opacity: 0.55 },
-            { type: "tetra", top: "41%", speed: "22s", delay: "3.7s", direction: "left-to-right", scale: 0.45, opacity: 0.5 },
-            { type: "tetra", top: "36%", speed: "21s", delay: "4.3s", direction: "left-to-right", scale: 0.48, opacity: 0.52 },
-            { type: "betta", top: "60%", speed: "28s", delay: "12s", direction: "right-to-left", scale: 0.75, opacity: 0.5 }
+            // Prominent, realistic Super Red Ancistrus Pleco cruising the lower substrate/driftwood
+            { type: "pleco", img: "img/fish-pleco.png", width: 145, bottom: "65px", speed: "34s", delay: "0s", direction: "right-to-left", scale: 1.05, opacity: 0.82 },
+            // Regal Pigeon Blood Discus floating gracefully in the upper-mid water column
+            { type: "discus", img: "img/fish-discus.png", width: 135, top: "22%", speed: "28s", delay: "4s", direction: "left-to-right", scale: 1.0, opacity: 0.85 },
+            // Royal Blue Halfmoon Betta with lush translucent fins gliding across mid depth
+            { type: "betta", img: "img/fish-betta.png", width: 130, top: "54%", speed: "26s", delay: "10s", direction: "right-to-left", scale: 0.95, opacity: 0.8 },
+            // Second Ancistrus Pleco following in the opposite direction
+            { type: "pleco", img: "img/fish-pleco.png", width: 125, bottom: "115px", speed: "38s", delay: "16s", direction: "left-to-right", scale: 0.88, opacity: 0.75 },
+            // School of realistic Cardinal Tetras swimming in tight synchronization
+            { type: "tetra", top: "35%", speed: "19s", delay: "3s", direction: "left-to-right", scale: 0.75, opacity: 0.78 },
+            { type: "tetra", top: "38%", speed: "20s", delay: "3.7s", direction: "left-to-right", scale: 0.7, opacity: 0.72 },
+            { type: "tetra", top: "33%", speed: "19.5s", delay: "4.4s", direction: "left-to-right", scale: 0.72, opacity: 0.75 }
         ];
 
         fishFleet.forEach(f => {
@@ -67,7 +74,11 @@
             swimmer.style.opacity = f.opacity;
             swimmer.style.setProperty("--scale", f.scale);
 
-            swimmer.innerHTML = getFishSVG(f.type);
+            if (f.img) {
+                swimmer.innerHTML = `<img src="${f.img}" alt="${f.type}" style="width: ${f.width}px; height: auto; display: block; filter: drop-shadow(0 6px 14px rgba(0,25,60,0.35)); pointer-events: none;">`;
+            } else {
+                swimmer.innerHTML = getFishSVG(f.type);
+            }
             fishLayer.appendChild(swimmer);
         });
         container.appendChild(fishLayer);
