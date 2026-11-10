@@ -19,18 +19,13 @@
 <body>
     <div id="header-placeholder"></div>
 
-    <div class="container-fluid page-header py-5" style="margin-top: 100px; background: #002244; color: white;">
-        <h1 class="text-center text-white display-6" id="prod-header-title">Product Details</h1>
-        <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
-            <li class="breadcrumb-item"><a href="shop.html" class="text-white">Shop</a></li>
-            <li class="breadcrumb-item active text-white" id="prod-breadcrumb">Detail</li>
-        </ol>
-    </div>
+    <!-- Hidden elements for dynamic script bindings -->
+    <span id="prod-header-title" class="d-none">Product Details</span>
+    <span id="prod-breadcrumb" class="d-none">Detail</span>
 
-    <div class="container-fluid py-5 mt-5">
-        <div class="container py-5">
-            <div id="product-detail-view" class="row g-4 mb-5">
+    <div class="container-fluid pb-5" style="margin-top: 95px;">
+        <div class="container pb-4">
+            <div id="product-detail-view" class="row g-4 mb-4">
                 <!-- Dynamically populated -->
             </div>
 

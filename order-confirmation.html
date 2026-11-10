@@ -19,16 +19,10 @@
 <body>
     <div id="header-placeholder"></div>
 
-    <div class="container-fluid page-header py-5" style="margin-top: 100px; background: #002244; color: white;">
-        <h1 class="text-center text-white display-6">Order Confirmation</h1>
-        <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
-            <li class="breadcrumb-item active text-white">Order Success</li>
-        </ol>
-    </div>
+        
 
-    <div class="container-fluid py-5">
-        <div class="container py-5">
+    <div class="container-fluid pb-5" style="margin-top: 95px;">
+        <div class="container pb-5">
             <div id="confirmation-content" class="mx-auto" style="max-width: 800px;">
                 <!-- Dynamically loaded -->
             </div>
@@ -83,7 +77,7 @@
             const mailtoUrl = `mailto:${STORE_CONFIG.storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
             container.innerHTML = `
-                <div class="card shadow-sm border-0">
+                <div class="anc-glass-card shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
                         <div class="text-center mb-4">
                             <div class="display-3 text-success mb-2"><i class="fas fa-check-circle"></i></div>
