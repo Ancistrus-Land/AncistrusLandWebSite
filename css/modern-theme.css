@@ -9,7 +9,153 @@
     --anc-teal: #48cae4;
     --anc-gold: #ffb703;
     --anc-dark: #0f1c2e;
+
+    /* Theme-Adaptive Variables (Light Mode Defaults) */
+    --anc-glass-bg: rgba(255, 255, 255, 0.94);
+    --anc-glass-border: rgba(255, 255, 255, 0.9);
+    --anc-glass-shadow: 0 8px 25px rgba(0, 30, 60, 0.08);
+    --anc-text-main: #0f1c2e;
+    --anc-text-muted: #4a5568;
+    --anc-card-inner-bg: #ffffff;
+    --anc-input-bg: #f8fafc;
+    --anc-input-border: #e2e8f0;
 }
+
+/* ==========================================================================
+   DARK THEME (Deep-Sea Night Aquascape)
+   ========================================================================== */
+body.dark-mode {
+    --anc-glass-bg: rgba(10, 24, 42, 0.92);
+    --anc-glass-border: rgba(0, 180, 216, 0.22);
+    --anc-glass-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
+    --anc-text-main: #f0f8ff;
+    --anc-text-muted: #a0aec0;
+    --anc-card-inner-bg: rgba(14, 32, 56, 0.95);
+    --anc-input-bg: rgba(18, 38, 66, 0.9);
+    --anc-input-border: rgba(0, 180, 216, 0.3);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode .text-dark,
+body.dark-mode .lead {
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .text-muted {
+    color: var(--anc-text-muted) !important;
+}
+
+body.dark-mode #aquarium-tank-container::after {
+    background: radial-gradient(circle at 50% 45%, 
+        rgba(5, 15, 30, 0.55) 0%, 
+        rgba(3, 10, 22, 0.65) 50%, 
+        rgba(0, 5, 15, 0.8) 100%) !important;
+}
+
+body.dark-mode .modern-glass-nav,
+body.dark-mode .anc-glass-card,
+body.dark-mode .glass-panel,
+body.dark-mode .card,
+body.dark-mode .bg-light,
+body.dark-mode .fruite-item,
+body.dark-mode .value-card,
+body.dark-mode .floating-glass-footer {
+    background: var(--anc-glass-bg) !important;
+    border-color: var(--anc-glass-border) !important;
+    box-shadow: var(--anc-glass-shadow) !important;
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .anc-shop-navbar .nav-link {
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .anc-category-menu {
+    background: rgba(10, 24, 42, 0.98) !important;
+    border-color: var(--anc-glass-border) !important;
+}
+
+body.dark-mode .anc-category-menu .anc-submenu-link {
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .anc-category-menu .anc-submenu-link:hover {
+    background: rgba(0, 180, 216, 0.15) !important;
+    color: var(--anc-accent) !important;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: var(--anc-input-bg) !important;
+    color: var(--anc-text-main) !important;
+    border-color: var(--anc-input-border) !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #718096 !important;
+}
+
+body.dark-mode .bg-white {
+    background-color: var(--anc-card-inner-bg) !important;
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .table {
+    color: var(--anc-text-main) !important;
+}
+
+body.dark-mode .footer-glass-links a {
+    color: var(--anc-text-muted) !important;
+}
+
+body.dark-mode .footer-glass-links a:hover {
+    color: var(--anc-accent) !important;
+}
+
+body.dark-mode .social-glass-pill {
+    background: rgba(0, 180, 216, 0.12) !important;
+    border-color: rgba(0, 180, 216, 0.25) !important;
+    color: var(--anc-accent) !important;
+}
+
+body.dark-mode .social-glass-pill:hover {
+    background: var(--anc-primary) !important;
+    color: #ffffff !important;
+}
+
+/* Theme Toggle Button Component */
+.theme-toggle-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 119, 182, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    color: #e67e22;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 30, 60, 0.1);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 30, 60, 0.2);
+}
+
+body.dark-mode .theme-toggle-btn {
+    background: rgba(18, 38, 66, 0.95);
+    border-color: rgba(0, 180, 216, 0.35);
+    color: #ffb703;
+}
+
 
 /* 1. Header Navigation: Transparent full-width container + Floating White Pill */
 .floating-header-wrapper,

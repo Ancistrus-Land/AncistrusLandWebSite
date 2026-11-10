@@ -11,10 +11,13 @@
                 </div>
             </a>
 
-            <!-- Mobile: Shop Now + Cart + Menu -->
-            <div class="anc-mobile-actions d-xl-none">
-                <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 anc-shop-now" href="shop.html">Shop</a>
-                <a class="position-relative anc-cart-link" href="cart.html">
+            <!-- Mobile: Theme Toggle + Shop Now + Cart + Menu -->
+            <div class="anc-mobile-actions d-xl-none d-flex align-items-center">
+                <button class="theme-toggle-btn me-2" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                    <i class="fas fa-moon theme-icon"></i>
+                </button>
+                <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 anc-shop-now me-2" href="shop.html">Shop</a>
+                <a class="position-relative anc-cart-link me-2" href="cart.html">
                     <i class="fa fa-shopping-bag fa-lg text-primary"></i>
                     <span class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-white px-1 anc-cart-count" id="cart-count-mobile">0</span>
                 </a>
@@ -58,8 +61,11 @@
                     <a class="nav-item nav-link" href="contact.html">Contact</a>
                 </div>
 
-                <!-- Desktop: Shop Now + Cart Action -->
+                <!-- Desktop: Theme Toggle + Shop Now + Cart Action -->
                 <div class="d-none d-xl-flex align-items-center ms-3 me-2 anc-desktop-actions">
+                    <button class="theme-toggle-btn me-3" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                        <i class="fas fa-moon theme-icon"></i>
+                    </button>
                     <a class="btn rounded-pill px-4 me-3 anc-shop-now" href="shop.html">Shop Now</a>
                     <a class="position-relative my-auto anc-cart-link" href="cart.html" title="Shopping Cart">
                         <i class="fa fa-shopping-bag fa-xl text-primary"></i>
