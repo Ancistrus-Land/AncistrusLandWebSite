@@ -1,6 +1,5 @@
-
 /* ==========================================================================
-   AQUARIUM UNDERWATER TANK AMBIENCE SYSTEM
+   AQUARIUM UNDERWATER TANK AMBIENCE SYSTEM - PHOTOREALISTIC EDITION
    ========================================================================== */
 
 #aquarium-tank-container {
@@ -12,11 +11,24 @@
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
-    background: linear-gradient(180deg, 
-        rgba(238, 247, 255, 0.40) 0%, 
-        rgba(220, 240, 253, 0.50) 40%, 
-        rgba(200, 230, 250, 0.60) 75%, 
-        rgba(175, 215, 242, 0.70) 100%);
+    /* High resolution realistic aquascape backdrop */
+    background: url('../img/aquarium-tank-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Semi-transparent aquatic ambient tint over backdrop to ensure high contrast for text */
+#aquarium-tank-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 45%, 
+        rgba(255, 255, 255, 0.40) 0%, 
+        rgba(230, 245, 255, 0.30) 45%, 
+        rgba(10, 35, 60, 0.25) 100%);
+    pointer-events: none;
 }
 
 body {
@@ -33,37 +45,42 @@ footer {
     z-index: 2;
 }
 
+/* Frosted glass effect on content containers so the realistic aquarium is visible behind while text remains crisp */
 .card, 
 .bg-light, 
 .fruite-item {
-    background-color: rgba(255, 255, 255, 0.94) !important;
-    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.90) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 30, 60, 0.12) !important;
 }
 
-/* Water Shimmer */
+/* Top Water Caustics Shimmer */
 .tank-water-shimmer {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 140px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
-    opacity: 0.6;
-    animation: waterShimmer 6s ease-in-out infinite alternate;
+    height: 180px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0.55;
+    animation: waterShimmer 7s ease-in-out infinite alternate;
 }
 
 @keyframes waterShimmer {
     0% { opacity: 0.3; transform: scaleY(1); }
-    100% { opacity: 0.7; transform: scaleY(1.15); }
+    100% { opacity: 0.65; transform: scaleY(1.2); }
 }
 
-/* Rising Bubbles */
+/* Rising Air Bubbles */
 .tank-bubbles-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .tank-bubble {
@@ -71,7 +88,7 @@ footer {
     bottom: -30px;
     background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(180, 230, 255, 0.3) 60%, rgba(100, 190, 240, 0.7) 100%);
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8), inset 0 0 3px rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), inset 0 0 3px rgba(255, 255, 255, 0.9);
     animation: riseBubble linear infinite;
 }
 
@@ -81,14 +98,14 @@ footer {
         opacity: 0;
     }
     10% {
-        opacity: 0.75;
+        opacity: 0.8;
     }
     50% {
         transform: translateY(-50vh) translateX(var(--drift)) scale(1.05);
-        opacity: 0.85;
+        opacity: 0.9;
     }
     90% {
-        opacity: 0.7;
+        opacity: 0.75;
     }
     100% {
         transform: translateY(-105vh) translateX(calc(var(--drift) * -1)) scale(1.2);
@@ -103,17 +120,15 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .tank-swimming-fish {
     position: absolute;
-    filter: drop-shadow(0 3px 6px rgba(0, 40, 90, 0.18));
+    filter: drop-shadow(0 4px 8px rgba(0, 30, 70, 0.25));
 }
 
-/* 
- * SVGs naturally face LEFT (head at x=10..30, tail at x=110..125).
- * Left-to-Right swim: Needs scaleX(-1) so head faces RIGHT (forward into the motion).
- */
+/* Left-to-Right Swimmers (scaled & flipped so heads lead forward to the right) */
 .tank-swimming-fish.dir-left-to-right {
     left: -160px;
     animation: swimLeftToRight linear infinite;
@@ -125,23 +140,21 @@ footer {
         transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(0) rotate(-1deg);
     }
     25% {
-        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-20px) rotate(1deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-22px) rotate(1deg);
     }
     50% {
-        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(12px) rotate(-2deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(14px) rotate(-2deg);
     }
     75% {
-        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-15px) rotate(0deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(-16px) rotate(0deg);
     }
     100% {
         left: calc(100vw + 160px);
-        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(5px) rotate(-1deg);
+        transform: scale(var(--scale, 0.8)) scaleX(-1) translateY(6px) rotate(-1deg);
     }
 }
 
-/* 
- * Right-to-Left swim: Natural SVG orientation faces LEFT, so head naturally leads forward!
- */
+/* Right-to-Left Swimmers (heads lead forward to the left) */
 .tank-swimming-fish.dir-right-to-left {
     right: -160px;
     animation: swimRightToLeft linear infinite;
@@ -153,10 +166,10 @@ footer {
         transform: scale(var(--scale, 0.8)) translateY(0) rotate(1deg);
     }
     30% {
-        transform: scale(var(--scale, 0.8)) translateY(18px) rotate(-2deg);
+        transform: scale(var(--scale, 0.8)) translateY(20px) rotate(-2deg);
     }
     70% {
-        transform: scale(var(--scale, 0.8)) translateY(-14px) rotate(2deg);
+        transform: scale(var(--scale, 0.8)) translateY(-16px) rotate(2deg);
     }
     100% {
         right: calc(100vw + 160px);
@@ -164,38 +177,7 @@ footer {
     }
 }
 
-/* Aquatic Ribbon Plants */
+/* Bottom Botanical Corner Foliage (Subtle depth framing) */
 .tank-plants-layer {
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-}
-
-.tank-plant {
-    position: absolute;
-    bottom: 0;
-    overflow: visible;
-}
-
-.tank-plant.plant-left {
-    left: 15px;
-    transform-origin: bottom center;
-    animation: swayPlant 5.5s ease-in-out infinite alternate;
-}
-
-.tank-plant.plant-right {
-    right: 20px;
-    transform-origin: bottom center;
-    animation: swayPlant 6.5s ease-in-out infinite alternate-reverse;
-}
-
-.plant-leaf {
-    filter: drop-shadow(0 2px 4px rgba(0, 40, 20, 0.2));
-}
-
-@keyframes swayPlant {
-    0% { transform: rotate(-2deg) skewX(-2deg); }
-    100% { transform: rotate(4deg) skewX(3deg); }
+    display: none; /* The photorealistic background already includes lush botanicals along sides and bottom */
 }
