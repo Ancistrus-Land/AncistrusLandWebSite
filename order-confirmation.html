@@ -153,11 +153,245 @@
                         <!-- Footer actions (hidden when printing) -->
                         <div class="text-center pt-3 border-top print-hide">
                             <a href="shop.html" class="btn btn-outline-secondary rounded-pill px-4 me-2">Continue Shopping</a>
-                            <button onclick="window.print()" class="btn btn-primary rounded-pill px-4 shadow-sm text-white"><i class="fas fa-print me-1"></i> Print Receipt</button>
+                            <button onclick="printCleanReceipt()" class="btn btn-primary rounded-pill px-4 shadow-sm text-white"><i class="fas fa-print me-1"></i> Print Receipt</button>
                         </div>
                     </div>
                 </div>
             `;
+        }
+
+        function printCleanReceipt() {
+            const orderRaw = sessionStorage.getItem("last_order");
+            if (!orderRaw) {
+                window.print();
+                return;
+            }
+            const order = JSON.parse(orderRaw);
+            const c = order.customer;
+
+            const itemsRows = order.items.map(item => `
+                <tr>
+                    <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb;">
+                        <strong>${item.name}</strong><br>
+                        <span style="font-size: 12px; color: #6b7280;">$${Number(item.price).toFixed(2)} CAD each</span>
+                    </td>
+                    <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">${item.quantity}</td>
+                    <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: right; font-weight: 600;">$${(item.price * item.quantity).toFixed(2)}</td>
+                </tr>
+            `).join("");
+
+            const invoiceHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Receipt - Order #${order.orderId}</title>
+                    <style>
+                        @page { size: portrait; margin: 15mm; }
+                        body {
+                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+                            color: #111827;
+                            background: #ffffff;
+                            margin: 0;
+                            padding: 20px;
+                            font-size: 14px;
+                            line-height: 1.5;
+                        }
+                        .receipt-box {
+                            max-width: 720px;
+                            margin: 0 auto;
+                        }
+                        .header-row {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            border-bottom: 2px solid #0077b6;
+                            padding-bottom: 16px;
+                            margin-bottom: 24px;
+                        }
+                        .brand-title {
+                            font-size: 22px;
+                            font-weight: 800;
+                            color: #0077b6;
+                            margin: 0 0 4px 0;
+                            letter-spacing: -0.5px;
+                        }
+                        .brand-sub {
+                            font-size: 12px;
+                            color: #6b7280;
+                            margin: 0;
+                        }
+                        .receipt-meta {
+                            text-align: right;
+                        }
+                        .receipt-title {
+                            font-size: 18px;
+                            font-weight: 800;
+                            margin: 0 0 4px 0;
+                            color: #111827;
+                        }
+                        .meta-tag {
+                            font-size: 12px;
+                            color: #4b5563;
+                        }
+                        .grid-two {
+                            display: flex;
+                            gap: 20px;
+                            margin-bottom: 24px;
+                        }
+                        .panel {
+                            flex: 1;
+                            background: #f9fafb;
+                            border: 1px solid #e5e7eb;
+                            border-radius: 8px;
+                            padding: 14px;
+                        }
+                        .panel-heading {
+                            font-size: 11px;
+                            text-transform: uppercase;
+                            font-weight: 700;
+                            color: #0077b6;
+                            margin: 0 0 8px 0;
+                            letter-spacing: 0.5px;
+                        }
+                        .table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 24px;
+                        }
+                        .table th {
+                            background: #f3f4f6;
+                            padding: 10px 12px;
+                            text-align: left;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                            border-bottom: 2px solid #e5e7eb;
+                        }
+                        .totals-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                        }
+                        .totals-table td {
+                            padding: 6px 12px;
+                        }
+                        .grand-total {
+                            font-size: 18px;
+                            font-weight: 800;
+                            color: #0077b6;
+                            border-top: 2px solid #0077b6;
+                        }
+                        .notes-box {
+                            background: #f0fdf4;
+                            border: 1px solid #bbf7d0;
+                            border-radius: 8px;
+                            padding: 12px 16px;
+                            font-size: 12.5px;
+                            color: #166534;
+                            margin-bottom: 20px;
+                        }
+                        .footer {
+                            border-top: 1px solid #e5e7eb;
+                            padding-top: 16px;
+                            font-size: 12px;
+                            color: #6b7280;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="receipt-box">
+                        <div class="header-row">
+                            <div>
+                                <h1 class="brand-title">ANCISTRUS LAND CANADA</h1>
+                                <p class="brand-sub">Freshwater Wonders &bull; Canada-Wide Aquatic Specialist</p>
+                                <p class="brand-sub">Ottawa, ON &bull; sudarsha.wijenayake@gmail.com &bull; +1 (613) 266-5285</p>
+                            </div>
+                            <div class="receipt-meta">
+                                <div class="receipt-title">ORDER RECEIPT</div>
+                                <div class="meta-tag"><strong>Order ID:</strong> ${order.orderId}</div>
+                                <div class="meta-tag"><strong>Date:</strong> ${order.date}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid-two">
+                            <div class="panel">
+                                <div class="panel-heading">Customer & Shipping Details</div>
+                                <div><strong>${c.name}</strong></div>
+                                <div style="color: #4b5563; font-size: 13px;">${c.phone}</div>
+                                <div style="color: #4b5563; font-size: 13px;">${c.email}</div>
+                                <div style="color: #4b5563; font-size: 13px; margin-top: 4px;">
+                                    ${c.address}<br>${c.city}, ${c.province} (${c.postalCode})
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <div class="panel-heading">Order & Payment Status</div>
+                                <div style="font-size: 13px;"><strong>Payment Method:</strong> ${c.paymentMethod}</div>
+                                <div style="font-size: 13px; margin-top: 4px;"><strong>Order Status:</strong> Received / Processing</div>
+                                ${c.notes ? `<div style="font-size: 12px; color: #4b5563; margin-top: 8px;"><strong>Delivery Notes:</strong> ${c.notes}</div>` : ''}
+                            </div>
+                        </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item Description</th>
+                                    <th style="text-align: center;">Qty</th>
+                                    <th style="text-align: right;">Price (CAD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itemsRows}
+                            </tbody>
+                        </table>
+
+                        <table class="totals-table">
+                            <tr>
+                                <td style="text-align: right; color: #4b5563;">Insulated Thermal Packaging & Heat/Ice Pack:</td>
+                                <td style="text-align: right; width: 140px; color: #16a34a; font-weight: 600;">FREE (Included)</td>
+                            </tr>
+                            <tr>
+                                <td class="grand-total" style="text-align: right;">Grand Total:</td>
+                                <td class="grand-total" style="text-align: right; width: 140px;">$${Number(order.total).toFixed(2)} CAD</td>
+                            </tr>
+                        </table>
+
+                        <div class="notes-box" style="margin-top: 20px;">
+                            <strong>100% Live Arrival Guarantee (LAG):</strong> All livestock is shipped inside thermo-regulated boxes with oxygen-charged double-sealed bags.
+                        </div>
+
+                        <div class="footer">
+                            Thank you for choosing Ancistrus Land! If you have any questions regarding your delivery or acclimation, contact us at sudarsha.wijenayake@gmail.com.
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Isolated print iframe (Zero background leak, exact printer document generation)
+            const iframe = document.createElement("iframe");
+            iframe.style.position = "fixed";
+            iframe.style.right = "0";
+            iframe.style.bottom = "0";
+            iframe.style.width = "0";
+            iframe.style.height = "0";
+            iframe.style.border = "none";
+            document.body.appendChild(iframe);
+
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(invoiceHtml);
+            doc.close();
+
+            iframe.contentWindow.focus();
+            setTimeout(() => {
+                iframe.contentWindow.print();
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 1000);
+            }, 300);
         }
 
         document.addEventListener("DOMContentLoaded", renderConfirmation);

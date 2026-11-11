@@ -918,6 +918,11 @@ body.dark-mode .anc-modal-btn-cancel:hover {
    ========================================================================== */
 @media print {
     /* Hide all backdrop layers and navigation */
+    #aquarium-tank-container,
+    #aquarium-tank-container::after,
+    .fish-swimmer,
+    .bubble,
+    .aquarium-bubble,
     #aquarium-bg,
     .aquarium-container,
     .floating-header-wrapper,
@@ -930,6 +935,7 @@ body.dark-mode .anc-modal-btn-cancel:hover {
     .theme-toggle-btn {
         display: none !important;
         visibility: hidden !important;
+        opacity: 0 !important;
     }
 
     /* Reset global page styles for crisp paper printing */
