@@ -59,70 +59,45 @@
             const order = JSON.parse(orderRaw);
             const c = order.customer;
 
-            // Generate Canadian order notification for WhatsApp
-            let waText = `*NEW ORDER - ANCESTRUS LAND CANADA*\n`;
-            waText += `*Order ID:* ${order.orderId}\n`;
-            waText += `*Customer:* ${c.name}\n`;
-            waText += `*Phone:* ${c.phone}\n`;
-            waText += `*Email:* ${c.email}\n`;
-            waText += `*Address:* ${c.address}, ${c.city}, ${c.province} (${c.postalCode})\n`;
-            waText += `*Payment:* ${c.paymentMethod}\n`;
-            if (c.notes) waText += `*Notes:* ${c.notes}\n`;
-            waText += `\n*ITEMS ORDERED:*\n`;
-            order.items.forEach(item => {
-                waText += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
-            });
-            waText += `\n*TOTAL AMOUNT:* $${Number(order.total).toFixed(2)} CAD`;
-
-            const waPhone = STORE_CONFIG.whatsappNumber || "16132665285";
-            const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
-
-            // Generate mailto link
-            const emailSubject = `Order ${order.orderId} - ${c.name} (${c.province})`;
-            const emailBody = waText.replace(/\*/g, "");
-            const storeEmail = STORE_CONFIG.email || "sudarsha.wijenayake@gmail.com";
-            const storePhone = STORE_CONFIG.phoneDisplay || "+1 (613) 266-5285";
-            const mailtoUrl = `mailto:${storeEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-
             container.innerHTML = `
                 <div class="anc-glass-card shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
                         <div class="text-center mb-4">
                             <div class="display-3 text-success mb-2"><i class="fas fa-check-circle"></i></div>
                             <h2 class="fw-bold">Thank You For Your Order!</h2>
-                            <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been successfully logged.</p>
-                        </div>
-
-                        <!-- Notification Buttons to Store -->
-                        <div class="bg-light p-4 rounded mb-4 text-center">
-                            <h5 class="fw-bold text-dark mb-2">Instant Dispatch Notification</h5>
-                            <p class="small text-muted mb-3">Notify our dispatch team via WhatsApp or Email to ensure immediate packing and next express transit dispatch:</p>
-                            <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
-                                <a href="${waUrl}" target="_blank" class="btn btn-success rounded-pill px-4 py-2">
-                                    <i class="fab fa-whatsapp me-2"></i> Send to WhatsApp (${storePhone})
-                                </a>
-                                <a href="${mailtoUrl}" class="btn btn-primary rounded-pill px-4 py-2 text-white">
-                                    <i class="fas fa-envelope me-2"></i> Send to Email (${storeEmail})
-                                </a>
-                            </div>
+                            <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been confirmed and received.</p>
+                            <p class="small text-muted mb-0">A confirmation receipt has been generated. Our team has received your order details and is preparing your aquatic livestock for express transit.</p>
                         </div>
 
                         <div class="row g-4 mb-4">
                             <div class="col-md-6">
-                                <h6 class="text-muted text-uppercase small fw-bold">Customer Shipping Info</h6>
-                                <p class="mb-1"><strong>${c.name}</strong></p>
-                                <p class="mb-1 text-muted"><i class="fas fa-phone-alt me-2"></i>${c.phone}</p>
-                                <p class="mb-1 text-muted"><i class="fas fa-envelope me-2"></i>${c.email}</p>
-                                <p class="mb-0 text-muted"><i class="fas fa-map-marker-alt me-2"></i>${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
+                                <div class="p-3 rounded-3" style="background: rgba(0, 119, 182, 0.04); border: 1px solid rgba(0, 180, 216, 0.2);">
+                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-shipping-fast me-2"></i>Shipping & Delivery Address</h6>
+                                    <p class="mb-1 fw-bold text-dark">${c.name}</p>
+                                    <p class="mb-1 text-muted small"><i class="fas fa-phone-alt me-2 text-primary"></i>${c.phone}</p>
+                                    <p class="mb-1 text-muted small"><i class="fas fa-envelope me-2 text-primary"></i>${c.email}</p>
+                                    <p class="mb-0 text-muted small"><i class="fas fa-map-marker-alt me-2 text-primary"></i>${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="text-muted text-uppercase small fw-bold">Order Details</h6>
-                                <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
-                                <p class="mb-1"><strong>Payment Selected:</strong> ${c.paymentMethod}</p>
-                                <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">Processing for Dispatch</span></p>
-                                ${c.notes ? `<p class="mb-0 small text-muted"><strong>Notes:</strong> ${c.notes}</p>` : ''}
+                                <div class="p-3 rounded-3" style="background: rgba(0, 119, 182, 0.04); border: 1px solid rgba(0, 180, 216, 0.2);">
+                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-file-invoice me-2"></i>Order & Payment Status</h6>
+                                    <p class="mb-1 small"><strong>Order Date:</strong> ${order.date}</p>
+                                    <p class="mb-1 small"><strong>Payment Method:</strong> ${c.paymentMethod}</p>
+                                    <p class="mb-1 small"><strong>Status:</strong> <span class="badge bg-warning text-dark">Processing for Dispatch</span></p>
+                                    ${c.notes ? `<p class="mb-0 small text-muted"><strong>Delivery Notes:</strong> ${c.notes}</p>` : ''}
+                                </div>
                             </div>
                         </div>
+
+                        ${c.paymentMethod && c.paymentMethod.includes('Interac') ? `
+                            <div class="alert alert-info py-2 px-3 small mb-4 rounded-3 d-flex align-items-center">
+                                <i class="fas fa-info-circle fa-lg me-2 text-primary"></i>
+                                <div>
+                                    <strong>Interac e-Transfer Instructions:</strong> Please send <strong>${formatPrice(order.total)}</strong> to <strong>sudarsha.wijenayake@gmail.com</strong> with Order ID <strong>${order.orderId}</strong> in the message notes.
+                                </div>
+                            </div>
+                        ` : ''}
 
                         <div class="table-responsive mb-4">
                             <table class="table">
