@@ -454,7 +454,7 @@
                 return `
                     <tr>
                         <td>
-                            <img src="${p.image || 'img/Fish 1.jpg'}" width="50" height="50" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
+                            <img src="${p.image || 'img/Fish 1.jpg'}" style="width: 60px; aspect-ratio: 4 / 3; object-fit: cover;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
                         </td>
                         <td><span class="badge bg-light text-dark border">${p.id}</span></td>
                         <td><strong>${p.name}</strong></td>

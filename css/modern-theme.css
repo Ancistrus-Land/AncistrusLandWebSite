@@ -326,14 +326,15 @@ body.dark-mode .theme-toggle-btn {
 
 .hero-slideshow-img {
     width: 100%;
-    height: 440px;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
+    display: block;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 @media (max-width: 768px) {
     .hero-slideshow-img {
-        height: 280px;
+        aspect-ratio: 4 / 3;
     }
 }
 

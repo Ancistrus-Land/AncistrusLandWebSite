@@ -20,7 +20,7 @@
     <style>
         .cropper-wrapper {
             width: 100%;
-            height: 380px;
+            height: 420px;
             background: rgba(15, 28, 46, 0.08);
             border-radius: 16px;
             overflow: hidden;
@@ -43,27 +43,6 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-        }
-        .preview-box {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            max-width: 300px;
-            margin: 0 auto;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #0f1c2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(0, 180, 216, 0.4);
-            box-shadow: 0 6px 20px rgba(0, 30, 60, 0.12);
-        }
-        .preview-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background-color: #0f1c2e;
-            display: block;
         }
         .upload-dropzone {
             cursor: pointer;
@@ -187,7 +166,7 @@
                     <div class="anc-glass-card">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="fw-bold text-dark mb-0"><i class="fas fa-camera text-primary me-2"></i>Item Photo</h5>
-                            <span class="badge bg-light text-dark border">Aspect: 1:1 Square (E-Commerce Standard)</span>
+                            <span class="badge bg-light text-dark border">Aspect: 4:3 (Universal Ratio)</span>
                         </div>
 
                         <!-- Dropzone / File Picker -->
@@ -213,7 +192,7 @@
                         </div>
 
                         <!-- Interactive Zoom / Crop Toolbar -->
-                        <div class="d-flex flex-wrap gap-1 justify-content-center crop-toolbar mb-3">
+                        <div class="d-flex flex-wrap gap-1 justify-content-center crop-toolbar">
                             <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropZoom(0.1)" title="Zoom In">
                                 <i class="fas fa-search-plus"></i> Zoom In
                             </button>
@@ -229,14 +208,6 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropReset()" title="Reset Crop">
                                 <i class="fas fa-sync-alt"></i> Reset
                             </button>
-                        </div>
-
-                        <!-- Final Cropped Live Preview -->
-                        <div>
-                            <label class="form-label small fw-bold text-muted mb-1">Catalog Card Preview (Live):</label>
-                            <div class="preview-box">
-                                <img id="final-preview-img" src="img/Fish 1.jpg" alt="Card Preview">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -315,8 +286,6 @@
             }
         });
 
-        let cropDebounceTimer = null;
-
         // Initialize Cropper on target image
         function initCropper(imageSrc) {
             const imageEl = document.getElementById("cropper-img");
@@ -328,7 +297,7 @@
 
             imageEl.onload = function () {
                 cropperInstance = new Cropper(imageEl, {
-                    aspectRatio: 1 / 1, // 1:1 Square - Matches catalog cards & prevents fish snout/tail clipping
+                    aspectRatio: 4 / 3, // Universal 4:3 Ratio matching all pages
                     viewMode: 1,
                     dragMode: 'move',
                     autoCropArea: 0.95,
@@ -338,19 +307,10 @@
                     highlight: false,
                     cropBoxMovable: true,
                     cropBoxResizable: true,
-                    toggleDragModeOnDblclick: false,
-                    ready: function () {
-                        previewCrop();
-                    },
-                    crop: function () {
-                        // Automatically update preview in real-time as user pans, zooms, or adjusts crop
-                        if (cropDebounceTimer) clearTimeout(cropDebounceTimer);
-                        cropDebounceTimer = setTimeout(previewCrop, 60);
-                    }
+                    toggleDragModeOnDblclick: false
                 });
             };
 
-            document.getElementById("final-preview-img").src = imageSrc;
             finalImageDataUrl = imageSrc;
         }
 
@@ -390,27 +350,22 @@
             }
         }
 
-        function previewCrop() {
-            if (!cropperInstance) return;
-            const canvas = cropperInstance.getCroppedCanvas({
-                width: 600,
-                height: 600, // 1:1 crisp square output
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high'
-            });
-
-            if (canvas) {
-                finalImageDataUrl = canvas.toDataURL("image/jpeg", 0.9);
-                document.getElementById("final-preview-img").src = finalImageDataUrl;
-            }
-        }
-
         // Form Submit
         function handleSaveProduct(e) {
             e.preventDefault();
 
-            // Make sure we have the latest crop snapshot
-            previewCrop();
+            // Export crisp 4:3 cropped image
+            if (cropperInstance) {
+                const canvas = cropperInstance.getCroppedCanvas({
+                    width: 800,
+                    height: 600, // 4:3 standard aspect ratio
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high'
+                });
+                if (canvas) {
+                    finalImageDataUrl = canvas.toDataURL("image/jpeg", 0.9);
+                }
+            }
 
             let catalog = (typeof getActiveCatalog === "function") ? getActiveCatalog() : [];
             const prodId = document.getElementById("form-id").value.trim();
