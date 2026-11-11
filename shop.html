@@ -203,10 +203,10 @@
 
                 return `
                     <div class="col-md-6 col-lg-6 col-xl-4">
-                        <div class="rounded position-relative fruite-item border border-secondary border-top-0 d-flex flex-column h-100">
-                            <div class="fruite-img position-relative">
+                        <div class="rounded position-relative fruite-item border border-secondary border-top-0 d-flex flex-column h-100 overflow-hidden">
+                            <div class="fruite-img position-relative" style="background-color: #0f1c2e;">
                                 <a href="${detailUrl}">
-                                    <img src="${p.image || 'img/Fish 1.jpg'}" class="img-fluid w-100 rounded-top" style="height: 220px; object-fit: cover;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
+                                    <img src="${p.image || 'img/Fish 1.jpg'}" class="img-fluid w-100 rounded-top" style="height: 240px; object-fit: contain; display: block;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
                                 </a>
                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                     ${p.subcategory || p.category}
