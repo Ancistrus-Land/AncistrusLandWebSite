@@ -911,5 +911,117 @@ body.dark-mode .anc-modal-btn-cancel:hover {
     color: #ffffff;
 }
 
+/* ==========================================================================
+   10. Professional Clean Print Receipt Stylesheet
+   Hides fish tank backdrop, header, footer, action buttons, and bubbles.
+   Prints solely the receipt invoice on clean crisp white background.
+   ========================================================================== */
+@media print {
+    /* Hide all backdrop layers and navigation */
+    #aquarium-bg,
+    .aquarium-container,
+    .floating-header-wrapper,
+    #header-placeholder,
+    #footer-placeholder,
+    .footer-wrapper,
+    #anc-toast-container,
+    .anc-modal-overlay,
+    .print-hide,
+    .theme-toggle-btn {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Reset global page styles for crisp paper printing */
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 12pt !important;
+    }
+
+    body.dark-mode {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    body.dark-mode * {
+        color: #000000 !important;
+        text-shadow: none !important;
+    }
+
+    .container-fluid,
+    .container {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Receipt card printing layout */
+    .receipt-printable-card {
+        background: #ffffff !important;
+        border: 1px solid #d1d5db !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+        padding: 24px !important;
+        margin: 0 auto !important;
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    .receipt-printable-card * {
+        box-shadow: none !important;
+    }
+
+    /* Header brand inside print receipt */
+    .print-receipt-header {
+        display: block !important;
+        border-bottom: 2px solid #0077b6;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+    }
+
+    /* Table styling for paper */
+    .table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+    }
+
+    .table th,
+    .table td {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #e5e7eb !important;
+        padding: 8px 12px !important;
+    }
+
+    .table thead th {
+        background-color: #f3f4f6 !important;
+        font-weight: bold !important;
+    }
+
+    .badge {
+        border: 1px solid #9ca3af !important;
+        color: #000000 !important;
+        background: #f3f4f6 !important;
+    }
+
+    .text-primary,
+    .text-success,
+    .text-muted {
+        color: #000000 !important;
+    }
+}
+
+/* Hide print header by default on screen */
+.print-receipt-header {
+    display: none;
+}
+
+
 
 

@@ -60,9 +60,26 @@
             const c = order.customer;
 
             container.innerHTML = `
-                <div class="anc-glass-card shadow-sm border-0">
+                <div class="anc-glass-card receipt-printable-card shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
-                        <div class="text-center mb-4">
+                        <!-- Printed Header (only appears on physical print/PDF) -->
+                        <div class="print-receipt-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3 class="fw-bold mb-0">ANCISTRUS LAND CANADA</h3>
+                                    <small class="text-muted">Freshwater Wonders &bull; Canada-Wide Aquatic Specialist</small><br>
+                                    <small class="text-muted">Ottawa, Ontario | sudarsha.wijenayake@gmail.com | +1 (613) 266-5285</small>
+                                </div>
+                                <div class="text-end">
+                                    <h4 class="fw-bold text-primary mb-0">OFFICIAL RECEIPT</h4>
+                                    <small class="fw-bold">Order #${order.orderId}</small><br>
+                                    <small class="text-muted">Date: ${order.date}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- On-Screen Header (hidden during print) -->
+                        <div class="text-center mb-4 print-hide">
                             <div class="display-3 text-success mb-2"><i class="fas fa-check-circle"></i></div>
                             <h2 class="fw-bold">Thank You For Your Order!</h2>
                             <p class="text-muted lead">Your order <span class="badge bg-primary text-white fs-6">${order.orderId}</span> has been confirmed and received.</p>
@@ -72,16 +89,16 @@
                         <div class="row g-4 mb-4">
                             <div class="col-md-6">
                                 <div class="p-3 rounded-3" style="background: rgba(0, 119, 182, 0.04); border: 1px solid rgba(0, 180, 216, 0.2);">
-                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-shipping-fast me-2"></i>Shipping & Delivery Address</h6>
+                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-shipping-fast me-2 print-hide"></i>Shipping & Delivery Address</h6>
                                     <p class="mb-1 fw-bold text-dark">${c.name}</p>
-                                    <p class="mb-1 text-muted small"><i class="fas fa-phone-alt me-2 text-primary"></i>${c.phone}</p>
-                                    <p class="mb-1 text-muted small"><i class="fas fa-envelope me-2 text-primary"></i>${c.email}</p>
-                                    <p class="mb-0 text-muted small"><i class="fas fa-map-marker-alt me-2 text-primary"></i>${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
+                                    <p class="mb-1 text-muted small"><i class="fas fa-phone-alt me-2 text-primary print-hide"></i>${c.phone}</p>
+                                    <p class="mb-1 text-muted small"><i class="fas fa-envelope me-2 text-primary print-hide"></i>${c.email}</p>
+                                    <p class="mb-0 text-muted small"><i class="fas fa-map-marker-alt me-2 text-primary print-hide"></i>${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="p-3 rounded-3" style="background: rgba(0, 119, 182, 0.04); border: 1px solid rgba(0, 180, 216, 0.2);">
-                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-file-invoice me-2"></i>Order & Payment Status</h6>
+                                    <h6 class="text-uppercase small fw-bold text-primary mb-2"><i class="fas fa-file-invoice me-2 print-hide"></i>Order & Payment Status</h6>
                                     <p class="mb-1 small"><strong>Order Date:</strong> ${order.date}</p>
                                     <p class="mb-1 small"><strong>Payment Method:</strong> ${c.paymentMethod}</p>
                                     <p class="mb-1 small"><strong>Status:</strong> <span class="badge bg-warning text-dark">Processing for Dispatch</span></p>
@@ -92,7 +109,7 @@
 
                         ${c.paymentMethod && c.paymentMethod.includes('Interac') ? `
                             <div class="alert alert-info py-2 px-3 small mb-4 rounded-3 d-flex align-items-center">
-                                <i class="fas fa-info-circle fa-lg me-2 text-primary"></i>
+                                <i class="fas fa-info-circle fa-lg me-2 text-primary print-hide"></i>
                                 <div>
                                     <strong>Interac e-Transfer Instructions:</strong> Please send <strong>${formatPrice(order.total)}</strong> to <strong>sudarsha.wijenayake@gmail.com</strong> with Order ID <strong>${order.orderId}</strong> in the message notes.
                                 </div>
@@ -133,9 +150,10 @@
                             </table>
                         </div>
 
-                        <div class="text-center pt-3 border-top">
+                        <!-- Footer actions (hidden when printing) -->
+                        <div class="text-center pt-3 border-top print-hide">
                             <a href="shop.html" class="btn btn-outline-secondary rounded-pill px-4 me-2">Continue Shopping</a>
-                            <button onclick="window.print()" class="btn btn-light rounded-pill px-4"><i class="fas fa-print me-1"></i> Print Receipt</button>
+                            <button onclick="window.print()" class="btn btn-primary rounded-pill px-4 shadow-sm text-white"><i class="fas fa-print me-1"></i> Print Receipt</button>
                         </div>
                     </div>
                 </div>
