@@ -25,13 +25,15 @@
 
     <div class="container-fluid pb-5" style="margin-top: 95px;">
         <div class="container pb-4">
-            <div id="product-detail-view" class="row g-4 mb-4">
+            <div id="product-detail-view" class="anc-glass-card mb-5">
                 <!-- Dynamically populated -->
             </div>
 
             <!-- Related Products -->
-            <div class="mt-5">
-                <h3 class="fw-bold mb-4">Related Aquatic Pets</h3>
+            <div class="mt-4">
+                <div class="d-inline-block px-3 py-1 mb-3 rounded-pill" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8);">
+                    <h4 class="fw-bold mb-0 text-dark"><i class="fas fa-fish text-primary me-2"></i>Related Aquatic Pets</h4>
+                </div>
                 <div class="row g-4" id="related-products-grid">
                     <!-- Dynamic related -->
                 </div>
@@ -72,57 +74,59 @@
             const container = document.getElementById("product-detail-view");
 
             container.innerHTML = `
-                <div class="col-lg-6">
-                    <div class="border rounded p-2 bg-light text-center">
-                        <img src="${currentProduct.image || 'img/Fish 1.jpg'}" class="img-fluid rounded w-100" style="max-height: 450px; object-fit: cover;" alt="${currentProduct.name}" onerror="this.src='img/Fish 1.jpg'">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-secondary me-2 text-uppercase">${currentProduct.category}</span>
-                        ${currentProduct.subcategory ? `<span class="badge bg-light text-dark border">${currentProduct.subcategory}</span>` : ''}
-                        <span class="ms-auto badge ${isAvail ? 'bg-success' : 'bg-danger'}">${isAvail ? 'In Stock' : 'Out of Stock'}</span>
-                    </div>
-
-                    <h2 class="fw-bold mb-3">${currentProduct.name}</h2>
-                    <h3 class="fw-bold text-primary mb-3">${formatPrice(currentProduct.price)}</h3>
-
-                    <p class="mb-4">${currentProduct.description || "Premium aquarium pet carefully quarantine-checked, disease-free, and acclimated to local water conditions. Guaranteed live arrival with proper packing."}</p>
-
-                    <!-- Water Parameters & Care Specs -->
-                    <div class="card bg-light border-0 p-3 mb-4">
-                        <h6 class="fw-bold text-dark mb-2"><i class="fas fa-water text-primary me-2"></i>Recommended Parameters:</h6>
-                        <div class="row g-2 small text-muted">
-                            <div class="col-6">&bull; Temperature: 24&deg;C - 28&deg;C</div>
-                            <div class="col-6">&bull; pH Level: 6.5 - 7.5</div>
-                            <div class="col-6">&bull; Diet: High-protein flakes/pellets &amp; frozen</div>
-                            <div class="col-6">&bull; Temperament: Peaceful community</div>
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="position-relative overflow-hidden rounded-3 shadow-sm border border-light bg-dark" style="border-radius: 16px;">
+                            <img src="${currentProduct.image || 'img/Fish 1.jpg'}" class="img-fluid w-100" style="max-height: 440px; object-fit: cover; display: block;" alt="${currentProduct.name}" onerror="this.src='img/Fish 1.jpg'">
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                            <span class="badge bg-primary text-uppercase px-3 py-1 rounded-pill">${currentProduct.category}</span>
+                            ${currentProduct.subcategory ? `<span class="badge bg-light text-dark border px-3 py-1 rounded-pill">${currentProduct.subcategory}</span>` : ''}
+                            <span class="ms-auto badge ${isAvail ? 'bg-success' : 'bg-danger'} px-3 py-1 rounded-pill">${isAvail ? 'In Stock' : 'Out of Stock'}</span>
+                        </div>
 
-                    ${isAvail ? `
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="input-group quantity me-3" style="width: 130px;">
-                                <button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQty(-1)">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                                <input type="text" id="detail-qty-input" class="form-control form-control-sm text-center border-0" value="1" readonly>
-                                <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQty(1)">
-                                    <i class="fa fa-plus"></i>
+                        <h2 class="fw-bold mb-2 text-dark">${currentProduct.name}</h2>
+                        <h3 class="fw-bold text-primary mb-3">${formatPrice(currentProduct.price)}</h3>
+
+                        <p class="mb-3 text-muted" style="line-height: 1.6;">${currentProduct.description || "Premium aquarium pet carefully quarantine-checked, disease-free, and acclimated to local water conditions. Guaranteed live arrival with proper packing."}</p>
+
+                        <!-- Water Parameters & Care Specs -->
+                        <div class="p-3 mb-4 rounded-3 border" style="background: rgba(0, 119, 182, 0.04); border-color: rgba(0, 180, 216, 0.25) !important; border-radius: 14px;">
+                            <h6 class="fw-bold text-dark mb-2"><i class="fas fa-water text-primary me-2"></i>Recommended Parameters:</h6>
+                            <div class="row g-2 small text-muted">
+                                <div class="col-sm-6">&bull; Temperature: 24&deg;C - 28&deg;C</div>
+                                <div class="col-sm-6">&bull; pH Level: 6.5 - 7.5</div>
+                                <div class="col-sm-6">&bull; Diet: High-protein flakes/pellets &amp; frozen</div>
+                                <div class="col-sm-6">&bull; Temperament: Peaceful community</div>
+                            </div>
+                        </div>
+
+                        ${isAvail ? `
+                            <div class="d-flex align-items-center mb-4 flex-wrap gap-3">
+                                <div class="input-group quantity" style="width: 130px;">
+                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQty(-1)">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <input type="text" id="detail-qty-input" class="form-control form-control-sm text-center border-0 bg-transparent fw-bold" value="1" readonly>
+                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQty(1)">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <button onclick="handleAddToCart()" class="btn btn-primary rounded-pill px-4 py-2 text-white shadow-sm">
+                                    <i class="fa fa-shopping-bag me-2"></i> Add to Cart
                                 </button>
                             </div>
-                            <button onclick="handleAddToCart()" class="btn btn-primary rounded-pill px-4 py-2 text-white">
-                                <i class="fa fa-shopping-bag me-2"></i> Add to Cart
-                            </button>
-                        </div>
-                    ` : `
-                        <div class="alert alert-warning py-2 mb-4">Currently out of stock. Check back soon or contact us via WhatsApp for next restock date.</div>
-                    `}
+                        ` : `
+                            <div class="alert alert-warning py-2 mb-4">Currently out of stock. Check back soon or contact us via WhatsApp for next restock date.</div>
+                        `}
 
-                    <div class="border-top pt-3">
-                        <p class="mb-1 small"><strong>SKU:</strong> ${currentProduct.id}</p>
-                        <p class="mb-1 small"><strong>Safe Packaging:</strong> Insulated box + Oxygen breathing bag</p>
-                        <p class="mb-0 small text-success"><i class="fas fa-shield-alt me-1"></i> Live Arrival Guarantee backed</p>
+                        <div class="border-top pt-3 text-muted">
+                            <p class="mb-1 small"><strong>SKU:</strong> ${currentProduct.id}</p>
+                            <p class="mb-1 small"><strong>Safe Packaging:</strong> Insulated box + Oxygen breathing bag</p>
+                            <p class="mb-0 small text-success"><i class="fas fa-shield-alt me-1"></i> Live Arrival Guarantee backed</p>
+                        </div>
                     </div>
                 </div>
             `;
@@ -133,17 +137,20 @@
             if (related.length > 0) {
                 relatedGrid.innerHTML = related.map(p => `
                     <div class="col-md-6 col-lg-3">
-                        <div class="rounded position-relative border border-secondary border-top-0 d-flex flex-column h-100">
-                            <div class="fruite-img">
+                        <div class="fruite-item rounded position-relative d-flex flex-column h-100 overflow-hidden">
+                            <div class="fruite-img position-relative">
                                 <a href="shop-detail.html?id=${p.id}">
-                                    <img src="${p.image || 'img/Fish 1.jpg'}" class="img-fluid w-100 rounded-top" style="height: 180px; object-fit: cover;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
+                                    <img src="${p.image || 'img/Fish 1.jpg'}" class="img-fluid w-100" style="height: 180px; object-fit: cover; display: block;" alt="${p.name}" onerror="this.src='img/Fish 1.jpg'">
                                 </a>
+                                <div class="text-white bg-primary px-2 py-1 rounded position-absolute small" style="top: 8px; left: 8px; font-size: 11px;">
+                                    ${p.subcategory || p.category}
+                                </div>
                             </div>
                             <div class="p-3 d-flex flex-column flex-grow-1">
-                                <h6 class="mb-1"><a href="shop-detail.html?id=${p.id}" class="text-dark">${p.name}</a></h6>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <span class="fw-bold text-dark">${formatPrice(p.price)}</span>
-                                    <a href="shop-detail.html?id=${p.id}" class="btn btn-sm btn-outline-primary rounded-pill px-2">View</a>
+                                <h6 class="mb-2"><a href="shop-detail.html?id=${p.id}" class="text-dark fw-bold">${p.name}</a></h6>
+                                <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                                    <span class="fw-bold text-dark fs-6">${formatPrice(p.price)}</span>
+                                    <a href="shop-detail.html?id=${p.id}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View</a>
                                 </div>
                             </div>
                         </div>
