@@ -370,12 +370,28 @@
             }
         }
 
-        function deleteProduct(id) {
-            if (confirm(`Are you sure you want to delete product ${id}?`)) {
+        async function deleteProduct(id) {
+            let confirmed = false;
+            if (window.showConfirm) {
+                confirmed = await window.showConfirm({
+                    title: "Delete Product",
+                    message: `Are you sure you want to permanently delete product <strong>${id}</strong>?`,
+                    confirmText: "Delete",
+                    cancelText: "Cancel",
+                    type: "danger"
+                });
+            } else {
+                confirmed = confirm(`Are you sure you want to delete product ${id}?`);
+            }
+
+            if (confirmed) {
                 let catalog = getActiveCatalog();
                 catalog = catalog.filter(p => p.id !== id);
                 saveCatalogOverride(catalog);
                 loadDashboardData();
+                if (window.showToast) {
+                    showToast(`Product ${id} has been removed.`, "info", "Product Deleted");
+                }
             }
         }
 
@@ -460,17 +476,49 @@
             a.click();
         }
 
-        function resetToFactoryCatalogue() {
-            if (confirm("Reset catalogue back to original default? Any custom added/deleted items in this browser will be cleared.")) {
+        async function resetToFactoryCatalogue() {
+            let confirmed = false;
+            if (window.showConfirm) {
+                confirmed = await window.showConfirm({
+                    title: "Reset Catalogue",
+                    message: "Reset catalogue back to original default? Any custom added/deleted items in this browser will be cleared.",
+                    confirmText: "Reset to Default",
+                    cancelText: "Keep Changes",
+                    type: "warning"
+                });
+            } else {
+                confirmed = confirm("Reset catalogue back to original default? Any custom added/deleted items in this browser will be cleared.");
+            }
+
+            if (confirmed) {
                 resetCatalogOverride();
                 loadDashboardData();
+                if (window.showToast) {
+                    showToast("Catalogue restored to factory default.", "info", "Catalogue Reset");
+                }
             }
         }
 
-        function clearOrdersLog() {
-            if (confirm("Clear customer order log history?")) {
+        async function clearOrdersLog() {
+            let confirmed = false;
+            if (window.showConfirm) {
+                confirmed = await window.showConfirm({
+                    title: "Clear Order History",
+                    message: "Are you sure you want to clear all customer order log history in this browser?",
+                    confirmText: "Clear All Orders",
+                    cancelText: "Cancel",
+                    type: "danger"
+                });
+            } else {
+                confirmed = confirm("Clear customer order log history?");
+            }
+
+            if (confirmed) {
                 localStorage.removeItem("ancistrus_orders");
                 loadDashboardData();
+                if (window.showToast) {
+                    showToast("Customer order history cleared.", "info", "Orders Cleared");
+                }
             }
         }
 

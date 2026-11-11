@@ -748,4 +748,168 @@ body.dark-mode .anc-toast-close:hover {
     }
 }
 
+/* ==========================================================================
+   9. Professional Floating Glass Confirmation Dialog
+   ========================================================================== */
+.anc-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(8, 20, 36, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.anc-modal-overlay.show {
+    opacity: 1;
+}
+
+.anc-modal-card {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 180, 216, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 30, 60, 0.25), 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 440px;
+    padding: 28px 26px 24px 26px;
+    transform: scale(0.92) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    color: #0f1c2e;
+}
+
+.anc-modal-overlay.show .anc-modal-card {
+    transform: scale(1) translateY(0);
+}
+
+.anc-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.anc-modal-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.anc-modal-icon.warning {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+.anc-modal-icon.question {
+    background: rgba(0, 180, 216, 0.14);
+    color: #0077b6;
+}
+
+.anc-modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    color: inherit;
+}
+
+.anc-modal-message {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #4a5568;
+    margin-bottom: 24px;
+    padding-left: 2px;
+}
+
+.anc-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.anc-modal-btn {
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.anc-modal-btn-cancel {
+    background: rgba(148, 163, 184, 0.15);
+    color: #334155;
+}
+
+.anc-modal-btn-cancel:hover {
+    background: rgba(148, 163, 184, 0.28);
+    color: #0f172a;
+}
+
+.anc-modal-btn-confirm {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.anc-modal-btn-confirm:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.5);
+    transform: translateY(-1px);
+}
+
+.anc-modal-btn-primary {
+    background: linear-gradient(135deg, #00b4d8, #0077b6);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
+}
+
+.anc-modal-btn-primary:hover {
+    background: linear-gradient(135deg, #0096c7, #023e8a);
+    box-shadow: 0 6px 18px rgba(0, 119, 182, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Dark Mode Confirmation Dialog */
+body.dark-mode .anc-modal-card {
+    background: rgba(14, 30, 52, 0.96);
+    border-color: rgba(0, 180, 216, 0.35);
+    color: #f0f8ff;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .anc-modal-message {
+    color: #cbd5e1;
+}
+
+body.dark-mode .anc-modal-btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+body.dark-mode .anc-modal-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+
 

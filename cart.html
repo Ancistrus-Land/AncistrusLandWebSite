@@ -154,10 +154,29 @@
             }
         }
 
-        function deleteItem(id) {
-            if (confirm("Remove this item from your cart?")) {
+        async function deleteItem(id) {
+            const item = (window.getCart ? window.getCart() : []).find(i => i.id === id);
+            const itemName = item ? item.name : "this item";
+
+            let confirmed = false;
+            if (window.showConfirm) {
+                confirmed = await window.showConfirm({
+                    title: "Remove Item",
+                    message: `Are you sure you want to remove <strong>${itemName}</strong> from your cart?`,
+                    confirmText: "Remove",
+                    cancelText: "Keep Item",
+                    type: "danger"
+                });
+            } else {
+                confirmed = confirm("Remove this item from your cart?");
+            }
+
+            if (confirmed) {
                 removeFromCart(id);
                 renderCartPage();
+                if (window.showToast) {
+                    showToast(`${itemName} removed from cart.`, "info", "Cart Updated");
+                }
             }
         }
 

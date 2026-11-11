@@ -263,6 +263,90 @@ export function showToast(message, type = "success", title = null, durationMs = 
     dismissTimer = setTimeout(dismiss, durationMs);
 }
 
+/* ==========================================================================
+   6. Professional Floating Glass Confirmation Dialog
+   ========================================================================== */
+export function showConfirm(options = {}) {
+    return new Promise((resolve) => {
+        if (typeof document === "undefined") {
+            resolve(false);
+            return;
+        }
+
+        const {
+            title = "Confirm Action",
+            message = "Are you sure you want to proceed?",
+            confirmText = "Confirm",
+            cancelText = "Cancel",
+            type = "danger" // danger, primary, warning
+        } = typeof options === "string" ? { message: options } : options;
+
+        const overlay = document.createElement("div");
+        overlay.className = "anc-modal-overlay";
+
+        let iconMarkup = '<i class="fas fa-trash-alt"></i>';
+        let iconClass = "warning";
+        let btnConfirmClass = "anc-modal-btn-confirm";
+
+        if (type === "primary" || type === "info") {
+            iconMarkup = '<i class="fas fa-question-circle"></i>';
+            iconClass = "question";
+            btnConfirmClass = "anc-modal-btn-primary";
+        }
+
+        overlay.innerHTML = `
+            <div class="anc-modal-card" role="dialog" aria-modal="true">
+                <div class="anc-modal-header">
+                    <div class="anc-modal-icon ${iconClass}">
+                        ${iconMarkup}
+                    </div>
+                    <h3 class="anc-modal-title">${title}</h3>
+                </div>
+                <div class="anc-modal-message">${message}</div>
+                <div class="anc-modal-actions">
+                    <button type="button" class="anc-modal-btn anc-modal-btn-cancel" id="anc-modal-cancel">
+                        ${cancelText}
+                    </button>
+                    <button type="button" class="anc-modal-btn ${btnConfirmClass}" id="anc-modal-confirm">
+                        ${confirmText}
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        requestAnimationFrame(() => {
+            overlay.classList.add("show");
+        });
+
+        const closeDialog = (result) => {
+            overlay.classList.remove("show");
+            setTimeout(() => {
+                if (overlay.parentElement) {
+                    overlay.parentElement.removeChild(overlay);
+                }
+                resolve(result);
+            }, 250);
+        };
+
+        overlay.querySelector("#anc-modal-cancel").addEventListener("click", () => closeDialog(false));
+        overlay.querySelector("#anc-modal-confirm").addEventListener("click", () => closeDialog(true));
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeDialog(false);
+        });
+
+        const escHandler = (e) => {
+            if (e.key === "Escape") {
+                document.removeEventListener("keydown", escHandler);
+                closeDialog(false);
+            }
+        };
+        document.addEventListener("keydown", escHandler);
+    });
+}
+
 // Universal Global Bindings for inline page scripts
 if (typeof window !== "undefined") {
     window.STORE_CONFIG = STORE_CONFIG;
@@ -277,6 +361,7 @@ if (typeof window !== "undefined") {
     window.updateCartQuantity = (id, q) => CartService.updateQuantity(id, q);
     window.ORDERS_KEY = STORE_CONFIG.storageKeys.orders;
     window.showToast = showToast;
+    window.showConfirm = showConfirm;
     window.addToCart = (id, q = 1) => {
         try {
             const p = CartService.add(id, q);
