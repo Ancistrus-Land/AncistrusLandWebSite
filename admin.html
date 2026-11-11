@@ -409,8 +409,20 @@
             document.getElementById("login-section").classList.add("d-none");
             document.getElementById("dashboard-section").classList.remove("d-none");
             document.getElementById("btn-logout").classList.remove("d-none");
-            prodModal = new bootstrap.Modal(document.getElementById("productModal"));
+            const prodModalEl = document.getElementById("productModal");
+            if (prodModalEl) prodModal = new bootstrap.Modal(prodModalEl);
             loadDashboardData();
+
+            // Flash toast notification when redirected from edit page
+            const flashMsg = sessionStorage.getItem("admin_flash_message");
+            if (flashMsg) {
+                sessionStorage.removeItem("admin_flash_message");
+                setTimeout(() => {
+                    if (window.showToast) {
+                        showToast(flashMsg, "success", "Catalog Updated");
+                    }
+                }, 300);
+            }
         }
 
         function loadDashboardData() {
@@ -526,38 +538,11 @@
         }
 
         function openAddModal() {
-            document.getElementById("modalTitle").textContent = "Add New Fish / Product";
-            document.getElementById("edit-product-id").value = "";
-            const nextId = "P-" + String(getActiveCatalog().length + 1).padStart(3, '0');
-            document.getElementById("form-id").value = nextId;
-            document.getElementById("form-id").readOnly = false;
-            document.getElementById("form-name").value = "";
-            document.getElementById("form-category").value = "fish";
-            document.getElementById("form-subcategory").value = "";
-            document.getElementById("form-price").value = "";
-            document.getElementById("form-image").value = "img/Fish 1.jpg";
-            document.getElementById("form-available").value = "true";
-            document.getElementById("form-desc").value = "";
-            prodModal.show();
+            window.location.href = "admin-product-edit.html";
         }
 
         function openEditModal(id) {
-            const catalog = getActiveCatalog();
-            const p = catalog.find(item => item.id === id);
-            if (!p) return;
-
-            document.getElementById("modalTitle").textContent = "Edit Product: " + p.name;
-            document.getElementById("edit-product-id").value = p.id;
-            document.getElementById("form-id").value = p.id;
-            document.getElementById("form-id").readOnly = true;
-            document.getElementById("form-name").value = p.name;
-            document.getElementById("form-category").value = p.category;
-            document.getElementById("form-subcategory").value = p.subcategory || "";
-            document.getElementById("form-price").value = p.price;
-            document.getElementById("form-image").value = p.image || "";
-            document.getElementById("form-available").value = p.available === false ? "false" : "true";
-            document.getElementById("form-desc").value = p.description || "";
-            prodModal.show();
+            window.location.href = `admin-product-edit.html?id=${encodeURIComponent(id)}`;
         }
 
         function saveProductForm(e) {

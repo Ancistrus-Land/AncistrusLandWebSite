@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Manage Product - Ancistrus Land Canada</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/aquarium.css" rel="stylesheet">
+    <link href="css/modern-theme.css" rel="stylesheet">
+    <!-- Cropper.js for professional zooming, panning, and cropping -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+    <script src="js/products.js"></script>
+    <script type="module" src="js/layout.js"></script>
+    <style>
+        .cropper-wrapper {
+            width: 100%;
+            height: 380px;
+            background: rgba(15, 28, 46, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px dashed rgba(0, 180, 216, 0.35);
+        }
+        body.dark-mode .cropper-wrapper {
+            background: rgba(0, 0, 0, 0.35);
+            border-color: rgba(0, 180, 216, 0.4);
+        }
+        #cropper-img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+        .crop-toolbar button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .preview-box {
+            width: 100%;
+            height: 190px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+        }
+        .preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .upload-dropzone {
+            cursor: pointer;
+            border: 2px dashed rgba(0, 119, 182, 0.4);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.2s ease;
+        }
+        .upload-dropzone:hover {
+            border-color: var(--anc-primary);
+            background: rgba(0, 180, 216, 0.08);
+        }
+        body.dark-mode .upload-dropzone {
+            background: rgba(14, 30, 52, 0.7);
+            border-color: rgba(0, 180, 216, 0.35);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Glass Header for Admin -->
+    <div class="container-fluid fixed-top px-0 floating-header-wrapper" style="background: transparent !important; pointer-events: none;">
+        <div class="container px-2 px-md-3" style="pointer-events: auto;">
+            <nav class="navbar navbar-expand-xl anc-shop-navbar modern-glass-nav my-2">
+                <a class="navbar-brand anc-brand d-flex align-items-center me-3" href="admin.html">
+                    <img src="img/logo-trans.png" alt="Ancistrus Land" class="anc-header-logo me-2" onerror="this.onerror=null;this.parentElement.innerHTML='<h2 class=\'text-primary fw-bold mb-0\'>Ancistrus Land</h2>';">
+                    <div class="d-none d-sm-block text-start lh-1">
+                        <span class="fw-bold text-dark fs-5 tracking-tight">Ancistrus Land</span>
+                        <span class="badge bg-primary text-white ms-2" style="font-size: 10px; vertical-align: middle;">STORE ADMIN</span>
+                    </div>
+                </a>
+
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    <button class="theme-toggle-btn me-1" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                        <i class="fas fa-moon theme-icon"></i>
+                    </button>
+                    <a href="admin.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                    </a>
+                    <a href="shop.html" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1">
+                        <i class="fas fa-external-link-alt me-1"></i> Live Store
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container pb-5" style="margin-top: 105px;">
+        <!-- Page Title Pill -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill" style="background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.85); box-shadow: 0 4px 15px rgba(0, 30, 60, 0.08);">
+                <i class="fas fa-fish text-primary fa-lg"></i>
+                <h3 class="fw-bold mb-0 text-dark fs-5" id="page-heading">Add New Aquatic Pet</h3>
+            </div>
+            <a href="admin.html" class="btn btn-light rounded-pill px-3 py-1 text-muted shadow-sm small">
+                <i class="fas fa-times me-1"></i> Cancel & Return
+            </a>
+        </div>
+
+        <form id="product-form" onsubmit="handleSaveProduct(event)">
+            <input type="hidden" id="edit-product-id">
+
+            <div class="row g-4 align-items-start">
+                <!-- Left Column: Product Data Fields -->
+                <div class="col-lg-7">
+                    <div class="anc-glass-card">
+                        <h5 class="fw-bold text-dark mb-3"><i class="fas fa-info-circle text-primary me-2"></i>Product Details</h5>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Product ID <sup>*</sup></label>
+                                <input type="text" id="form-id" class="form-control rounded-pill" required placeholder="e.g. P-025">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label small fw-bold">Product / Fish Name <sup>*</sup></label>
+                                <input type="text" id="form-name" class="form-control rounded-pill" required placeholder="e.g. Super Red Longfin Bristlenose Pleco">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Category <sup>*</sup></label>
+                                <select id="form-category" class="form-select rounded-pill" required>
+                                    <option value="fish">Fish</option>
+                                    <option value="invertebrate">Invertebrate</option>
+                                    <option value="plants">Live Plants</option>
+                                    <option value="dry-goods">Dry Goods & Supplies</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Subcategory</label>
+                                <input type="text" id="form-subcategory" class="form-control rounded-pill" placeholder="e.g. catfish, discus, betta">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Price (CAD $) <sup>*</sup></label>
+                                <input type="number" step="0.01" id="form-price" class="form-control rounded-pill" required placeholder="29.99">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Stock Availability</label>
+                                <select id="form-available" class="form-select rounded-pill">
+                                    <option value="true">In Stock (Available for Purchase)</option>
+                                    <option value="false">Out of Stock</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Live Arrival Guarantee</label>
+                                <input type="text" class="form-control rounded-pill bg-light text-muted" value="100% Backed (Winter Pack Included)" readonly>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Description & Care Info</label>
+                                <textarea id="form-desc" class="form-control" rows="4" style="border-radius: 14px;" placeholder="Species details, peaceful temperament, quarantine notes, acclimation requirements..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Photo Upload & Cropper/Zoom -->
+                <div class="col-lg-5">
+                    <div class="anc-glass-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0"><i class="fas fa-camera text-primary me-2"></i>Item Photo</h5>
+                            <span class="badge bg-light text-dark border">Aspect: 4:3 E-Commerce</span>
+                        </div>
+
+                        <!-- Dropzone / File Picker -->
+                        <div class="upload-dropzone mb-3" onclick="document.getElementById('file-input').click()">
+                            <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-2"></i>
+                            <div class="fw-bold small text-dark">Click or Drag & Drop Photo Here</div>
+                            <small class="text-muted">Supports JPG, PNG, WebP from your computer</small>
+                            <input type="file" id="file-input" accept="image/*" class="d-none" onchange="handleFileSelected(event)">
+                        </div>
+
+                        <!-- Manual Image URL or Preset -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Or enter existing image path / URL:</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="form-image" class="form-control rounded-start-pill" placeholder="img/Fish 1.jpg" onchange="loadExternalImage(this.value)">
+                                <button type="button" class="btn btn-outline-secondary rounded-end-pill px-3" onclick="loadExternalImage(document.getElementById('form-image').value)">Load</button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Crop / Zoom Canvas Wrapper -->
+                        <div class="cropper-wrapper mb-2" id="cropper-container">
+                            <img id="cropper-img" src="img/Fish 1.jpg" alt="Source photo">
+                        </div>
+
+                        <!-- Interactive Zoom / Crop Toolbar -->
+                        <div class="d-flex flex-wrap gap-1 justify-content-center crop-toolbar mb-3">
+                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropZoom(0.1)" title="Zoom In">
+                                <i class="fas fa-search-plus"></i> Zoom In
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropZoom(-0.1)" title="Zoom Out">
+                                <i class="fas fa-search-minus"></i> Zoom Out
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropRotate(-90)" title="Rotate Left">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropRotate(90)" title="Rotate Right">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="cropReset()" title="Reset Crop">
+                                <i class="fas fa-sync-alt"></i> Reset
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="previewCrop()" title="Generate Thumbnail Preview">
+                                <i class="fas fa-crop-alt"></i> Preview Crop
+                            </button>
+                        </div>
+
+                        <!-- Final Cropped Live Preview -->
+                        <div>
+                            <label class="form-label small fw-bold text-muted mb-1">Catalog Card Preview (Live):</label>
+                            <div class="preview-box">
+                                <img id="final-preview-img" src="img/Fish 1.jpg" alt="Card Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Actions Bar -->
+                <div class="col-12">
+                    <div class="anc-glass-card d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <a href="admin.html" class="btn btn-outline-secondary rounded-pill px-4">
+                            <i class="fas fa-arrow-left me-1"></i> Discard & Return
+                        </a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm text-white fw-bold">
+                            <i class="fas fa-save me-2"></i> <span id="save-btn-text">Save Item to Store</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Cropper.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script>
+        let cropperInstance = null;
+        let isEditMode = false;
+        let currentEditId = null;
+        let finalImageDataUrl = "";
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check admin authentication
+            if (sessionStorage.getItem("admin_auth") !== "true") {
+                window.location.href = "admin.html";
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const idParam = urlParams.get("id");
+            const catalog = (typeof getActiveCatalog === "function") ? getActiveCatalog() : [];
+
+            if (idParam) {
+                // EDIT MODE
+                isEditMode = true;
+                currentEditId = idParam;
+                document.getElementById("page-heading").innerHTML = `<i class="fas fa-edit text-primary me-2"></i>Update Item: <strong>${idParam}</strong>`;
+                document.getElementById("save-btn-text").textContent = "Update Product";
+                document.title = `Edit ${idParam} - Ancistrus Land Store Admin`;
+
+                const product = catalog.find(p => p.id === idParam);
+                if (product) {
+                    document.getElementById("edit-product-id").value = product.id;
+                    document.getElementById("form-id").value = product.id;
+                    document.getElementById("form-id").readOnly = true;
+                    document.getElementById("form-name").value = product.name || "";
+                    document.getElementById("form-category").value = product.category || "fish";
+                    document.getElementById("form-subcategory").value = product.subcategory || "";
+                    document.getElementById("form-price").value = product.price || "";
+                    document.getElementById("form-available").value = (product.available === false) ? "false" : "true";
+                    document.getElementById("form-desc").value = product.description || "";
+                    document.getElementById("form-image").value = product.image || "img/Fish 1.jpg";
+
+                    initCropper(product.image || "img/Fish 1.jpg");
+                } else {
+                    if (window.showToast) showToast(`Product ${idParam} not found in catalog.`, "error");
+                    initCropper("img/Fish 1.jpg");
+                }
+            } else {
+                // ADD NEW MODE
+                isEditMode = false;
+                document.getElementById("page-heading").innerHTML = `<i class="fas fa-plus-circle text-primary me-2"></i>Add New Fish / Aquatic Pet`;
+                document.getElementById("save-btn-text").textContent = "Save Item to Store";
+                document.title = "Add New Fish - Ancistrus Land Store Admin";
+
+                const nextId = "P-" + String(catalog.length + 1).padStart(3, '0');
+                document.getElementById("form-id").value = nextId;
+                document.getElementById("form-image").value = "img/Fish 1.jpg";
+                initCropper("img/Fish 1.jpg");
+            }
+        });
+
+        // Initialize Cropper on target image
+        function initCropper(imageSrc) {
+            const imageEl = document.getElementById("cropper-img");
+            imageEl.src = imageSrc;
+
+            if (cropperInstance) {
+                cropperInstance.destroy();
+            }
+
+            imageEl.onload = function () {
+                cropperInstance = new Cropper(imageEl, {
+                    aspectRatio: 4 / 3, // Standard product card aspect ratio
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.9,
+                    restore: false,
+                    guides: true,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                    ready: function () {
+                        previewCrop();
+                    }
+                });
+            };
+
+            document.getElementById("final-preview-img").src = imageSrc;
+            finalImageDataUrl = imageSrc;
+        }
+
+        // Handle local file selection from device
+        function handleFileSelected(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const dataUrl = e.target.result;
+                document.getElementById("form-image").value = file.name;
+                initCropper(dataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle external URL or existing path entered manually
+        function loadExternalImage(url) {
+            if (!url || !url.trim()) return;
+            initCropper(url.trim());
+        }
+
+        // Cropper Controls
+        function cropZoom(delta) {
+            if (cropperInstance) cropperInstance.zoom(delta);
+        }
+
+        function cropRotate(degree) {
+            if (cropperInstance) cropperInstance.rotate(degree);
+        }
+
+        function cropReset() {
+            if (cropperInstance) {
+                cropperInstance.reset();
+                previewCrop();
+            }
+        }
+
+        function previewCrop() {
+            if (!cropperInstance) return;
+            const canvas = cropperInstance.getCroppedCanvas({
+                width: 600,
+                height: 450,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+
+            if (canvas) {
+                finalImageDataUrl = canvas.toDataURL("image/jpeg", 0.9);
+                document.getElementById("final-preview-img").src = finalImageDataUrl;
+            }
+        }
+
+        // Form Submit
+        function handleSaveProduct(e) {
+            e.preventDefault();
+
+            // Make sure we have the latest crop snapshot
+            previewCrop();
+
+            let catalog = (typeof getActiveCatalog === "function") ? getActiveCatalog() : [];
+            const prodId = document.getElementById("form-id").value.trim();
+            const editId = document.getElementById("edit-product-id").value.trim();
+
+            const imageVal = finalImageDataUrl || document.getElementById("form-image").value.trim() || "img/Fish 1.jpg";
+
+            const newProduct = {
+                id: prodId,
+                name: document.getElementById("form-name").value.trim(),
+                category: document.getElementById("form-category").value,
+                subcategory: document.getElementById("form-subcategory").value.trim().toLowerCase(),
+                price: Number(document.getElementById("form-price").value) || 0,
+                image: imageVal,
+                available: document.getElementById("form-available").value === "true",
+                description: document.getElementById("form-desc").value.trim(),
+                detailUrl: `shop-detail.html?id=${prodId}`
+            };
+
+            if (isEditMode && editId) {
+                const index = catalog.findIndex(p => p.id === editId);
+                if (index !== -1) {
+                    catalog[index] = newProduct;
+                } else {
+                    catalog.unshift(newProduct);
+                }
+            } else {
+                // Check if ID already exists
+                const existing = catalog.findIndex(p => p.id === prodId);
+                if (existing !== -1) {
+                    catalog[existing] = newProduct;
+                } else {
+                    catalog.unshift(newProduct);
+                }
+            }
+
+            // Save in localStorage override
+            if (typeof saveCatalogOverride === "function") {
+                saveCatalogOverride(catalog);
+            } else {
+                localStorage.setItem("ancistrus_catalog_override", JSON.stringify(catalog));
+            }
+
+            // Notify and return to dashboard
+            sessionStorage.setItem("admin_flash_message", isEditMode ? `"${newProduct.name}" updated successfully!` : `"${newProduct.name}" added to store!`);
+            window.location.href = "admin.html";
+        }
+    </script>
+</body>
+</html>
