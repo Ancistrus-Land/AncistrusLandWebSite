@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Admin Dashboard - Ancistrus Land</title>
+    <title>Store Admin - Ancistrus Land Canada</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,114 +16,242 @@
     <script src="js/products.js"></script>
     <script type="module" src="js/layout.js"></script>
     <style>
-        .admin-sidebar { min-height: 80vh; background: #f8f9fa; border-radius: 12px; }
-        .table img { object-fit: cover; border-radius: 6px; }
+        .admin-stat-card {
+            background: rgba(255, 255, 255, 0.94) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08) !important;
+            padding: 18px 20px !important;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .admin-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 30, 60, 0.13) !important;
+        }
+        body.dark-mode .admin-stat-card {
+            background: rgba(14, 30, 52, 0.94) !important;
+            border-color: rgba(0, 180, 216, 0.3) !important;
+            color: #f0f8ff !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        .admin-tabs-pill {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 50rem;
+            padding: 6px;
+            display: inline-flex;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0, 30, 60, 0.06);
+        }
+        body.dark-mode .admin-tabs-pill {
+            background: rgba(14, 30, 52, 0.92);
+            border-color: rgba(0, 180, 216, 0.3);
+        }
+        .admin-tabs-pill .nav-link {
+            border-radius: 50rem !important;
+            color: #4a5568 !important;
+            font-weight: 600 !important;
+            padding: 8px 20px !important;
+            border: none !important;
+            transition: all 0.2s ease;
+        }
+        body.dark-mode .admin-tabs-pill .nav-link {
+            color: #cbd5e1 !important;
+        }
+        .admin-tabs-pill .nav-link.active {
+            background: linear-gradient(135deg, var(--anc-primary) 0%, var(--anc-accent) 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35) !important;
+        }
+
+        .table img {
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal styling */
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 180, 216, 0.3) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 20px 60px rgba(0, 30, 60, 0.25) !important;
+        }
+        body.dark-mode .modal-content {
+            background: rgba(14, 30, 52, 0.98) !important;
+            border-color: rgba(0, 180, 216, 0.35) !important;
+            color: #f0f8ff !important;
+        }
+        body.dark-mode .modal-header,
+        body.dark-mode .modal-footer {
+            border-color: rgba(0, 180, 216, 0.2) !important;
+        }
+        body.dark-mode .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
     </style>
 </head>
-<body class="bg-light">
-    <!-- Navbar simple for admin -->
-    <nav class="navbar navbar-dark bg-dark py-3">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">
-                <i class="fas fa-fish me-2 text-primary"></i> Ancistrus Land <span class="badge bg-secondary">Store Admin</span>
-            </a>
-            <div>
-                <a href="shop.html" target="_blank" class="btn btn-sm btn-outline-light me-2"><i class="fas fa-external-link-alt me-1"></i> View Live Store</a>
-                <button id="btn-logout" class="btn btn-sm btn-danger d-none" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> Logout</button>
-            </div>
+<body>
+    <!-- Floating Glass Header for Admin -->
+    <div class="container-fluid fixed-top px-0 floating-header-wrapper" style="background: transparent !important; pointer-events: none;">
+        <div class="container px-2 px-md-3" style="pointer-events: auto;">
+            <nav class="navbar navbar-expand-xl anc-shop-navbar modern-glass-nav my-2">
+                <a class="navbar-brand anc-brand d-flex align-items-center me-3" href="index.html">
+                    <img src="img/logo-trans.png" alt="Ancistrus Land" class="anc-header-logo me-2" onerror="this.onerror=null;this.parentElement.innerHTML='<h2 class=\'text-primary fw-bold mb-0\'>Ancistrus Land</h2>';">
+                    <div class="d-none d-sm-block text-start lh-1">
+                        <span class="fw-bold text-dark fs-5 tracking-tight">Ancistrus Land</span>
+                        <span class="badge bg-primary text-white ms-2" style="font-size: 10px; vertical-align: middle;">STORE ADMIN</span>
+                    </div>
+                </a>
+
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    <button class="theme-toggle-btn me-1" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                        <i class="fas fa-moon theme-icon"></i>
+                    </button>
+                    <a href="shop.html" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1">
+                        <i class="fas fa-external-link-alt me-1"></i> Live Store
+                    </a>
+                    <button id="btn-logout" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 d-none" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </button>
+                </div>
+            </nav>
         </div>
-    </nav>
+    </div>
 
     <!-- Login Modal / Screen -->
-    <div id="login-section" class="container py-5 my-5">
+    <div id="login-section" class="container py-5" style="margin-top: 130px;">
         <div class="row justify-content-center">
             <div class="col-md-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-5 text-center">
-                        <div class="text-primary mb-3"><i class="fas fa-lock fa-3x"></i></div>
-                        <h3 class="fw-bold mb-2">Admin Access</h3>
-                        <p class="text-muted small mb-4">Enter store PIN to manage catalogue and orders.</p>
-                        <form onsubmit="handleLogin(event)">
-                            <div class="mb-3">
-                                <input type="password" id="admin-pin-input" class="form-control form-control-lg text-center" placeholder="Enter PIN (Default: 1234)" autofocus required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100 py-2 text-white fw-bold">Unlock Admin</button>
-                        </form>
-                        <div id="login-error" class="text-danger small mt-3"></div>
-                    </div>
+                <div class="anc-glass-card text-center p-5">
+                    <div class="text-primary mb-3"><i class="fas fa-shield-alt fa-3x"></i></div>
+                    <h3 class="fw-bold mb-2 text-dark">Store Admin Access</h3>
+                    <p class="text-muted small mb-4">Enter store PIN to manage inventory, catalog, and customer orders.</p>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <input type="password" id="admin-pin-input" class="form-control form-control-lg text-center rounded-pill" placeholder="Enter PIN (Default: 1234)" autofocus required>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill w-100 py-2 text-white fw-bold shadow-sm">
+                            <i class="fas fa-unlock me-2"></i> Unlock Dashboard
+                        </button>
+                    </form>
+                    <div id="login-error" class="text-danger small mt-3 fw-bold"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Main Dashboard -->
-    <div id="dashboard-section" class="container-fluid py-4 d-none">
-        <div class="container">
+    <div id="dashboard-section" class="container-fluid pb-5 d-none" style="margin-top: 105px;">
+        <div class="container pb-4">
             <!-- Stats Bar -->
             <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <div class="card border-0 shadow-sm p-3 bg-white">
-                        <small class="text-muted fw-bold">Total Products</small>
-                        <h2 class="mb-0 text-primary" id="stat-total-prod">0</h2>
+                <div class="col-6 col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Total Products</small>
+                                <h2 class="mb-0 text-primary fw-bold" id="stat-total-prod">0</h2>
+                            </div>
+                            <div class="p-3 rounded-circle" style="background: rgba(0, 119, 182, 0.1); color: var(--anc-primary);">
+                                <i class="fas fa-boxes fa-lg"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card border-0 shadow-sm p-3 bg-white">
-                        <small class="text-muted fw-bold">In Stock</small>
-                        <h2 class="mb-0 text-success" id="stat-in-stock">0</h2>
+                <div class="col-6 col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">In Stock</small>
+                                <h2 class="mb-0 text-success fw-bold" id="stat-in-stock">0</h2>
+                            </div>
+                            <div class="p-3 rounded-circle" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <i class="fas fa-check-circle fa-lg"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card border-0 shadow-sm p-3 bg-white">
-                        <small class="text-muted fw-bold">Out of Stock</small>
-                        <h2 class="mb-0 text-danger" id="stat-out-stock">0</h2>
+                <div class="col-6 col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Out of Stock</small>
+                                <h2 class="mb-0 text-danger fw-bold" id="stat-out-stock">0</h2>
+                            </div>
+                            <div class="p-3 rounded-circle" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                <i class="fas fa-times-circle fa-lg"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card border-0 shadow-sm p-3 bg-white">
-                        <small class="text-muted fw-bold">Recent Customer Orders</small>
-                        <h2 class="mb-0 text-warning" id="stat-total-orders">0</h2>
+                <div class="col-6 col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Orders Logged</small>
+                                <h2 class="mb-0 text-warning fw-bold" id="stat-total-orders">0</h2>
+                            </div>
+                            <div class="p-3 rounded-circle" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                <i class="fas fa-shopping-bag fa-lg"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tabs: Products / Orders / Export -->
-            <ul class="nav nav-pills mb-3" id="adminTabs">
-                <li class="nav-item">
-                    <button class="nav-link active fw-bold" data-bs-toggle="pill" data-bs-target="#tab-products">Catalogue Items</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tab-orders">Customer Orders Log</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tab-sync">Export / Save File</button>
-                </li>
-            </ul>
+            <!-- Navigation Tabs -->
+            <div class="mb-3">
+                <ul class="nav admin-tabs-pill" id="adminTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-products">
+                            <i class="fas fa-fish me-1"></i> Catalogue Items
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-orders">
+                            <i class="fas fa-receipt me-1"></i> Customer Orders Log
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-sync">
+                            <i class="fas fa-file-export me-1"></i> Export / Save File
+                        </button>
+                    </li>
+                </ul>
+            </div>
 
             <div class="tab-content">
                 <!-- TAB 1: Products -->
                 <div class="tab-pane fade show active" id="tab-products">
-                    <div class="card border-0 shadow-sm p-4 bg-white mb-4">
+                    <div class="anc-glass-card mb-4">
                         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                            <h4 class="mb-0 fw-bold">Manage Fish &amp; Aquatic Livestock</h4>
+                            <h4 class="mb-0 fw-bold text-dark"><i class="fas fa-tasks text-primary me-2"></i>Manage Fish &amp; Aquatic Livestock</h4>
                             <div class="d-flex gap-2">
-                                <input type="text" id="admin-search" class="form-control form-control-sm" placeholder="Search items..." oninput="renderAdminTable()" style="max-width: 200px;">
-                                <button class="btn btn-primary btn-sm text-white" onclick="openAddModal()">
+                                <input type="text" id="admin-search" class="form-control form-control-sm rounded-pill px-3" placeholder="Search items..." oninput="renderAdminTable()" style="max-width: 220px;">
+                                <button class="btn btn-primary btn-sm rounded-pill px-3 text-white shadow-sm" onclick="openAddModal()">
                                     <i class="fas fa-plus-circle me-1"></i> Add New Item
                                 </button>
                             </div>
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
                                     <tr>
                                         <th>Photo</th>
                                         <th>ID</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
                                         <th>Subcategory</th>
-                                        <th>Price (Rs.)</th>
+                                        <th>Price (CAD)</th>
                                         <th>Stock Status</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
@@ -138,14 +266,16 @@
 
                 <!-- TAB 2: Orders Log -->
                 <div class="tab-pane fade" id="tab-orders">
-                    <div class="card border-0 shadow-sm p-4 bg-white">
+                    <div class="anc-glass-card mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0 fw-bold">Recent Customer Checkout Orders</h4>
-                            <button class="btn btn-outline-danger btn-sm" onclick="clearOrdersLog()">Clear Log</button>
+                            <h4 class="mb-0 fw-bold text-dark"><i class="fas fa-clipboard-list text-primary me-2"></i>Recent Customer Checkout Orders</h4>
+                            <button class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="clearOrdersLog()">
+                                <i class="fas fa-trash-alt me-1"></i> Clear Log
+                            </button>
                         </div>
                         <div class="table-responsive">
-                            <table class="table align-middle">
-                                <thead class="table-light">
+                            <table class="table align-middle mb-0">
+                                <thead>
                                     <tr>
                                         <th>Order ID</th>
                                         <th>Date</th>
@@ -167,15 +297,15 @@
 
                 <!-- TAB 3: Export & Permanent Backup -->
                 <div class="tab-pane fade" id="tab-sync">
-                    <div class="card border-0 shadow-sm p-4 bg-white">
-                        <h4 class="fw-bold mb-2">Sync &amp; Export Store Data</h4>
-                        <p class="text-muted">Any changes you make (adding, updating, or deleting fish) take effect **instantly on your website** via browser storage. To update your local `js/products.js` permanently across all machines, download the updated file below:</p>
+                    <div class="anc-glass-card mb-4">
+                        <h4 class="fw-bold mb-2 text-dark"><i class="fas fa-cloud-download-alt text-primary me-2"></i>Sync &amp; Export Store Data</h4>
+                        <p class="text-muted">Any changes you make (adding, updating, or deleting fish) take effect <strong>instantly on your website</strong> via local browser storage. To update your local <code>js/products.js</code> file permanently across all devices or repository check-ins, download the updated file below:</p>
                         
-                        <div class="d-flex gap-3 my-3">
-                            <button class="btn btn-success" onclick="downloadUpdatedProductsJs()">
+                        <div class="d-flex flex-wrap gap-2 my-3">
+                            <button class="btn btn-success rounded-pill px-4" onclick="downloadUpdatedProductsJs()">
                                 <i class="fas fa-download me-2"></i> Download Updated products.js
                             </button>
-                            <button class="btn btn-outline-danger" onclick="resetToFactoryCatalogue()">
+                            <button class="btn btn-outline-danger rounded-pill px-4" onclick="resetToFactoryCatalogue()">
                                 <i class="fas fa-undo me-2"></i> Reset to Default Catalogue
                             </button>
                         </div>
@@ -219,8 +349,8 @@
                                 <input type="text" id="form-subcategory" class="form-control" placeholder="e.g. discus, angel, shrimp">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold">Price (Rs.)</label>
-                                <input type="number" id="form-price" class="form-control" required placeholder="6500">
+                                <label class="form-label small fw-bold">Price (CAD $)</label>
+                                <input type="number" step="0.01" id="form-price" class="form-control" required placeholder="29.99">
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label small fw-bold">Image Path or URL</label>
