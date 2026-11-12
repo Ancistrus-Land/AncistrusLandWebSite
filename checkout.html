@@ -188,8 +188,14 @@
 
         document.addEventListener("DOMContentLoaded", initCheckout);
 
-        function handlePlaceOrder(e) {
+        async function handlePlaceOrder(e) {
             e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]') || document.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Confirming Order...';
+            }
 
             const orderId = "ANC-CA-" + Math.floor(100000 + Math.random() * 900000);
             const customer = {
@@ -212,20 +218,31 @@
                 total: grandTotal
             };
 
-            // Save order to session for confirmation page
+            // 1. Dispatch automated email and order registration to backend API
+            try {
+                await fetch('/api/order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+            } catch (apiErr) {
+                console.warn("Backend order API note (offline or local fallback):", apiErr);
+            }
+
+            // 2. Save order to session for confirmation page
             sessionStorage.setItem("last_order", JSON.stringify(orderData));
 
-            // Record in master order log
+            // 3. Record in browser master order log
             try {
                 const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
                 orders.unshift(orderData);
                 localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
             } catch(e) {}
 
-            // Clear active cart
+            // 4. Clear active cart
             clearCart();
 
-            // Redirect to receipt
+            // 5. Redirect to receipt
             window.location.href = "order-confirmation.html";
         }
     </script>

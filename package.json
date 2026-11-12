@@ -1,0 +1,10 @@
+{
+  "name": "ancistrus-land-canada",
+  "version": "1.0.0",
+  "description": "Ancistrus Land Canada - Freshwater Wonders Aquatic Specialist",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}

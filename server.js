@@ -1,8 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const orderApi = require('./api/order');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const MIME_TYPES = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css',
@@ -17,6 +18,13 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
     let reqUrl = req.url.split('?')[0];
+
+    // 1. API Route: /api/order
+    if (reqUrl === '/api/order') {
+        return orderApi(req, res);
+    }
+
+    // 2. Static Files Serving
     if (reqUrl === '/') reqUrl = '/index.html';
 
     const filePath = path.join(__dirname, decodeURIComponent(reqUrl));
@@ -41,4 +49,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
+    console.log(`Automated Order API active at http://localhost:${PORT}/api/order`);
 });
