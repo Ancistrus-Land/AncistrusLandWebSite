@@ -51,17 +51,20 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label my-1">Province <sup>*</sup></label>
-                                        <select id="cust-province" class="form-select" required>
-                                            <option value="Ontario">Ontario (ON)</option>
-                                            <option value="Quebec">Quebec (QC)</option>
-                                            <option value="British Columbia">British Columbia (BC)</option>
-                                            <option value="Alberta">Alberta (AB)</option>
-                                            <option value="Manitoba">Manitoba (MB)</option>
-                                            <option value="Saskatchewan">Saskatchewan (SK)</option>
-                                            <option value="Nova Scotia">Nova Scotia (NS)</option>
-                                            <option value="New Brunswick">New Brunswick (NB)</option>
-                                            <option value="Newfoundland and Labrador">Newfoundland (NL)</option>
-                                            <option value="Prince Edward Island">PEI</option>
+                                        <select id="cust-province" class="form-select" onchange="updateCheckoutCalculations()" required>
+                                            <option value="Ontario" selected>Ontario (13% HST)</option>
+                                            <option value="Quebec">Quebec (14.975% GST+QST)</option>
+                                            <option value="British Columbia">British Columbia (12% GST+PST)</option>
+                                            <option value="Alberta">Alberta (5% GST)</option>
+                                            <option value="Manitoba">Manitoba (12% GST+RST)</option>
+                                            <option value="Saskatchewan">Saskatchewan (11% GST+PST)</option>
+                                            <option value="Nova Scotia">Nova Scotia (15% HST)</option>
+                                            <option value="New Brunswick">New Brunswick (15% HST)</option>
+                                            <option value="Newfoundland and Labrador">Newfoundland (15% HST)</option>
+                                            <option value="Prince Edward Island">Prince Edward Island (15% HST)</option>
+                                            <option value="Northwest Territories">Northwest Territories (5% GST)</option>
+                                            <option value="Yukon">Yukon (5% GST)</option>
+                                            <option value="Nunavut">Nunavut (5% GST)</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
@@ -100,6 +103,10 @@
                                 <div class="d-flex justify-content-between py-2">
                                     <span>Insulated Thermal Packaging:</span>
                                     <span class="text-success fw-bold">FREE (Winter Heat Pack / Summer Ice Pack)</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-2 border-top">
+                                    <span>Estimated Sales Tax (<span id="tax-label" class="fw-bold text-dark">13% HST</span>):</span>
+                                    <span id="summary-tax" class="fw-bold text-dark">$0.00</span>
                                 </div>
                                 <div class="d-flex justify-content-between py-3 border-top border-bottom">
                                     <span class="h5 mb-0">Total Amount:</span>
@@ -144,10 +151,49 @@
     <script src="js/main.js"></script>
     <script>
         let currentCart = [];
+        let currentSubtotal = 0;
+        let currentTax = null;
         let grandTotal = 0;
 
+        function updateCheckoutCalculations() {
+            const provSelect = document.getElementById("cust-province");
+            const selectedProv = provSelect ? provSelect.value : "Ontario";
+
+            if (typeof calculateCanadianTax === "function") {
+                currentTax = calculateCanadianTax(selectedProv, currentSubtotal);
+            } else {
+                // Fallback tax calculation if config not yet initialized
+                const rates = {
+                    "ontario": { rate: 0.13, label: "13% HST", type: "HST" },
+                    "quebec": { rate: 0.14975, label: "14.975% GST+QST", type: "GST+QST" },
+                    "british columbia": { rate: 0.12, label: "12% GST+PST", type: "GST+PST" },
+                    "alberta": { rate: 0.05, label: "5% GST", type: "GST" }
+                };
+                const entry = rates[selectedProv.toLowerCase()] || { rate: 0.13, label: "13% HST", type: "HST" };
+                const taxAmt = Math.round(currentSubtotal * entry.rate * 100) / 100;
+                currentTax = {
+                    province: selectedProv,
+                    taxType: entry.type,
+                    rate: entry.rate,
+                    label: entry.label,
+                    taxAmount: taxAmt,
+                    subtotal: currentSubtotal,
+                    total: Math.round((currentSubtotal + taxAmt) * 100) / 100
+                };
+            }
+
+            grandTotal = currentTax.total;
+            const taxLabelEl = document.getElementById("tax-label");
+            const taxValEl = document.getElementById("summary-tax");
+            const totalValEl = document.getElementById("summary-total");
+
+            if (taxLabelEl) taxLabelEl.textContent = currentTax.label;
+            if (taxValEl) taxValEl.textContent = formatPrice(currentTax.taxAmount);
+            if (totalValEl) totalValEl.textContent = formatPrice(grandTotal);
+        }
+
         function initCheckout() {
-            if (typeof getCart !== "function") {
+            if (typeof getCart !== "function" || typeof formatPrice !== "function") {
                 setTimeout(initCheckout, 50);
                 return;
             }
@@ -181,9 +227,9 @@
                 `;
             }).join("");
 
-            grandTotal = subtotal;
+            currentSubtotal = subtotal;
             document.getElementById("summary-subtotal").textContent = formatPrice(subtotal);
-            document.getElementById("summary-total").textContent = formatPrice(grandTotal);
+            updateCheckoutCalculations();
         }
 
         document.addEventListener("DOMContentLoaded", initCheckout);
@@ -215,6 +261,14 @@
                 date: new Date().toLocaleString("en-CA"),
                 customer: customer,
                 items: currentCart,
+                subtotal: currentSubtotal,
+                tax: currentTax || {
+                    province: customer.province,
+                    taxType: "HST",
+                    rate: 0.13,
+                    label: "13% HST",
+                    taxAmount: Math.round(currentSubtotal * 0.13 * 100) / 100
+                },
                 total: grandTotal
             };
 

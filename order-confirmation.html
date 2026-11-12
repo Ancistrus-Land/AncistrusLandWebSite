@@ -58,6 +58,11 @@
 
             const order = JSON.parse(orderRaw);
             const c = order.customer;
+            const subtotal = Number(order.subtotal != null ? order.subtotal : (order.items.reduce((s, i) => s + (i.price * i.quantity), 0)));
+            const taxObj = order.tax || (typeof calculateCanadianTax === "function" ? calculateCanadianTax(c.province, subtotal) : {
+                label: "13% HST",
+                taxAmount: Math.round(subtotal * 0.13 * 100) / 100
+            });
 
             container.innerHTML = `
                 <div class="anc-glass-card receipt-printable-card shadow-sm border-0">
@@ -139,10 +144,18 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th colspan="2" class="text-end">Subtotal:</th>
+                                        <th class="text-end">${formatPrice(subtotal)}</th>
+                                    </tr>
+                                    <tr>
                                         <th colspan="2" class="text-end">Insulated Packaging &amp; Heat/Ice Pack:</th>
                                         <th class="text-end text-success">Included (FREE)</th>
                                     </tr>
                                     <tr>
+                                        <th colspan="2" class="text-end">Sales Tax (${taxObj.label || 'Tax'}):</th>
+                                        <th class="text-end text-dark">${formatPrice(taxObj.taxAmount || 0)}</th>
+                                    </tr>
+                                    <tr class="border-top">
                                         <th colspan="2" class="text-end fs-5">Grand Total:</th>
                                         <th class="text-end fs-5 text-primary">${formatPrice(order.total)}</th>
                                     </tr>
@@ -168,6 +181,11 @@
             }
             const order = JSON.parse(orderRaw);
             const c = order.customer;
+            const subtotal = Number(order.subtotal != null ? order.subtotal : (order.items.reduce((s, i) => s + (i.price * i.quantity), 0)));
+            const taxObj = order.tax || (typeof calculateCanadianTax === "function" ? calculateCanadianTax(c.province, subtotal) : {
+                label: "13% HST",
+                taxAmount: Math.round(subtotal * 0.13 * 100) / 100
+            });
 
             const itemsRows = order.items.map(item => `
                 <tr>
@@ -349,8 +367,16 @@
 
                         <table class="totals-table">
                             <tr>
+                                <td style="text-align: right; color: #4b5563;">Subtotal:</td>
+                                <td style="text-align: right; width: 140px; font-weight: 600;">$${subtotal.toFixed(2)} CAD</td>
+                            </tr>
+                            <tr>
                                 <td style="text-align: right; color: #4b5563;">Insulated Thermal Packaging & Heat/Ice Pack:</td>
                                 <td style="text-align: right; width: 140px; color: #16a34a; font-weight: 600;">FREE (Included)</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; color: #4b5563;">Sales Tax (${taxObj.label || 'Tax'}):</td>
+                                <td style="text-align: right; width: 140px; font-weight: 600; color: #111827;">$${Number(taxObj.taxAmount || 0).toFixed(2)} CAD</td>
                             </tr>
                             <tr>
                                 <td class="grand-total" style="text-align: right;">Grand Total:</td>

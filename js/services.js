@@ -2,7 +2,7 @@
  * Ancistrus Land Canada - State Management & Services Layer
  * Handles Cart, Catalog Repository, and Order Processing
  */
-import { STORE_CONFIG, getStoreConfig, saveStoreContacts, resetStoreContacts } from './config.js';
+import { STORE_CONFIG, getStoreConfig, saveStoreContacts, resetStoreContacts, calculateCanadianTax } from './config.js';
 
 /* ==========================================================================
    1. Catalog Repository Service
@@ -353,6 +353,7 @@ if (typeof window !== "undefined") {
     window.getStoreConfig = getStoreConfig;
     window.saveStoreContacts = saveStoreContacts;
     window.resetStoreContacts = resetStoreContacts;
+    window.calculateCanadianTax = calculateCanadianTax;
     window.CatalogService = CatalogService;
     window.CartService = CartService;
     window.OrderService = OrderService;

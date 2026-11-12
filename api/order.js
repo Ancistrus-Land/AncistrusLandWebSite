@@ -87,6 +87,11 @@ function sendEmailViaResend({ to, subject, html, from }) {
  */
 function buildCustomerEmailHtml(order) {
     const c = order.customer;
+    const subtotal = Number(order.subtotal != null ? order.subtotal : (order.items.reduce((s, i) => s + (i.price * i.quantity), 0)));
+    const taxObj = order.tax || {
+        label: "13% HST",
+        taxAmount: Math.round(subtotal * 0.13 * 100) / 100
+    };
     const itemsRows = order.items.map(item => `
         <tr>
             <td style="padding: 12px 14px; border-bottom: 1px solid #e5e7eb;">
@@ -192,11 +197,27 @@ function buildCustomerEmailHtml(order) {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="2" align="right" style="padding: 10px 14px; font-size: 13px; color: #475569; border-bottom: 1px solid #e2e8f0;">
+                                <td colspan="2" align="right" style="padding: 8px 14px; font-size: 13px; color: #475569; border-bottom: 1px solid #e2e8f0;">
+                                    Subtotal:
+                                </td>
+                                <td align="right" style="padding: 8px 14px; font-size: 13px; font-weight: 600; color: #0f1c2e; border-bottom: 1px solid #e2e8f0;">
+                                    $${subtotal.toFixed(2)} CAD
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right" style="padding: 8px 14px; font-size: 13px; color: #475569; border-bottom: 1px solid #e2e8f0;">
                                     Insulated Packaging & Winter Heat Pack:
                                 </td>
-                                <td align="right" style="padding: 10px 14px; font-size: 13px; font-weight: 700; color: #16a34a; border-bottom: 1px solid #e2e8f0;">
+                                <td align="right" style="padding: 8px 14px; font-size: 13px; font-weight: 700; color: #16a34a; border-bottom: 1px solid #e2e8f0;">
                                     FREE (Included)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right" style="padding: 8px 14px; font-size: 13px; color: #475569; border-bottom: 1px solid #e2e8f0;">
+                                    Sales Tax (${taxObj.label || 'Tax'}):
+                                </td>
+                                <td align="right" style="padding: 8px 14px; font-size: 13px; font-weight: 600; color: #0f1c2e; border-bottom: 1px solid #e2e8f0;">
+                                    $${Number(taxObj.taxAmount || 0).toFixed(2)} CAD
                                 </td>
                             </tr>
                             <tr>
@@ -239,6 +260,11 @@ function buildCustomerEmailHtml(order) {
  */
 function buildStoreAlertEmailHtml(order) {
     const c = order.customer;
+    const subtotal = Number(order.subtotal != null ? order.subtotal : (order.items.reduce((s, i) => s + (i.price * i.quantity), 0)));
+    const taxObj = order.tax || {
+        label: "13% HST",
+        taxAmount: Math.round(subtotal * 0.13 * 100) / 100
+    };
     const itemsSummary = order.items.map(i => `• ${i.name} (x${i.quantity}) - $${(i.price * i.quantity).toFixed(2)} CAD`).join("<br>");
 
     return `
@@ -246,6 +272,8 @@ function buildStoreAlertEmailHtml(order) {
     <p><strong>Customer:</strong> ${c.name} (<a href="mailto:${c.email}">${c.email}</a>, <a href="tel:${c.phone}">${c.phone}</a>)</p>
     <p><strong>Shipping To:</strong> ${c.address}, ${c.city}, ${c.province} (${c.postalCode})</p>
     <p><strong>Payment Method:</strong> ${c.paymentMethod}</p>
+    <p><strong>Subtotal:</strong> $${subtotal.toFixed(2)} CAD</p>
+    <p><strong>Sales Tax (${taxObj.label || 'Tax'}):</strong> $${Number(taxObj.taxAmount || 0).toFixed(2)} CAD</p>
     <p><strong>Total Value:</strong> $${Number(order.total).toFixed(2)} CAD</p>
     ${c.notes ? `<p><strong>Notes:</strong> ${c.notes}</p>` : ''}
     <hr>

@@ -286,8 +286,10 @@
                                         <th>Date</th>
                                         <th>Customer</th>
                                         <th>Phone</th>
-                                        <th>Address</th>
+                                        <th>Destination</th>
                                         <th>Items</th>
+                                        <th>Subtotal</th>
+                                        <th>Tax</th>
                                         <th>Total</th>
                                         <th>Payment</th>
                                     </tr>
@@ -607,22 +609,30 @@
             const tbody = document.getElementById("admin-orders-tbody");
 
             if (orders.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No orders recorded yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4 text-muted">No orders recorded yet.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = orders.map(o => `
+            tbody.innerHTML = orders.map(o => {
+                const subtotal = Number(o.subtotal != null ? o.subtotal : (o.items ? o.items.reduce((s, i) => s + (i.price * i.quantity), 0) : o.total));
+                const taxLabel = o.tax ? (o.tax.label || o.tax.taxType || "Tax") : "Tax";
+                const taxAmt = o.tax ? (o.tax.taxAmount || 0) : Math.max(0, o.total - subtotal);
+
+                return `
                 <tr>
                     <td><strong>${o.orderId}</strong></td>
                     <td><small>${o.date}</small></td>
                     <td>${o.customer.name}</td>
-                    <td><a href="https://wa.me/${o.customer.phone.replace(/[^0-9]/g, '')}" target="_blank">${o.customer.phone}</a></td>
-                    <td><small>${o.customer.address}, ${o.customer.city}</small></td>
-                    <td><small>${o.items.map(i => `${i.name} (x${i.quantity})`).join(", ")}</small></td>
-                    <td><strong>${formatPrice(o.total)}</strong></td>
+                    <td><a href="https://wa.me/${(o.customer.phone || '').replace(/[^0-9]/g, '')}" target="_blank">${o.customer.phone}</a></td>
+                    <td><small>${o.customer.city || ''}, ${o.customer.province || ''}</small></td>
+                    <td><small>${(o.items || []).map(i => `${i.name} (x${i.quantity})`).join(", ")}</small></td>
+                    <td>${formatPrice(subtotal)}</td>
+                    <td><span class="badge bg-light text-dark border" title="${taxLabel}">${formatPrice(taxAmt)}<br><small class="text-muted">${taxLabel}</small></span></td>
+                    <td><strong class="text-primary">${formatPrice(o.total)}</strong></td>
                     <td><span class="badge bg-info text-dark">${o.customer.paymentMethod}</span></td>
                 </tr>
-            `).join("");
+                `;
+            }).join("");
         }
 
         function toggleStock(id) {

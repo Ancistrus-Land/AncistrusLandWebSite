@@ -23,16 +23,19 @@ export const STORE_CONFIG = Object.freeze({
     dispatchDays: ["Monday", "Tuesday"],
     lagWindowHours: 2, // Live Arrival Guarantee reporting window
     provinces: [
-        { code: "ON", name: "Ontario" },
-        { code: "QC", name: "Quebec" },
-        { code: "BC", name: "British Columbia" },
-        { code: "AB", name: "Alberta" },
-        { code: "MB", name: "Manitoba" },
-        { code: "SK", name: "Saskatchewan" },
-        { code: "NS", name: "Nova Scotia" },
-        { code: "NB", name: "New Brunswick" },
-        { code: "NL", name: "Newfoundland and Labrador" },
-        { code: "PE", name: "Prince Edward Island" }
+        { code: "ON", name: "Ontario", taxType: "HST", rate: 0.13, label: "13% HST" },
+        { code: "QC", name: "Quebec", taxType: "GST+QST", rate: 0.14975, label: "14.975% (5% GST + 9.975% QST)" },
+        { code: "BC", name: "British Columbia", taxType: "GST+PST", rate: 0.12, label: "12% (5% GST + 7% PST)" },
+        { code: "AB", name: "Alberta", taxType: "GST", rate: 0.05, label: "5% GST" },
+        { code: "MB", name: "Manitoba", taxType: "GST+PST", rate: 0.12, label: "12% (5% GST + 7% RST)" },
+        { code: "SK", name: "Saskatchewan", taxType: "GST+PST", rate: 0.11, label: "11% (5% GST + 6% PST)" },
+        { code: "NS", name: "Nova Scotia", taxType: "HST", rate: 0.15, label: "15% HST" },
+        { code: "NB", name: "New Brunswick", taxType: "HST", rate: 0.15, label: "15% HST" },
+        { code: "NL", name: "Newfoundland and Labrador", taxType: "HST", rate: 0.15, label: "15% HST" },
+        { code: "PE", name: "Prince Edward Island", taxType: "HST", rate: 0.15, label: "15% HST" },
+        { code: "NT", name: "Northwest Territories", taxType: "GST", rate: 0.05, label: "5% GST" },
+        { code: "YT", name: "Yukon", taxType: "GST", rate: 0.05, label: "5% GST" },
+        { code: "NU", name: "Nunavut", taxType: "GST", rate: 0.05, label: "5% GST" }
     ],
     
     // Payment Options Supported
@@ -81,10 +84,40 @@ export function resetStoreContacts() {
     }
 }
 
+/**
+ * Calculates Canadian tax details based on destination province name or province code.
+ * @param {string} provinceInput - Province name (e.g. "Ontario") or code (e.g. "ON")
+ * @param {number} subtotal - Order subtotal in CAD
+ */
+export function calculateCanadianTax(provinceInput, subtotal = 0) {
+    const input = (provinceInput || "").trim().toLowerCase();
+    const prov = STORE_CONFIG.provinces.find(p => 
+        p.name.toLowerCase() === input || 
+        p.code.toLowerCase() === input
+    ) || STORE_CONFIG.provinces[0]; // Defaults to Ontario (13% HST) if unspecified
+
+    const safeSubtotal = Math.max(0, Number(subtotal) || 0);
+    const taxAmount = Math.round(safeSubtotal * prov.rate * 100) / 100;
+    const totalWithTax = Math.round((safeSubtotal + taxAmount) * 100) / 100;
+
+    return {
+        province: prov.name,
+        code: prov.code,
+        taxType: prov.taxType,
+        rate: prov.rate,
+        label: prov.label,
+        ratePercentage: `${(prov.rate * 100).toFixed(prov.rate === 0.14975 ? 3 : (prov.rate % 1 === 0 ? 0 : (prov.rate * 100 % 1 !== 0 ? 1 : 0)))}%`,
+        taxAmount: taxAmount,
+        subtotal: safeSubtotal,
+        total: totalWithTax
+    };
+}
+
 // Expose globally for legacy script compatibility
 if (typeof window !== "undefined") {
     window.STORE_CONFIG = getStoreConfig();
     window.getStoreConfig = getStoreConfig;
     window.saveStoreContacts = saveStoreContacts;
     window.resetStoreContacts = resetStoreContacts;
+    window.calculateCanadianTax = calculateCanadianTax;
 }
