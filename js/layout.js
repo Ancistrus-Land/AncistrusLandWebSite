@@ -52,6 +52,9 @@ export function hydrateStoreContacts() {
         el.textContent = email;
         if (el.tagName === 'A') el.href = `mailto:${email}`;
     });
+    document.querySelectorAll('[data-store-contact="email-link"]').forEach(el => {
+        if (el.tagName === 'A') el.href = `mailto:${email}`;
+    });
     document.querySelectorAll('[data-store-contact="phone"]').forEach(el => {
         el.textContent = phone;
         if (el.tagName === 'A') el.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
