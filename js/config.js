@@ -46,11 +46,45 @@ export const STORE_CONFIG = Object.freeze({
         cart: "ancistrus_cart",
         catalogOverride: "ancistrus_catalog_override",
         orders: "ancistrus_orders",
-        adminSession: "ancistrus_admin_auth"
+        adminSession: "ancistrus_admin_auth",
+        contactsOverride: "ancistrus_contacts_override"
     }
 });
 
+/**
+ * Returns active store configuration merging default constants with any admin overrides
+ */
+export function getStoreConfig() {
+    try {
+        const custom = localStorage.getItem(STORE_CONFIG.storageKeys.contactsOverride);
+        if (custom) {
+            const parsed = JSON.parse(custom);
+            return { ...STORE_CONFIG, ...parsed };
+        }
+    } catch (e) {
+        console.warn("Failed to read contacts override:", e);
+    }
+    return STORE_CONFIG;
+}
+
+export function saveStoreContacts(contacts) {
+    localStorage.setItem(STORE_CONFIG.storageKeys.contactsOverride, JSON.stringify(contacts));
+    if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent('store:config:updated', { detail: contacts }));
+    }
+}
+
+export function resetStoreContacts() {
+    localStorage.removeItem(STORE_CONFIG.storageKeys.contactsOverride);
+    if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent('store:config:updated'));
+    }
+}
+
 // Expose globally for legacy script compatibility
 if (typeof window !== "undefined") {
-    window.STORE_CONFIG = STORE_CONFIG;
+    window.STORE_CONFIG = getStoreConfig();
+    window.getStoreConfig = getStoreConfig;
+    window.saveStoreContacts = saveStoreContacts;
+    window.resetStoreContacts = resetStoreContacts;
 }

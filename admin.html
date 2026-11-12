@@ -221,6 +221,11 @@
                         </button>
                     </li>
                     <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-contacts">
+                            <i class="fas fa-address-book me-1"></i> Store Contacts
+                        </button>
+                    </li>
+                    <li class="nav-item">
                         <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-sync">
                             <i class="fas fa-file-export me-1"></i> Export / Save File
                         </button>
@@ -295,7 +300,67 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: Export & Permanent Backup -->
+                <!-- TAB 3: Store Contacts Settings -->
+                <div class="tab-pane fade" id="tab-contacts">
+                    <div class="anc-glass-card mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0 fw-bold text-dark"><i class="fas fa-id-card text-primary me-2"></i>Edit Store Contact Information</h4>
+                            <span class="badge bg-light text-dark border">Updates Footer, Contact Page &amp; Receipts</span>
+                        </div>
+                        <p class="text-muted small">Update your official store contact channels. Any change here automatically updates the "Get In Touch" footer section, the Contact page, and all future invoices across the entire website.</p>
+                        
+                        <form onsubmit="handleSaveContacts(event)" class="mt-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Store Physical Facility / Location</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                                        <input type="text" id="contact-edit-location" class="form-control rounded-end-pill" required placeholder="Ottawa, Ontario, Canada">
+                                    </div>
+                                    <small class="text-muted">Displayed under "Get In Touch" and on official receipts.</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Primary Phone (Display &amp; Inquiries)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-primary"></i></span>
+                                        <input type="text" id="contact-edit-phone" class="form-control rounded-end-pill" required placeholder="+1 (613) 266-5285">
+                                    </div>
+                                    <small class="text-muted">Formatted phone number shown to buyers.</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Official Store Email (Orders &amp; Interac e-Transfer)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-primary"></i></span>
+                                        <input type="email" id="contact-edit-email" class="form-control rounded-end-pill" required placeholder="sudarsha.wijenayake@gmail.com">
+                                    </div>
+                                    <small class="text-muted">Destination for Interac e-Transfers and automated order alerts.</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">WhatsApp Direct Number (Digits only)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fab fa-whatsapp text-success"></i></span>
+                                        <input type="text" id="contact-edit-whatsapp" class="form-control rounded-end-pill" required placeholder="16132665285">
+                                    </div>
+                                    <small class="text-muted">Country code + area code + number (no spaces/symbols, e.g. 16132665285).</small>
+                                </div>
+
+                                <div class="col-12 mt-4 pt-2 border-top d-flex flex-wrap gap-2 justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="handleResetContacts()">
+                                        <i class="fas fa-undo me-1"></i> Reset to Default
+                                    </button>
+                                    <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm text-white fw-bold">
+                                        <i class="fas fa-save me-2"></i> Save Contact Information
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Export & Permanent Backup -->
                 <div class="tab-pane fade" id="tab-sync">
                     <div class="anc-glass-card mb-4">
                         <h4 class="fw-bold mb-2 text-dark"><i class="fas fa-cloud-download-alt text-primary me-2"></i>Sync &amp; Export Store Data</h4>
@@ -436,6 +501,64 @@
 
             renderAdminTable();
             renderOrdersTable();
+            loadContactsForm();
+        }
+
+        function loadContactsForm() {
+            const config = (typeof getStoreConfig === "function") ? getStoreConfig() : (window.STORE_CONFIG || {});
+            document.getElementById("contact-edit-location").value = config.location || "Ottawa, Ontario, Canada";
+            document.getElementById("contact-edit-phone").value = config.phoneDisplay || "+1 (613) 266-5285";
+            document.getElementById("contact-edit-email").value = config.email || "sudarsha.wijenayake@gmail.com";
+            document.getElementById("contact-edit-whatsapp").value = config.whatsappNumber || "16132665285";
+        }
+
+        function handleSaveContacts(e) {
+            e.preventDefault();
+            const contacts = {
+                location: document.getElementById("contact-edit-location").value.trim(),
+                phoneDisplay: document.getElementById("contact-edit-phone").value.trim(),
+                email: document.getElementById("contact-edit-email").value.trim(),
+                whatsappNumber: document.getElementById("contact-edit-whatsapp").value.trim()
+            };
+
+            if (typeof saveStoreContacts === "function") {
+                saveStoreContacts(contacts);
+            } else {
+                localStorage.setItem("ancistrus_contacts_override", JSON.stringify(contacts));
+            }
+
+            if (window.showToast) {
+                showToast("Store contact information updated across the website!", "success", "Contacts Saved");
+            } else {
+                alert("Store contact information updated!");
+            }
+        }
+
+        async function handleResetContacts() {
+            let confirmed = false;
+            if (window.showConfirm) {
+                confirmed = await window.showConfirm({
+                    title: "Reset Contacts",
+                    message: "Reset contact details back to default factory settings?",
+                    confirmText: "Reset Contacts",
+                    cancelText: "Cancel",
+                    type: "warning"
+                });
+            } else {
+                confirmed = confirm("Reset contact details back to default factory settings?");
+            }
+
+            if (confirmed) {
+                if (typeof resetStoreContacts === "function") {
+                    resetStoreContacts();
+                } else {
+                    localStorage.removeItem("ancistrus_contacts_override");
+                }
+                loadContactsForm();
+                if (window.showToast) {
+                    showToast("Contacts restored to default.", "info", "Contacts Reset");
+                }
+            }
         }
 
         function renderAdminTable() {

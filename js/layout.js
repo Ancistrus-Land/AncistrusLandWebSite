@@ -38,6 +38,39 @@ window.toggleTheme = function () {
 const savedTheme = localStorage.getItem("ancistrus_theme") || "light";
 applyTheme(savedTheme);
 
+// Hydrate dynamic contact information in header, footer, and pages
+export function hydrateStoreContacts() {
+    const config = (typeof window.getStoreConfig === "function") ? window.getStoreConfig() : (window.STORE_CONFIG || {});
+    const email = config.email || "sudarsha.wijenayake@gmail.com";
+    const phone = config.phoneDisplay || "+1 (613) 266-5285";
+    const location = config.location || "Ottawa, Ontario, Canada";
+    const waNumber = config.whatsappNumber || "16132665285";
+    const waUrl = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
+
+    // Target elements with data-store-contact attribute
+    document.querySelectorAll('[data-store-contact="email"]').forEach(el => {
+        el.textContent = email;
+        if (el.tagName === 'A') el.href = `mailto:${email}`;
+    });
+    document.querySelectorAll('[data-store-contact="phone"]').forEach(el => {
+        el.textContent = phone;
+        if (el.tagName === 'A') el.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
+    });
+    document.querySelectorAll('[data-store-contact="location"]').forEach(el => {
+        el.textContent = location;
+    });
+    document.querySelectorAll('[data-store-contact="whatsapp-link"]').forEach(el => {
+        if (el.tagName === 'A') el.href = waUrl;
+    });
+}
+
+if (typeof window !== "undefined") {
+    window.hydrateStoreContacts = hydrateStoreContacts;
+    window.addEventListener('store:config:updated', () => {
+        hydrateStoreContacts();
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // 1. Fetch Header
     const headerPlaceholder = document.getElementById("header-placeholder");
@@ -48,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 headerPlaceholder.innerHTML = html;
                 CartService.notify();
                 updateThemeIcons(localStorage.getItem("ancistrus_theme") || "light");
+                hydrateStoreContacts();
             })
             .catch(err => console.error("Error loading header:", err));
     }
@@ -59,9 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.text())
             .then(html => {
                 footerPlaceholder.innerHTML = html;
+                hydrateStoreContacts();
             })
             .catch(err => console.error("Error loading footer:", err));
     }
 
     CartService.notify();
+    hydrateStoreContacts();
 });
