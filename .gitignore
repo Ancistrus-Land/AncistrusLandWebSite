@@ -4,6 +4,11 @@ node_modules/
 Thumbs.db
 *.log
 
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+
 # Editor directories
 .vscode/
 .idea/

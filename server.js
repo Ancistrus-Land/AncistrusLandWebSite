@@ -1,6 +1,37 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+
+// Zero-dependency local .env / .env.local loader
+function loadLocalEnv() {
+    ['.env', '.env.local'].forEach(fileName => {
+        const envPath = path.join(__dirname, fileName);
+        if (fs.existsSync(envPath)) {
+            try {
+                const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith('#')) return;
+                    const eqIndex = trimmed.indexOf('=');
+                    if (eqIndex > 0) {
+                        const key = trimmed.slice(0, eqIndex).trim();
+                        let val = trimmed.slice(eqIndex + 1).trim();
+                        if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                            val = val.slice(1, -1);
+                        }
+                        if (!process.env[key]) {
+                            process.env[key] = val;
+                        }
+                    }
+                });
+            } catch (e) {
+                console.warn(`Could not read ${fileName}:`, e.message);
+            }
+        }
+    });
+}
+loadLocalEnv();
+
 const orderApi = require('./api/order');
 
 const PORT = process.env.PORT || 3000;

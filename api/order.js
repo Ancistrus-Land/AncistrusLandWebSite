@@ -4,6 +4,7 @@
  * Uses Node built-in https (zero external dependencies required)
  */
 const https = require('https');
+const url = require('url');
 
 // Default Store Configuration
 const STORE_CONFIG = {
@@ -14,6 +15,89 @@ const STORE_CONFIG = {
     location: "Ottawa, Ontario, Canada",
     website: process.env.SITE_URL || "https://ancistrusland.ca"
 };
+
+/**
+ * Save Order to Supabase Cloud PostgreSQL Database
+ * Uses direct HTTPS REST API (Zero external dependencies)
+ */
+function saveOrderToSupabase(orderData) {
+    return new Promise((resolve) => {
+        const supabaseUrl = process.env.SUPABASE_URL;
+        // Prefer secret service_role key for backend insert, fallback to anon key
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+
+        if (!supabaseUrl || !supabaseKey) {
+            console.log("[SUPABASE NOTE] No SUPABASE_URL / Key configured. Skipping cloud DB insert.");
+            return resolve({ saved: false, reason: "No credentials" });
+        }
+
+        try {
+            const parsedUrl = new url.URL(supabaseUrl);
+            const c = orderData.customer || {};
+            const subtotal = Number(orderData.subtotal != null ? orderData.subtotal : (orderData.items ? orderData.items.reduce((s, i) => s + (i.price * i.quantity), 0) : orderData.total));
+            const total = Number(orderData.total || 0);
+
+            const record = {
+                id: orderData.orderId,
+                customer_name: c.name || "Customer",
+                customer_phone: c.phone || "",
+                customer_email: c.email || "",
+                shipping_address: c.address || "",
+                city: c.city || "",
+                province: c.province || "",
+                postal_code: c.postalCode || "",
+                delivery_notes: c.notes || "",
+                payment_method: c.paymentMethod || "Interac e-Transfer",
+                items: orderData.items || [],
+                subtotal: subtotal,
+                tax_details: orderData.tax || null,
+                total: total,
+                status: "Received / Processing"
+            };
+
+            const payload = JSON.stringify(record);
+
+            const options = {
+                hostname: parsedUrl.hostname,
+                port: 443,
+                path: '/rest/v1/orders',
+                method: 'POST',
+                headers: {
+                    'apikey': supabaseKey,
+                    'Authorization': `Bearer ${supabaseKey}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal',
+                    'Content-Length': Buffer.byteLength(payload)
+                }
+            };
+
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', chunk => { data += chunk; });
+                res.on('end', () => {
+                    if (res.statusCode >= 200 && res.statusCode < 300) {
+                        console.log(`[SUPABASE SUCCESS] Order ${orderData.orderId} recorded in cloud database.`);
+                        resolve({ saved: true });
+                    } else {
+                        console.warn(`[SUPABASE WARN] HTTP ${res.statusCode}: ${data}`);
+                        resolve({ saved: false, error: data });
+                    }
+                });
+            });
+
+            req.on('error', (err) => {
+                console.error("[SUPABASE ERROR] Insert failure:", err.message);
+                resolve({ saved: false, error: err.message });
+            });
+
+            req.write(payload);
+            req.end();
+        } catch (e) {
+            console.error("[SUPABASE EXCEPTION]:", e.message);
+            resolve({ saved: false, error: e.message });
+        }
+    });
+}
 
 /**
  * Dispatch email via Resend API (Free Tier: 3,000 emails/mo)
@@ -311,13 +395,17 @@ async function processOrder(orderData) {
         html: storeHtml
     });
 
-    const [customerRes, storeRes] = await Promise.all([customerEmailPromise, storeEmailPromise]);
+    // 3. Persist order into Supabase Cloud PostgreSQL Database
+    const dbPromise = saveOrderToSupabase(orderData);
+
+    const [customerRes, storeRes, dbRes] = await Promise.all([customerEmailPromise, storeEmailPromise, dbPromise]);
 
     return {
         success: true,
         orderId: orderId,
         customerNotified: customerRes.success,
         storeNotified: storeRes.success,
+        savedToDatabase: dbRes.saved,
         simulated: customerRes.simulated || false
     };
 }
