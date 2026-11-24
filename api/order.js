@@ -321,7 +321,7 @@ function buildCustomerEmailHtml(order) {
             <tr>
                 <td style="padding: 8px 24px 20px;">
                     <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; font-size: 12.5px; color: #166534; text-align: center;">
-                        🛡️ <strong>100% Live Arrival Guarantee (LAG):</strong> Packed in molded thermo-insulated boxes with pure medical oxygen for safe Canadian arrival.
+                        📦 <strong>Insulated Packaging:</strong> Packed in molded thermo-insulated boxes with pure medical oxygen for safe Canadian courier transit.
                     </div>
                 </td>
             </tr>
