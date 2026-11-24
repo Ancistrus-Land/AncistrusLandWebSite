@@ -4,6 +4,10 @@
     {
       "source": "/api/order",
       "destination": "/api/order.js"
+    },
+    {
+      "source": "/api/store",
+      "destination": "/api/store.js"
     }
   ]
 }

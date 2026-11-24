@@ -492,7 +492,18 @@
             }
         }
 
-        function loadDashboardData() {
+        async function loadDashboardData() {
+            // 1. Sync catalog and orders from Supabase cloud in background
+            if (window.CatalogService && typeof window.CatalogService.syncFromCloud === "function") {
+                await window.CatalogService.syncFromCloud();
+            }
+            if (window.OrderService && typeof window.OrderService.fetchAllFromCloud === "function") {
+                await window.OrderService.fetchAllFromCloud();
+            }
+            if (typeof window.syncStoreContactsFromCloud === "function") {
+                await window.syncStoreContactsFromCloud();
+            }
+
             const catalog = getActiveCatalog();
             document.getElementById("stat-total-prod").textContent = catalog.length;
             document.getElementById("stat-in-stock").textContent = catalog.filter(p => p.available !== false).length;
@@ -635,12 +646,16 @@
             }).join("");
         }
 
-        function toggleStock(id) {
+        async function toggleStock(id) {
             let catalog = getActiveCatalog();
             const p = catalog.find(item => item.id === id);
             if (p) {
                 p.available = (p.available === false) ? true : false;
-                saveCatalogOverride(catalog);
+                if (window.CatalogService && typeof window.CatalogService.saveAll === "function") {
+                    await window.CatalogService.saveAll(catalog);
+                } else {
+                    saveCatalogOverride(catalog);
+                }
                 loadDashboardData();
             }
         }
@@ -660,9 +675,13 @@
             }
 
             if (confirmed) {
-                let catalog = getActiveCatalog();
-                catalog = catalog.filter(p => p.id !== id);
-                saveCatalogOverride(catalog);
+                if (window.CatalogService && typeof window.CatalogService.removeProduct === "function") {
+                    await window.CatalogService.removeProduct(id);
+                } else {
+                    let catalog = getActiveCatalog();
+                    catalog = catalog.filter(p => p.id !== id);
+                    saveCatalogOverride(catalog);
+                }
                 loadDashboardData();
                 if (window.showToast) {
                     showToast(`Product ${id} has been removed.`, "info", "Product Deleted");

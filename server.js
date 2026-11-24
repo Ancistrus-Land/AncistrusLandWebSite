@@ -33,6 +33,7 @@ function loadLocalEnv() {
 loadLocalEnv();
 
 const orderApi = require('./api/order');
+const storeApi = require('./api/store');
 
 const PORT = process.env.PORT || 3000;
 const MIME_TYPES = {
@@ -50,9 +51,12 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
     let reqUrl = req.url.split('?')[0];
 
-    // 1. API Route: /api/order
+    // 1. API Routes: /api/order, /api/store
     if (reqUrl === '/api/order') {
         return orderApi(req, res);
+    }
+    if (reqUrl === '/api/store') {
+        return storeApi(req, res);
     }
 
     // 2. Static Files Serving

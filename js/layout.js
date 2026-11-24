@@ -103,4 +103,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     CartService.notify();
     hydrateStoreContacts();
+
+    // Background sync from Supabase cloud database
+    if (typeof window.syncStoreContactsFromCloud === "function") {
+        window.syncStoreContactsFromCloud().then(() => hydrateStoreContacts());
+    }
 });

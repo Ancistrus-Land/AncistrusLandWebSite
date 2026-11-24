@@ -57,12 +57,16 @@ export const STORE_CONFIG = Object.freeze({
 /**
  * Returns active store configuration merging default constants with any admin overrides
  */
+let cachedStoreConfig = null;
+
 export function getStoreConfig() {
+    if (cachedStoreConfig) return cachedStoreConfig;
     try {
         const custom = localStorage.getItem(STORE_CONFIG.storageKeys.contactsOverride);
         if (custom) {
             const parsed = JSON.parse(custom);
-            return { ...STORE_CONFIG, ...parsed };
+            cachedStoreConfig = { ...STORE_CONFIG, ...parsed };
+            return cachedStoreConfig;
         }
     } catch (e) {
         console.warn("Failed to read contacts override:", e);
@@ -70,17 +74,75 @@ export function getStoreConfig() {
     return STORE_CONFIG;
 }
 
-export function saveStoreContacts(contacts) {
+/**
+ * Loads store contacts from the cloud database (Supabase) if available,
+ * seamlessly caching locally and broadcasting live updates.
+ */
+export async function syncStoreContactsFromCloud() {
+    try {
+        const res = await fetch('/api/store?action=settings');
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.success && data.contacts) {
+                localStorage.setItem(STORE_CONFIG.storageKeys.contactsOverride, JSON.stringify(data.contacts));
+                cachedStoreConfig = { ...STORE_CONFIG, ...data.contacts };
+                if (typeof window !== "undefined") {
+                    window.STORE_CONFIG = cachedStoreConfig;
+                    window.dispatchEvent(new CustomEvent('store:config:updated', { detail: data.contacts }));
+                }
+                return cachedStoreConfig;
+            }
+        }
+    } catch (e) {
+        // Offline or local fallback
+    }
+    return getStoreConfig();
+}
+
+export async function saveStoreContacts(contacts) {
+    cachedStoreConfig = { ...STORE_CONFIG, ...contacts };
     localStorage.setItem(STORE_CONFIG.storageKeys.contactsOverride, JSON.stringify(contacts));
     if (typeof window !== "undefined") {
+        window.STORE_CONFIG = cachedStoreConfig;
         window.dispatchEvent(new CustomEvent('store:config:updated', { detail: contacts }));
+    }
+
+    // Push to Supabase Cloud
+    try {
+        await fetch('/api/store?action=settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contacts })
+        });
+    } catch (err) {
+        console.warn("Could not save settings to cloud (saved locally):", err);
     }
 }
 
-export function resetStoreContacts() {
+export async function resetStoreContacts() {
+    cachedStoreConfig = null;
     localStorage.removeItem(STORE_CONFIG.storageKeys.contactsOverride);
     if (typeof window !== "undefined") {
+        window.STORE_CONFIG = STORE_CONFIG;
         window.dispatchEvent(new CustomEvent('store:config:updated'));
+    }
+
+    // Reset on Supabase Cloud
+    try {
+        await fetch('/api/store?action=settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contacts: {
+                    location: STORE_CONFIG.location,
+                    phoneDisplay: STORE_CONFIG.phoneDisplay,
+                    email: STORE_CONFIG.email,
+                    whatsappNumber: STORE_CONFIG.whatsappNumber
+                }
+            })
+        });
+    } catch (err) {
+        console.warn("Could not reset settings in cloud:", err);
     }
 }
 
@@ -117,6 +179,7 @@ export function calculateCanadianTax(provinceInput, subtotal = 0) {
 if (typeof window !== "undefined") {
     window.STORE_CONFIG = getStoreConfig();
     window.getStoreConfig = getStoreConfig;
+    window.syncStoreContactsFromCloud = syncStoreContactsFromCloud;
     window.saveStoreContacts = saveStoreContacts;
     window.resetStoreContacts = resetStoreContacts;
     window.calculateCanadianTax = calculateCanadianTax;

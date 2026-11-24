@@ -30,9 +30,74 @@ export const CatalogService = {
         });
     },
 
-    saveAll(products) {
+    async syncFromCloud() {
+        try {
+            const res = await fetch('/api/store?action=products');
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.success && Array.isArray(data.products) && data.products.length > 0) {
+                    const mapped = data.products.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        category: p.category,
+                        subcategory: p.subcategory || '',
+                        price: Number(p.price) || 0,
+                        image: p.image || 'img/Fish 1.jpg',
+                        available: p.available !== false,
+                        description: p.description || '',
+                        detailUrl: `shop-detail.html?id=${p.id}`
+                    }));
+                    localStorage.setItem(STORE_CONFIG.storageKeys.catalogOverride, JSON.stringify(mapped));
+                    window.dispatchEvent(new CustomEvent('catalog:updated', { detail: mapped }));
+                    return mapped;
+                }
+            }
+        } catch (err) {
+            console.warn("Could not sync catalog from cloud:", err);
+        }
+        return this.getAll();
+    },
+
+    async saveAll(products) {
         localStorage.setItem(STORE_CONFIG.storageKeys.catalogOverride, JSON.stringify(products));
         window.dispatchEvent(new CustomEvent('catalog:updated', { detail: products }));
+
+        // Cloud sync to Supabase
+        try {
+            await fetch('/api/store?action=products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ products })
+            });
+        } catch (err) {
+            console.warn("Could not save products to cloud:", err);
+        }
+    },
+
+    async saveProduct(product) {
+        const catalog = this.getAll();
+        const index = catalog.findIndex(p => p.id === product.id);
+        if (index !== -1) {
+            catalog[index] = product;
+        } else {
+            catalog.unshift(product);
+        }
+        await this.saveAll(catalog);
+    },
+
+    async removeProduct(id) {
+        const catalog = this.getAll().filter(p => p.id !== id);
+        localStorage.setItem(STORE_CONFIG.storageKeys.catalogOverride, JSON.stringify(catalog));
+        window.dispatchEvent(new CustomEvent('catalog:updated', { detail: catalog }));
+
+        // Delete in cloud
+        try {
+            await fetch(`/api/store?action=products&id=${encodeURIComponent(id)}`, {
+                method: 'DELETE'
+            });
+        } catch (err) {
+            console.warn("Could not delete product in cloud:", err);
+        }
     },
 
     resetToDefault() {
@@ -134,6 +199,22 @@ export const OrderService = {
         } catch (e) {
             return [];
         }
+    },
+
+    async fetchAllFromCloud() {
+        try {
+            const res = await fetch('/api/store?action=orders');
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.success && Array.isArray(data.orders)) {
+                    localStorage.setItem(STORE_CONFIG.storageKeys.orders, JSON.stringify(data.orders));
+                    return data.orders;
+                }
+            }
+        } catch (err) {
+            console.warn("Could not fetch orders from cloud:", err);
+        }
+        return this.getAll();
     },
 
     create(customerData, cartItems, totalAmount) {
