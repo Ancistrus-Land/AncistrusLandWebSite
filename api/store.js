@@ -66,6 +66,63 @@ function supabaseRequest(path, method = 'GET', body = null, extraHeaders = {}) {
     });
 }
 
+function sendEmailViaResend(to, subject, html) {
+    return new Promise((resolve) => {
+        const apiKey = process.env.RESEND_API_KEY;
+        const sender = process.env.RESEND_FROM || "Ancistrus Land Admin <orders@ancistrusland.com>";
+
+        if (!apiKey) {
+            console.error("[RESEND OTP ERROR] Missing RESEND_API_KEY environment variable.");
+            return resolve({ success: false, error: "Missing RESEND_API_KEY environment variable" });
+        }
+
+        const payload = JSON.stringify({
+            from: sender,
+            to: Array.isArray(to) ? to : [to],
+            subject: subject,
+            html: html
+        });
+
+        const options = {
+            hostname: 'api.resend.com',
+            port: 443,
+            path: '/emails',
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(payload)
+            }
+        };
+
+        const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => { data += chunk; });
+            res.on('end', () => {
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        resolve({ success: true, id: parsed.id });
+                    } catch (e) {
+                        resolve({ success: true });
+                    }
+                } else {
+                    console.error(`[RESEND OTP ERROR] status ${res.statusCode}: ${data}`);
+                    resolve({ success: false, error: data });
+                }
+            });
+        });
+
+        req.on('error', (err) => {
+            console.error('[RESEND OTP ERROR] network failure:', err.message);
+            resolve({ success: false, error: err.message });
+        });
+
+        req.write(payload);
+        req.end();
+    });
+}
+
 module.exports = async (req, res) => {
     // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -188,6 +245,93 @@ module.exports = async (req, res) => {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ success: false, fallback: true, error: err.message }));
                 }
+                return;
+            }
+        }
+
+        // --- 4. ADMIN OTP AUTHENTICATION (via verified Resend delivery) ---
+        if (action === 'send-otp') {
+            if (req.method === 'POST') {
+                const targetEmail = "contact@ancistrusland.com";
+                // Generate a secure 6-digit code
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString(); // 10 minutes
+
+                // Save to store_settings table
+                await supabaseRequest('/rest/v1/store_settings', 'POST', {
+                    key: 'admin_otp',
+                    value: { code, expiresAt, email: targetEmail },
+                    updated_at: new Date().toISOString()
+                }, {
+                    'Prefer': 'resolution=merge-duplicates,return=representation'
+                });
+
+                const html = `
+                    <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+                        <h2 style="color: #0077b6; margin-top: 0;">Ancistrus Land Canada</h2>
+                        <h4 style="color: #1e293b; margin-bottom: 8px;">Administrative Verification Code</h4>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.5;">
+                            A request was made to unlock the Store Admin Dashboard. Use the 6-digit code below to authenticate:
+                        </p>
+                        <div style="text-align: center; margin: 24px 0;">
+                            <div style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #0077b6; background: #f0f9ff; padding: 12px 28px; border-radius: 10px; border: 1px dashed #0096c7;">
+                                ${code}
+                            </div>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 12px; line-height: 1.4;">
+                            This code is valid for 10 minutes. If you did not make this request, please disregard this email.
+                        </p>
+                        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+                        <small style="color: #94a3b8;">Ancistrus Land Canada &bull; Ottawa, Ontario &bull; contact@ancistrusland.com</small>
+                    </div>
+                `;
+
+                const emailResult = await sendEmailViaResend(targetEmail, `${code} is your Ancistrus Land Admin Verification Code`, html);
+
+                if (!emailResult.success) {
+                    throw new Error("Unable to deliver verification email via Resend.");
+                }
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, message: "Code sent successfully" }));
+                return;
+            }
+        }
+
+        if (action === 'verify-otp') {
+            if (req.method === 'POST') {
+                const body = await parseBody(req);
+                const inputCode = (body.code || '').trim();
+
+                const data = await supabaseRequest('/rest/v1/store_settings?key=eq.admin_otp&select=*');
+                if (!data || data.length === 0 || !data[0].value) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: "No pending verification code found. Please request a new one." }));
+                    return;
+                }
+
+                const otpRecord = data[0].value;
+                const now = new Date();
+                const expiry = new Date(otpRecord.expiresAt);
+
+                if (now > expiry) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: "Verification code has expired. Please request a new one." }));
+                    return;
+                }
+
+                if (otpRecord.code !== inputCode) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: "Invalid verification code. Please check your inbox and try again." }));
+                    return;
+                }
+
+                // Invalidate code after successful use
+                await supabaseRequest('/rest/v1/store_settings?key=eq.admin_otp', 'DELETE');
+
+                // Return authenticated token
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, token: "ancistrus_admin_auth_verified" }));
                 return;
             }
         }

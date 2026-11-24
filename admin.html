@@ -510,22 +510,23 @@
             if (resendBtn) resendBtn.disabled = true;
 
             try {
-                if (!supabaseClient) throw new Error("Authentication service initializing. Please refresh and try again.");
-
-                const { data, error } = await supabaseClient.auth.signInWithOtp({
-                    email: ADMIN_EMAIL,
-                    options: {
-                        shouldCreateUser: true
-                    }
+                // Call backend Resend service
+                const res = await fetch('/api/store?action=send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: ADMIN_EMAIL })
                 });
 
-                if (error) throw error;
+                const result = await res.json();
+                if (!res.ok || !result.success) {
+                    throw new Error(result.error || "Failed to dispatch verification code.");
+                }
 
                 // Switch UI to verification step
                 document.getElementById("otp-request-step").classList.add("d-none");
                 document.getElementById("otp-verify-step").classList.remove("d-none");
                 
-                successEl.textContent = "Verification code dispatched to your inbox!";
+                successEl.textContent = "Verification code dispatched to contact@ancistrusland.com!";
                 successEl.classList.remove("d-none");
 
                 // Focus OTP input
@@ -567,27 +568,24 @@
             verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verifying...';
 
             try {
-                if (!supabaseClient) throw new Error("Authentication service unavailable.");
-
-                const { data, error } = await supabaseClient.auth.verifyOtp({
-                    email: ADMIN_EMAIL,
-                    token: token,
-                    type: 'email'
+                const res = await fetch('/api/store?action=verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: token })
                 });
 
-                if (error) throw error;
-
-                if (data && data.session) {
-                    sessionStorage.setItem("admin_auth", "true");
-                    sessionStorage.setItem("admin_jwt", data.session.access_token);
-                    successEl.textContent = "Authenticated successfully! Loading dashboard...";
-                    successEl.classList.remove("d-none");
-                    setTimeout(() => {
-                        showDashboard();
-                    }, 400);
-                } else {
-                    throw new Error("Unable to obtain verified session. Please request a new code.");
+                const result = await res.json();
+                if (!res.ok || !result.success) {
+                    throw new Error(result.error || "Invalid or expired code.");
                 }
+
+                sessionStorage.setItem("admin_auth", "true");
+                sessionStorage.setItem("admin_jwt", result.token || "verified");
+                successEl.textContent = "Authenticated successfully! Loading dashboard...";
+                successEl.classList.remove("d-none");
+                setTimeout(() => {
+                    showDashboard();
+                }, 400);
 
             } catch (err) {
                 console.error("OTP verification error:", err);
