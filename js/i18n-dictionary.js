@@ -1,0 +1,212 @@
+/**
+ * Ancistrus Land Canada - Internationalization (i18n) Dictionary
+ * Externalized UI strings for English (en) and French (fr)
+ */
+export const TRANSLATIONS = {
+    en: {
+        // Navigation & Header
+        "nav.home": "Home",
+        "nav.fish": "Fish",
+        "nav.invertebrate": "Invertebrates",
+        "nav.plants": "Live Plants",
+        "nav.dryGoods": "Dry Goods",
+        "nav.whyUs": "Why Us",
+        "nav.contact": "Contact",
+        "nav.shopNow": "Shop Now",
+        "nav.searchPlaceholder": "Search products, fish, plants...",
+        "nav.cart": "Cart",
+        "nav.toggleTheme": "Toggle Dark/Light Mode",
+        "nav.language": "Language",
+
+        // Fish Dropdown
+        "cat.angel": "Angel",
+        "cat.betta": "Betta SP",
+        "cat.catfish": "Catfish & Ancistrus Plecos",
+        "cat.cichlids": "Cichlids (Golden Rams)",
+        "cat.corydoras": "Corydoras",
+        "cat.discus": "Discus Collection",
+        "cat.killifish": "Killifish",
+        "cat.livebearer": "Livebearer",
+        "cat.rainbows": "Rainbows SP",
+        "cat.rareFinds": "Rare Finds",
+        "cat.tetra": "Tetra SP",
+
+        // Invertebrates Dropdown
+        "cat.caridina": "Caridina Shrimp",
+        "cat.mysterySnails": "Mystery Snails & Others",
+        "cat.neocaridina": "Neocaridina Shrimp",
+
+        // Hero & Banner
+        "hero.badge": "Freshwater Wonders • Canada",
+        "hero.title": "Canada's Premier Aquatic Boutique",
+        "hero.subtitle": "Specialty Ancistrus Bristlenose Plecos, Exotic Discus, and Vibrant Freshwater Life.",
+        "hero.ctaShop": "Explore Catalogue",
+        "hero.ctaWhy": "Why Ancistrus Land",
+        "hero.cycling": "Automatically cycling live catalogue • Click to view details",
+
+        // Shop & Catalogue
+        "shop.allProducts": "All Products",
+        "shop.filterCategories": "Categories",
+        "shop.sortBy": "Sort By",
+        "shop.sortFeatured": "Featured",
+        "shop.sortPriceLow": "Price: Low to High",
+        "shop.sortPriceHigh": "Price: High to Low",
+        "shop.sortName": "Name (A - Z)",
+        "shop.addToCart": "Add to Cart",
+        "shop.soldOut": "Sold Out",
+        "shop.inStock": "In Stock",
+        "shop.outOfStock": "Out of Stock",
+        "shop.viewDetails": "View Details",
+
+        // Why Us Cards
+        "why.standard": "The Ancistrus Standard",
+        "why.title": "Exotic Freshwater Species & Rare Finds From Around the World",
+        "why.p1": "At Ancistrus Land, we are dedicated fishkeepers and breeders offering an extraordinary selection of exotic freshwater fish, ornamental shrimp, and aquatic species originating from diverse rivers and regions across South America, Africa, and Asia.",
+        "why.p2": "By combining direct breeding with carefully curated global imports, we deliver exceptional diversity, healthy and conditioned specimens, and unique collector strains at fair, direct-to-hobbyist prices.",
+        "why.card1.title": "Global River Origins",
+        "why.card1.desc": "Exotic fish and species native to premier waterways across various countries.",
+        "why.card2.title": "Unique Selections",
+        "why.card2.desc": "Rare pleco morphs, wild-type variants, and boutique shrimp strains.",
+        "why.card3.title": "Fair, Direct Prices",
+        "why.card3.desc": "Competitive pricing without standard retail markups on premium livestock.",
+        "why.card4.title": "Passionate Care",
+        "why.card4.desc": "Specimens conditioned on premium nutrition in clean, dedicated setups.",
+
+        // Admin Security & OTP
+        "admin.securityBadge": "ADMINISTRATIVE SECURITY",
+        "admin.title": "Store Admin Access",
+        "admin.requestDesc": "To protect catalog inventory, prices, and customer orders, a 6-digit one-time code will be dispatched to the official store email:",
+        "admin.sendOtpBtn": "Send Verification Code",
+        "admin.sendingOtp": "Sending Code...",
+        "admin.verifyDesc": "A 6-digit verification code has been dispatched to your official store inbox. Please enter it below:",
+        "admin.verifyBtn": "Verify & Unlock Dashboard",
+        "admin.verifying": "Verifying...",
+        "admin.resend": "Resend Code",
+        "admin.back": "Back",
+        "admin.logout": "Logout",
+        "admin.liveStore": "Live Store",
+
+        // Footer
+        "footer.tagline": "Freshwater Wonders",
+        "footer.company": "Company",
+        "footer.resources": "Resources",
+        "footer.legal": "Legal & IP",
+        "footer.getInTouch": "Get In Touch",
+        "footer.whyUs": "Why Ancistrus Land",
+        "footer.careers": "Careers",
+        "footer.contactUs": "Contact Us",
+        "footer.storeAdmin": "Store Admin",
+        "footer.plecos": "Ancistrus Plecos",
+        "footer.discus": "Discus Collection",
+        "footer.catalogue": "Shop Full Catalogue",
+        "footer.support": "Customer Support",
+        "footer.privacy": "Privacy Policy",
+        "footer.terms": "Terms of Use",
+        "footer.license": "Commercial License",
+        "footer.whatsapp": "WhatsApp Desk",
+        "footer.copyright": "© 2026 Ancistrus Land Canada. All Rights Reserved."
+    },
+    fr: {
+        // Navigation & Header
+        "nav.home": "Accueil",
+        "nav.fish": "Poissons",
+        "nav.invertebrate": "Invertébrés",
+        "nav.plants": "Plantes Aquatiques",
+        "nav.dryGoods": "Articles Divers",
+        "nav.whyUs": "Pourquoi Nous",
+        "nav.contact": "Contact",
+        "nav.shopNow": "Boutique",
+        "nav.searchPlaceholder": "Rechercher poissons, plantes, crevettes...",
+        "nav.cart": "Panier",
+        "nav.toggleTheme": "Changer le Thème Jour/Nuit",
+        "nav.language": "Langue",
+
+        // Fish Dropdown
+        "cat.angel": "Scalaires (Angelfish)",
+        "cat.betta": "Betta SP",
+        "cat.catfish": "Silures & Plecos Ancistrus",
+        "cat.cichlids": "Cichlidés (Rams Dorés)",
+        "cat.corydoras": "Corydoras",
+        "cat.discus": "Collection Discus",
+        "cat.killifish": "Killies",
+        "cat.livebearer": "Vivipares",
+        "cat.rainbows": "Poissons Arc-en-ciel",
+        "cat.rareFinds": "Espèces Rares",
+        "cat.tetra": "Tétras SP",
+
+        // Invertebrates Dropdown
+        "cat.caridina": "Crevettes Caridina",
+        "cat.mysterySnails": "Escargots Mystère & Autres",
+        "cat.neocaridina": "Crevettes Neocaridina",
+
+        // Hero & Banner
+        "hero.badge": "Merveilles d'Eau Douce • Canada",
+        "hero.title": "La Première Boutique Aquatique du Canada",
+        "hero.subtitle": "Spécialiste des Plecos Ancistrus, Discus Exotiques et Espèces d'Eau Douce Vibrantes.",
+        "hero.ctaShop": "Explorer le Catalogue",
+        "hero.ctaWhy": "Pourquoi Ancistrus Land",
+        "hero.cycling": "Défilement automatique du catalogue en direct • Cliquez pour voir les détails",
+
+        // Shop & Catalogue
+        "shop.allProducts": "Tous les Produits",
+        "shop.filterCategories": "Catégories",
+        "shop.sortBy": "Trier par",
+        "shop.sortFeatured": "En Vedette",
+        "shop.sortPriceLow": "Prix: Croissant",
+        "shop.sortPriceHigh": "Prix: Décroissant",
+        "shop.sortName": "Nom (A - Z)",
+        "shop.addToCart": "Ajouter au Panier",
+        "shop.soldOut": "Épuisé",
+        "shop.inStock": "En Stock",
+        "shop.outOfStock": "Rupture de Stock",
+        "shop.viewDetails": "Voir Détails",
+
+        // Why Us Cards
+        "why.standard": "Le Standard Ancistrus",
+        "why.title": "Espèces d'Eau Douce Exotiques & Spécimens Rares du Monde Entier",
+        "why.p1": "Chez Ancistrus Land, nous sommes des aquariophiles et éleveurs passionnés proposant une sélection extraordinaire de poissons d'eau douce exotiques, crevettes d'ornement et espèces aquatiques originaires de divers cours d'eau d'Amérique du Sud, d'Afrique et d'Asie.",
+        "why.p2": "En associant notre propre élevage à des importations internationales rigoureusement sélectionnées, nous offrons une diversité exceptionnelle, des spécimens sains et conditionnés, et des souches de collectionneur rares à des prix justes.",
+        "why.card1.title": "Origines Fluviales Mondiales",
+        "why.card1.desc": "Poissons et espèces exotiques indigènes des cours d'eau les plus réputés à travers le monde.",
+        "why.card2.title": "Sélections Uniques",
+        "why.card2.desc": "Morphes rares de plecos, variantes sauvages et souches prestigieuses de crevettes.",
+        "why.card3.title": "Prix Justes et Directs",
+        "why.card3.desc": "Tarifs compétitifs sans majorations commerciales superflues sur le vivant de qualité.",
+        "why.card4.title": "Soin Passionné",
+        "why.card4.desc": "Spécimens conditionnés avec une alimentation supérieure dans des bacs dédiés et surveillés.",
+
+        // Admin Security & OTP
+        "admin.securityBadge": "SÉCURITÉ ADMINISTRATIVE",
+        "admin.title": "Accès Administrateur",
+        "admin.requestDesc": "Pour protéger l'inventaire du catalogue, les prix et les commandes des clients, un code à usage unique de 6 chiffres sera envoyé à l'adresse courriel officielle du magasin:",
+        "admin.sendOtpBtn": "Envoyer le Code de Vérification",
+        "admin.sendingOtp": "Envoi du code en cours...",
+        "admin.verifyDesc": "Un code de vérification à 6 chiffres a été expédié à votre boîte courriel. Veuillez le saisir ci-dessous:",
+        "admin.verifyBtn": "Vérifier & Déverrouiller le Tableau de Bord",
+        "admin.verifying": "Vérification en cours...",
+        "admin.resend": "Renvoyer le Code",
+        "admin.back": "Retour",
+        "admin.logout": "Déconnexion",
+        "admin.liveStore": "Boutique en Direct",
+
+        // Footer
+        "footer.tagline": "Merveilles d'Eau Douce",
+        "footer.company": "Entreprise",
+        "footer.resources": "Ressources",
+        "footer.legal": "Mentions Légales & PI",
+        "footer.getInTouch": "Nous Joindre",
+        "footer.whyUs": "Pourquoi Ancistrus Land",
+        "footer.careers": "Carrières",
+        "footer.contactUs": "Contactez-Nous",
+        "footer.storeAdmin": "Gestion Magasin",
+        "footer.plecos": "Plecos Ancistrus",
+        "footer.discus": "Collection Discus",
+        "footer.catalogue": "Catalogue Complet",
+        "footer.support": "Service Client",
+        "footer.privacy": "Politique de Confidentialité",
+        "footer.terms": "Conditions d'Utilisation",
+        "footer.license": "Licence Commerciale",
+        "footer.whatsapp": "Bureau WhatsApp",
+        "footer.copyright": "© 2026 Ancistrus Land Canada. Tous droits réservés."
+    }
+};

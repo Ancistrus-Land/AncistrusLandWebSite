@@ -4,6 +4,7 @@
  * manages persistent Dark/Light Theme preferences, and initializes the tank engine.
  */
 import { CartService } from './services.js';
+import { i18n } from './i18n.js';
 import './aquarium.js';
 
 // Theme controller
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 CartService.notify();
                 updateThemeIcons(localStorage.getItem("ancistrus_theme") || "light");
                 hydrateStoreContacts();
+                i18n.init();
             })
             .catch(err => console.error("Error loading header:", err));
     }
@@ -97,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(html => {
                 footerPlaceholder.innerHTML = html;
                 hydrateStoreContacts();
+                i18n.translatePage();
             })
             .catch(err => console.error("Error loading footer:", err));
     }

@@ -11,12 +11,22 @@
                 </div>
             </a>
 
-            <!-- Mobile: Theme Toggle + Shop Now + Cart + Menu -->
+            <!-- Mobile: Theme Toggle + Language + Shop Now + Cart + Menu -->
             <div class="anc-mobile-actions d-xl-none d-flex align-items-center">
+                <!-- Mobile Language Dropdown -->
+                <div class="dropdown me-2">
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Select Language">
+                        <i class="fas fa-globe me-1"></i><span id="active-lang-mobile">EN</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width: 120px; border-radius: 12px;">
+                        <li><a class="dropdown-item lang-select-option" href="javascript:void(0)" data-lang="en" onclick="setLanguage('en')">🇨🇦 English</a></li>
+                        <li><a class="dropdown-item lang-select-option" href="javascript:void(0)" data-lang="fr" onclick="setLanguage('fr')">⚜️ Français</a></li>
+                    </ul>
+                </div>
                 <button class="theme-toggle-btn me-2" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
                     <i class="fas fa-moon theme-icon"></i>
                 </button>
-                <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 anc-shop-now me-2" href="shop.html">Shop</a>
+                <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 anc-shop-now me-2" href="shop.html" data-i18n="nav.shopNow">Shop</a>
                 <a class="position-relative anc-cart-link me-2" href="cart.html">
                     <i class="fa fa-shopping-bag fa-lg text-primary"></i>
                     <span class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-white px-1 anc-cart-count" id="cart-count-mobile">0</span>
@@ -29,43 +39,54 @@
             <!-- Main Navigation Links -->
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto anc-category-nav">
-                    <a class="nav-item nav-link" href="index.html">Home</a>
+                    <a class="nav-item nav-link" href="index.html" data-i18n="nav.home">Home</a>
                     <div class="nav-item dropdown anc-category-dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=fish">Fish</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=fish" data-i18n="nav.fish">Fish</a>
                         <div class="dropdown-menu m-0 anc-category-menu shadow-lg">
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=angel">Angel</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=bettasp">Betta SP</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=catfish"><i class="fas fa-fish me-2 text-primary"></i>Catfish &amp; Ancistrus Plecos</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=cichlids">Cichlids (Golden Rams)</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=corydoras">Corydoras</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=discus">Discus Collection</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=killifish">Killifish</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=livebearer">Livebearer</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rainbowssp">Rainbows SP</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rarefinds">Rare Finds</a>
-                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=tetrasp">Tetra SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=angel" data-i18n="cat.angel">Angel</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=bettasp" data-i18n="cat.betta">Betta SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=catfish" data-i18n="cat.catfish"><i class="fas fa-fish me-2 text-primary"></i>Catfish &amp; Ancistrus Plecos</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=cichlids" data-i18n="cat.cichlids">Cichlids (Golden Rams)</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=corydoras" data-i18n="cat.corydoras">Corydoras</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=discus" data-i18n="cat.discus">Discus Collection</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=killifish" data-i18n="cat.killifish">Killifish</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=livebearer" data-i18n="cat.livebearer">Livebearer</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rainbowssp" data-i18n="cat.rainbows">Rainbows SP</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=rarefinds" data-i18n="cat.rareFinds">Rare Finds</a>
+                            <a class="anc-submenu-link" href="shop.html?category=fish&amp;subcategory=tetrasp" data-i18n="cat.tetra">Tetra SP</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown anc-category-dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=invertebrate">Invertebrate</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="shop.html?category=invertebrate" data-i18n="nav.invertebrate">Invertebrate</a>
                         <div class="dropdown-menu m-0 anc-category-menu shadow-lg">
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=caridina-shrimp">Caridina Shrimp</a>
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=other-Livestock">Mystery Snails &amp; Others</a>
-                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=neocaridina-shrimp">Neocaridina Shrimp</a>
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=caridina-shrimp" data-i18n="cat.caridina">Caridina Shrimp</a>
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=other-Livestock" data-i18n="cat.mysterySnails">Mystery Snails &amp; Others</a>
+                            <a class="anc-submenu-link" href="shop.html?category=invertebrate&amp;subcategory=neocaridina-shrimp" data-i18n="cat.neocaridina">Neocaridina Shrimp</a>
                         </div>
                     </div>
-                    <a class="nav-item nav-link" href="shop.html?category=plants">Plants</a>
-                    <a class="nav-item nav-link" href="shop.html?category=dry-goods">Dry Goods</a>
-                    <a class="nav-item nav-link" href="why-us.html">Why Us</a>
-                    <a class="nav-item nav-link" href="contact.html">Contact</a>
+                    <a class="nav-item nav-link" href="shop.html?category=plants" data-i18n="nav.plants">Plants</a>
+                    <a class="nav-item nav-link" href="shop.html?category=dry-goods" data-i18n="nav.dryGoods">Dry Goods</a>
+                    <a class="nav-item nav-link" href="why-us.html" data-i18n="nav.whyUs">Why Us</a>
+                    <a class="nav-item nav-link" href="contact.html" data-i18n="nav.contact">Contact</a>
                 </div>
 
-                <!-- Desktop: Theme Toggle + Shop Now + Cart Action -->
+                <!-- Desktop: Language Menu + Theme Toggle + Shop Now + Cart Action -->
                 <div class="d-none d-xl-flex align-items-center ms-3 me-2 anc-desktop-actions">
+                    <!-- Language Switcher Dropdown -->
+                    <div class="dropdown me-3">
+                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 dropdown-toggle fw-bold" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Select Language">
+                            <i class="fas fa-globe me-1 text-primary"></i><span id="active-lang-label">EN</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="langDropdown" style="min-width: 140px; border-radius: 12px;">
+                            <li><a class="dropdown-item lang-select-option" href="javascript:void(0)" data-lang="en" onclick="setLanguage('en')">🇨🇦 English</a></li>
+                            <li><a class="dropdown-item lang-select-option" href="javascript:void(0)" data-lang="fr" onclick="setLanguage('fr')">⚜️ Français</a></li>
+                        </ul>
+                    </div>
+
                     <button class="theme-toggle-btn me-3" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
                         <i class="fas fa-moon theme-icon"></i>
                     </button>
-                    <a class="btn rounded-pill px-4 me-3 anc-shop-now" href="shop.html">Shop Now</a>
+                    <a class="btn rounded-pill px-4 me-3 anc-shop-now" href="shop.html" data-i18n="nav.shopNow">Shop Now</a>
                     <a class="position-relative my-auto anc-cart-link" href="cart.html" title="Shopping Cart">
                         <i class="fa fa-shopping-bag fa-xl text-primary"></i>
                         <span class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-white px-1" id="cart-count" style="top:-8px;left:14px;height:20px;min-width:20px;font-size:12px;font-weight:700;">0</span>
