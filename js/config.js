@@ -11,10 +11,10 @@ export const STORE_CONFIG = Object.freeze({
     locale: "en-CA",
     
     // Store Contacts
-    email: "sudarsha.wijenayake@gmail.com",
-    phoneDisplay: "+1 (613) 266-5285",
-    whatsappNumber: "16132665285",
-    location: "Ottawa, Ontario, Canada",
+    email: "contact@ancistrusland.com",
+    phoneDisplay: "+1 (613) 857-7381",
+    whatsappNumber: "16138577381",
+    location: "22 Moresby Drive, Ottawa, Ontario, K2M 2E5",
     
     // Admin Security
     adminPin: "1234",
@@ -40,7 +40,7 @@ export const STORE_CONFIG = Object.freeze({
     
     // Payment Options Supported
     paymentMethods: [
-        { id: "interac", name: "Interac e-Transfer", desc: "Direct Canadian bank transfer to sudarsha.wijenayake@gmail.com" },
+        { id: "interac", name: "Interac e-Transfer", desc: "Direct Canadian bank transfer to contact@ancistrusland.com" },
         { id: "cod", name: "Cash on Delivery / Pickup", desc: "Available for Ottawa / Gatineau region" },
         { id: "invoice", name: "Credit / Debit Card", desc: "Secure digital payment link via email" }
     ],

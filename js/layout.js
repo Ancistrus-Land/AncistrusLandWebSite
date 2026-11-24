@@ -41,10 +41,10 @@ applyTheme(savedTheme);
 // Hydrate dynamic contact information in header, footer, and pages
 export function hydrateStoreContacts() {
     const config = (typeof window.getStoreConfig === "function") ? window.getStoreConfig() : (window.STORE_CONFIG || {});
-    const email = config.email || "sudarsha.wijenayake@gmail.com";
-    const phone = config.phoneDisplay || "+1 (613) 266-5285";
-    const location = config.location || "Ottawa, Ontario, Canada";
-    const waNumber = config.whatsappNumber || "16132665285";
+    const email = config.email || "contact@ancistrusland.com";
+    const phone = config.phoneDisplay || "+1 (613) 857-7381";
+    const location = config.location || "22 Moresby Drive, Ottawa, Ontario, K2M 2E5";
+    const waNumber = config.whatsappNumber || "16138577381";
     const waUrl = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
 
     // Target elements with data-store-contact attribute

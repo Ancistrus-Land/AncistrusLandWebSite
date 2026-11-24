@@ -9,11 +9,11 @@ const url = require('url');
 // Default Store Configuration
 const STORE_CONFIG = {
     name: "Ancistrus Land Canada",
-    email: process.env.STORE_EMAIL || "sudarsha.wijenayake@gmail.com",
-    phone: "+1 (613) 266-5285",
-    whatsapp: "+1 (613) 266-5285",
-    location: "Ottawa, Ontario, Canada",
-    website: process.env.SITE_URL || "https://ancistrusland.ca"
+    email: process.env.STORE_EMAIL || "contact@ancistrusland.com",
+    phone: "+1 (613) 857-7381",
+    whatsapp: "+1 (613) 857-7381",
+    location: "22 Moresby Drive, Ottawa, Ontario, K2M 2E5",
+    website: process.env.SITE_URL || "https://www.ancistrusland.com"
 };
 
 /**

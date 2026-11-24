@@ -326,7 +326,7 @@
                                     <label class="form-label small fw-bold">Primary Phone (Display &amp; Inquiries)</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-primary"></i></span>
-                                        <input type="text" id="contact-edit-phone" class="form-control rounded-end-pill" required placeholder="+1 (613) 266-5285">
+                                        <input type="text" id="contact-edit-phone" class="form-control rounded-end-pill" required placeholder="+1 (613) 857-7381">
                                     </div>
                                     <small class="text-muted">Formatted phone number shown to buyers.</small>
                                 </div>
@@ -335,7 +335,7 @@
                                     <label class="form-label small fw-bold">Official Store Email (Orders &amp; Interac e-Transfer)</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-primary"></i></span>
-                                        <input type="email" id="contact-edit-email" class="form-control rounded-end-pill" required placeholder="sudarsha.wijenayake@gmail.com">
+                                        <input type="email" id="contact-edit-email" class="form-control rounded-end-pill" required placeholder="contact@ancistrusland.com">
                                     </div>
                                     <small class="text-muted">Destination for Interac e-Transfers and automated order alerts.</small>
                                 </div>
@@ -344,9 +344,9 @@
                                     <label class="form-label small fw-bold">WhatsApp Direct Number (Digits only)</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0"><i class="fab fa-whatsapp text-success"></i></span>
-                                        <input type="text" id="contact-edit-whatsapp" class="form-control rounded-end-pill" required placeholder="16132665285">
+                                        <input type="text" id="contact-edit-whatsapp" class="form-control rounded-end-pill" required placeholder="16138577381">
                                     </div>
-                                    <small class="text-muted">Country code + area code + number (no spaces/symbols, e.g. 16132665285).</small>
+                                    <small class="text-muted">Country code + area code + number (no spaces/symbols, e.g. 16138577381).</small>
                                 </div>
 
                                 <div class="col-12 mt-4 pt-2 border-top d-flex flex-wrap gap-2 justify-content-between align-items-center">
@@ -508,10 +508,10 @@
 
         function loadContactsForm() {
             const config = (typeof getStoreConfig === "function") ? getStoreConfig() : (window.STORE_CONFIG || {});
-            document.getElementById("contact-edit-location").value = config.location || "Ottawa, Ontario, Canada";
-            document.getElementById("contact-edit-phone").value = config.phoneDisplay || "+1 (613) 266-5285";
-            document.getElementById("contact-edit-email").value = config.email || "sudarsha.wijenayake@gmail.com";
-            document.getElementById("contact-edit-whatsapp").value = config.whatsappNumber || "16132665285";
+            document.getElementById("contact-edit-location").value = config.location || "22 Moresby Drive, Ottawa, Ontario, K2M 2E5";
+            document.getElementById("contact-edit-phone").value = config.phoneDisplay || "+1 (613) 857-7381";
+            document.getElementById("contact-edit-email").value = config.email || "contact@ancistrusland.com";
+            document.getElementById("contact-edit-whatsapp").value = config.whatsappNumber || "16138577381";
         }
 
         function handleSaveContacts(e) {
