@@ -176,9 +176,9 @@ body.dark-mode .theme-toggle-btn {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(255, 255, 255, 0.85) !important;
-    box-shadow: 0 12px 35px rgba(0, 30, 60, 0.16) !important;
-    border-radius: 45px !important;
-    padding: 8px 26px !important;
+    box-shadow: 0 10px 30px rgba(0, 30, 60, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 10px 24px !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     z-index: 99999 !important;
@@ -204,9 +204,9 @@ body.dark-mode .theme-toggle-btn {
 .anc-shop-navbar .nav-link {
     font-weight: 600;
     color: var(--anc-dark) !important;
-    font-size: 15px;
-    letter-spacing: 0.2px;
-    padding: 8px 12px !important;
+    font-size: 14px;
+    letter-spacing: 0.1px;
+    padding: 6px 10px !important;
     white-space: nowrap !important;
     transition: color 0.25s ease, transform 0.2s ease;
 }
@@ -222,7 +222,8 @@ body.dark-mode .theme-toggle-btn {
     color: #ffffff !important;
     border: none !important;
     font-weight: 700;
-    padding: 8px 20px !important;
+    font-size: 14px;
+    padding: 6px 16px !important;
     white-space: nowrap !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -273,15 +274,29 @@ body.dark-mode .theme-toggle-btn {
    blur, and soft aquatic elevation across every page.
    ========================================================================== */
 .anc-glass-card,
-.glass-panel {
+.glass-panel,
+.modern-glass-nav,
+.floating-glass-footer {
     background: rgba(255, 255, 255, 0.94) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(255, 255, 255, 0.9) !important;
     border-radius: 20px !important;
-    box-shadow: 0 8px 25px rgba(0, 30, 60, 0.08) !important;
-    padding: 18px !important;
+    box-shadow: 0 10px 30px rgba(0, 30, 60, 0.12) !important;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.anc-glass-card,
+.glass-panel {
+    padding: 24px !important;
+}
+
+.floating-glass-footer {
+    padding: 24px !important;
+}
+
+.modern-glass-nav {
+    padding: 10px 24px !important;
 }
 
 .anc-glass-card:hover,
