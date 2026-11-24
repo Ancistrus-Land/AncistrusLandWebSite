@@ -72,7 +72,7 @@ The matrix below maps each business and technical requirement to its functional 
   * Session cart resets to zero.
   * Confirmation page displays complete receipt with zero-cost thermal packaging.
   * WhatsApp button generates formatted payload for dispatch phone (`+1 613 266 5285`).
-  * Email button generates formatted invoice for `sudarsha.wijenayake@gmail.com`.
+  * Email button generates formatted invoice for `contact@ancistrusland.com`.
 * **Result**: **PASS**
 
 ### Test Case TC-02: Real-Time Admin Inventory Control

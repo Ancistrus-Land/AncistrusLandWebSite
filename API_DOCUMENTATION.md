@@ -127,7 +127,7 @@ When `POST /api/order` is triggered, two asynchronous emails are dispatched in p
                  ┌───────────────────┴───────────────────┐
                  ▼                                       ▼
     1. Buyer's Invoice Email                2. Merchant's Alert Email
-    To: customer.email                      To: sudarsha.wijenayake@gmail.com
+    To: customer.email                      To: contact@ancistrusland.com
     Subject: Order Confirmation #ANC-CA-...  Subject: ⚡ New Order #ANC-CA-...
     Content:                                Content:
     • Branded header & Order ID badge       • Customer phone & address
@@ -145,7 +145,7 @@ Configure these variables in your local `.env` file or cloud dashboard (Vercel, 
 | Variable | Required | Default Value | Description |
 | :--- | :--- | :--- | :--- |
 | `PORT` | No | `3000` | Port for the local Node.js server. |
-| `STORE_EMAIL` | No | `sudarsha.wijenayake@gmail.com` | Merchant email address for dispatch alerts and Interac e-Transfer notes. |
+| `STORE_EMAIL` | No | `contact@ancistrusland.com` | Merchant email address for dispatch alerts and Interac e-Transfer notes. |
 | `RESEND_API_KEY` | In Prod | `None (Simulated in Dev)` | Transactional email API key obtained from [Resend.com](https://resend.com). |
 | `RESEND_FROM` | No | `Ancistrus Land Orders <onboarding@resend.dev>` | Email sender identity. Once your domain is verified, change to `orders@ancistrusland.ca`. |
 | `SITE_URL` | No | `https://ancistrusland.ca` | Canonical site URL for email links. |

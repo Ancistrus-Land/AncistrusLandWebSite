@@ -90,7 +90,7 @@ The store implements a low-overhead, high-trust Canadian transaction flow:
                  ▼
 [ Automated Notification Transmitted to Store Management ]
    ├─► 🟢 WhatsApp Alert to Dispatch Desk (+1 613 266 5285)
-   └─► ✉️ Itemized Invoice Email (sudarsha.wijenayake@gmail.com)
+   └─► ✉️ Itemized Invoice Email (contact@ancistrusland.com)
 ```
 
 1. **Interac e-Transfer (Primary)**:

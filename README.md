@@ -73,8 +73,8 @@ The application follows strict **Clean Multi-Tier Architecture** principles with
   * **100% Live Arrival Guarantee (LAG)** policy with a strict 2-hour reporting protocol.
 
 * **Dual-Channel Store Notification Engine**:
-  * **1-Click WhatsApp Dispatch Notification**: Formats an itemized order summary, delivery address, and contact info ready to send to the store's dispatch phone (`+1 613 266 5285`).
-  * **Direct Email Invoice Notification**: Automatically compiles an invoice addressed directly to the store management inbox (`sudarsha.wijenayake@gmail.com`).
+  * **1-Click WhatsApp Dispatch Notification**: Formats an itemized order summary, delivery address, and contact info ready to send to the store's dispatch phone (`+1 613 857-7381`).
+  * **Direct Email Invoice Notification**: Automatically compiles an invoice addressed directly to the store management inbox (`contact@ancistrusland.com`).
 
 * **Administrative Dashboard (`/admin.html`)**:
   * PIN-protected store management (`1234`).
@@ -161,5 +161,5 @@ Server running at http://localhost:3000/
 * **Entity**: Ancistrus Land Canada
 * **Operating Facility**: Ottawa, Ontario, Canada
 * **Dispatch Desk (WhatsApp/SMS)**: +1 (613) 266-5285
-* **Commercial Email**: sudarsha.wijenayake@gmail.com
+* **Commercial Email**: contact@ancistrusland.com
 * **Corporate License**: [Commercial Proprietary License (c) 2026](LICENSE)
