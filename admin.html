@@ -126,23 +126,57 @@
         </div>
     </div>
 
-    <!-- Login Modal / Screen -->
+    <!-- Login Modal / Screen (Two-Factor OTP) -->
     <div id="login-section" class="container py-5" style="margin-top: 130px;">
         <div class="row justify-content-center">
             <div class="col-md-5">
-                <div class="anc-glass-card text-center p-5">
-                    <div class="text-primary mb-3"><i class="fas fa-shield-alt fa-3x"></i></div>
+                <div class="anc-glass-card text-center p-4 p-md-5">
+                    <div class="mb-3">
+                        <span class="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 70px; height: 70px; background: rgba(0, 119, 182, 0.1); color: var(--anc-primary);">
+                            <i class="fas fa-user-shield fa-2x"></i>
+                        </span>
+                    </div>
+                    <span class="badge bg-primary text-white rounded-pill px-3 py-1 mb-2" style="font-size: 11px; letter-spacing: 0.5px;">ADMINISTRATIVE SECURITY</span>
                     <h3 class="fw-bold mb-2 text-dark">Store Admin Access</h3>
-                    <p class="text-muted small mb-4">Enter store PIN to manage inventory, catalog, and customer orders.</p>
-                    <form onsubmit="handleLogin(event)">
-                        <div class="mb-3">
-                            <input type="password" id="admin-pin-input" class="form-control form-control-lg text-center rounded-pill" placeholder="Enter PIN (Default: 1234)" autofocus required>
-                        </div>
-                        <button type="submit" class="btn btn-primary rounded-pill w-100 py-2 text-white fw-bold shadow-sm">
-                            <i class="fas fa-unlock me-2"></i> Unlock Dashboard
+
+                    <!-- STEP 1: Request OTP -->
+                    <div id="otp-request-step">
+                        <p class="text-muted small mb-4">
+                            To protect catalog inventory, prices, and customer orders, a 6-digit one-time code will be dispatched to the official store email:
+                            <br><strong class="text-dark d-inline-block mt-1"><i class="fas fa-envelope text-primary me-1"></i> contact@ancistrusland.com</strong>
+                        </p>
+                        <button type="button" id="btn-send-otp" onclick="requestAdminOtp()" class="btn btn-primary rounded-pill w-100 py-2 text-white fw-bold shadow-sm">
+                            <i class="fas fa-paper-plane me-2"></i> Send Verification Code
                         </button>
-                    </form>
+                    </div>
+
+                    <!-- STEP 2: Verify 6-digit OTP -->
+                    <div id="otp-verify-step" class="d-none">
+                        <p class="text-muted small mb-3">
+                            A 6-digit verification code has been dispatched to:
+                            <br><strong class="text-dark"><i class="fas fa-envelope text-primary me-1"></i> contact@ancistrusland.com</strong>
+                            <br><span class="text-muted" style="font-size: 12px;">Please check your inbox (or spam) and enter the code below:</span>
+                        </p>
+                        <form onsubmit="handleVerifyOtp(event)">
+                            <div class="mb-3">
+                                <input type="text" id="admin-otp-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" class="form-control form-control-lg text-center rounded-pill fw-bold" placeholder="• • • • • •" style="letter-spacing: 8px; font-size: 24px;" autofocus required>
+                            </div>
+                            <button type="submit" id="btn-verify-otp" class="btn btn-primary rounded-pill w-100 py-2 text-white fw-bold shadow-sm mb-2">
+                                <i class="fas fa-unlock me-2"></i> Verify &amp; Unlock Dashboard
+                            </button>
+                        </form>
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-10">
+                            <button type="button" onclick="resetToOtpRequest()" class="btn btn-sm btn-link text-muted text-decoration-none">
+                                <i class="fas fa-arrow-left me-1"></i> Back
+                            </button>
+                            <button type="button" id="btn-resend-otp" onclick="requestAdminOtp(true)" class="btn btn-sm btn-link text-primary text-decoration-none fw-bold" disabled>
+                                Resend Code <span id="resend-countdown"></span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div id="login-error" class="text-danger small mt-3 fw-bold"></div>
+                    <div id="login-success" class="text-success small mt-3 fw-bold d-none"></div>
                 </div>
             </div>
         </div>
@@ -447,28 +481,181 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Supabase Client for Secure OTP Authentication -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        let prodModal = null;
+        const SUPABASE_URL = "https://brcerimskfuogsadzewy.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_mMKaG4EmDLo8hMj3H1ajnA_VsLC9BfO";
+        const ADMIN_EMAIL = "contact@ancistrusland.com";
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const pin = document.getElementById("admin-pin-input").value;
-            if (pin === STORE_CONFIG.adminPin) {
-                sessionStorage.setItem("admin_auth", "true");
-                showDashboard();
-            } else {
-                document.getElementById("login-error").textContent = "Invalid PIN. Please try again.";
+        const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+        let prodModal = null;
+        let resendTimer = null;
+
+        async function requestAdminOtp(isResend = false) {
+            const errEl = document.getElementById("login-error");
+            const successEl = document.getElementById("login-success");
+            const sendBtn = document.getElementById("btn-send-otp");
+            const resendBtn = document.getElementById("btn-resend-otp");
+
+            errEl.textContent = "";
+            successEl.textContent = "";
+            successEl.classList.add("d-none");
+
+            if (sendBtn) {
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending Code...';
+            }
+            if (resendBtn) resendBtn.disabled = true;
+
+            try {
+                if (!supabaseClient) throw new Error("Authentication service initializing. Please refresh and try again.");
+
+                const { data, error } = await supabaseClient.auth.signInWithOtp({
+                    email: ADMIN_EMAIL,
+                    options: {
+                        shouldCreateUser: true
+                    }
+                });
+
+                if (error) throw error;
+
+                // Switch UI to verification step
+                document.getElementById("otp-request-step").classList.add("d-none");
+                document.getElementById("otp-verify-step").classList.remove("d-none");
+                
+                successEl.textContent = "Verification code dispatched to your inbox!";
+                successEl.classList.remove("d-none");
+
+                // Focus OTP input
+                setTimeout(() => {
+                    const otpInput = document.getElementById("admin-otp-input");
+                    if (otpInput) otpInput.focus();
+                }, 100);
+
+                startResendCountdown(60);
+
+            } catch (err) {
+                console.error("OTP send failed:", err);
+                errEl.textContent = err.message || "Failed to send code. Please try again.";
+            } finally {
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i> Send Verification Code';
+                }
             }
         }
 
-        function logout() {
+        async function handleVerifyOtp(e) {
+            e.preventDefault();
+            const errEl = document.getElementById("login-error");
+            const successEl = document.getElementById("login-success");
+            const verifyBtn = document.getElementById("btn-verify-otp");
+            const token = document.getElementById("admin-otp-input").value.trim();
+
+            errEl.textContent = "";
+            successEl.textContent = "";
+            successEl.classList.add("d-none");
+
+            if (!token || token.length < 6) {
+                errEl.textContent = "Please enter the full 6-digit code received in your email.";
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verifying...';
+
+            try {
+                if (!supabaseClient) throw new Error("Authentication service unavailable.");
+
+                const { data, error } = await supabaseClient.auth.verifyOtp({
+                    email: ADMIN_EMAIL,
+                    token: token,
+                    type: 'email'
+                });
+
+                if (error) throw error;
+
+                if (data && data.session) {
+                    sessionStorage.setItem("admin_auth", "true");
+                    sessionStorage.setItem("admin_jwt", data.session.access_token);
+                    successEl.textContent = "Authenticated successfully! Loading dashboard...";
+                    successEl.classList.remove("d-none");
+                    setTimeout(() => {
+                        showDashboard();
+                    }, 400);
+                } else {
+                    throw new Error("Unable to obtain verified session. Please request a new code.");
+                }
+
+            } catch (err) {
+                console.error("OTP verification error:", err);
+                errEl.textContent = err.message || "Invalid or expired code. Please try again or request a new code.";
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fas fa-unlock me-2"></i> Verify & Unlock Dashboard';
+            }
+        }
+
+        function resetToOtpRequest() {
+            document.getElementById("otp-verify-step").classList.add("d-none");
+            document.getElementById("otp-request-step").classList.remove("d-none");
+            document.getElementById("login-error").textContent = "";
+            document.getElementById("login-success").textContent = "";
+            document.getElementById("login-success").classList.add("d-none");
+            if (resendTimer) clearInterval(resendTimer);
+        }
+
+        function startResendCountdown(seconds) {
+            if (resendTimer) clearInterval(resendTimer);
+            const countdownEl = document.getElementById("resend-countdown");
+            const resendBtn = document.getElementById("btn-resend-otp");
+            if (!countdownEl || !resendBtn) return;
+
+            let remaining = seconds;
+            resendBtn.disabled = true;
+            countdownEl.textContent = `(${remaining}s)`;
+
+            resendTimer = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(resendTimer);
+                    countdownEl.textContent = "";
+                    resendBtn.disabled = false;
+                } else {
+                    countdownEl.textContent = `(${remaining}s)`;
+                }
+            }, 1000);
+        }
+
+        async function logout() {
             sessionStorage.removeItem("admin_auth");
+            sessionStorage.removeItem("admin_jwt");
+            if (supabaseClient) {
+                try { await supabaseClient.auth.signOut(); } catch (e) {}
+            }
             location.reload();
         }
 
-        function checkAuth() {
+        async function checkAuth() {
+            // Check active session in Supabase client or sessionStorage
             if (sessionStorage.getItem("admin_auth") === "true") {
                 showDashboard();
+                return;
+            }
+
+            if (supabaseClient) {
+                try {
+                    const { data } = await supabaseClient.auth.getSession();
+                    if (data && data.session && data.session.user && data.session.user.email === ADMIN_EMAIL) {
+                        sessionStorage.setItem("admin_auth", "true");
+                        sessionStorage.setItem("admin_jwt", data.session.access_token);
+                        showDashboard();
+                    }
+                } catch (e) {
+                    console.warn("Session check error:", e);
+                }
             }
         }
 

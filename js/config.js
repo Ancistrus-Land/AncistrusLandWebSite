@@ -17,7 +17,7 @@ export const STORE_CONFIG = Object.freeze({
     location: "22 Moresby Drive, Ottawa, Ontario, K2M 2E5",
     
     // Admin Security
-    adminPin: "1234",
+    adminEmail: "contact@ancistrusland.com",
     
     // Shipping & Regional Constraints
     dispatchDays: ["Monday", "Tuesday"],
