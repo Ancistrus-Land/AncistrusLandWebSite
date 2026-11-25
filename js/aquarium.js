@@ -45,74 +45,7 @@
         }
         container.appendChild(bubblesLayer);
 
-        // 3. Swimming Fish Fleet (Thriving, Active Tropical Ecosystem - 28 Swimmers)
-        const fishLayer = document.createElement("div");
-        fishLayer.className = "tank-fish-layer";
-
-        const fishFleet = [
-            // --- Ancistrus Plecos (Substrate & Mid-Driftwood Explorers) ---
-            { type: "pleco", img: "img/fish-pleco.png", width: 145, bottom: "55px", speed: "30s", delay: "0s", direction: "right-to-left", scale: 1.05, opacity: 0.85 },
-            { type: "pleco", img: "img/fish-pleco.png", width: 130, bottom: "120px", speed: "34s", delay: "6s", direction: "left-to-right", scale: 0.9, opacity: 0.8 },
-            { type: "pleco", img: "img/fish-pleco.png", width: 110, bottom: "80px", speed: "32s", delay: "14s", direction: "right-to-left", scale: 0.82, opacity: 0.82 },
-            { type: "pleco", img: "img/fish-pleco.png", width: 140, bottom: "45px", speed: "29s", delay: "18s", direction: "left-to-right", scale: 1.0, opacity: 0.85 },
-            { type: "pleco", img: "img/fish-pleco.png", width: 120, bottom: "150px", speed: "36s", delay: "24s", direction: "right-to-left", scale: 0.85, opacity: 0.78 },
-            { type: "pleco", img: "img/fish-pleco.png", width: 100, bottom: "95px", speed: "31s", delay: "28s", direction: "left-to-right", scale: 0.78, opacity: 0.8 },
-            
-            // --- Pigeon Blood Discus (Graceful Mid & Upper-Water Cruisers) ---
-            { type: "discus", img: "img/fish-discus.png", width: 135, top: "20%", speed: "26s", delay: "1s", direction: "left-to-right", scale: 1.0, opacity: 0.86 },
-            { type: "discus", img: "img/fish-discus.png", width: 125, top: "62%", speed: "28s", delay: "8s", direction: "right-to-left", scale: 0.92, opacity: 0.82 },
-            { type: "discus", img: "img/fish-discus.png", width: 130, top: "28%", speed: "27s", delay: "15s", direction: "right-to-left", scale: 0.95, opacity: 0.84 },
-            { type: "discus", img: "img/fish-discus.png", width: 120, top: "42%", speed: "25s", delay: "21s", direction: "left-to-right", scale: 0.88, opacity: 0.8 },
-
-            // --- Royal Blue Halfmoon Bettas (Flowing Elegance) ---
-            { type: "betta", img: "img/fish-betta.png", width: 130, top: "48%", speed: "24s", delay: "3s", direction: "right-to-left", scale: 0.95, opacity: 0.84 },
-            { type: "betta", img: "img/fish-betta.png", width: 120, top: "14%", speed: "25s", delay: "11s", direction: "left-to-right", scale: 0.88, opacity: 0.8 },
-            { type: "betta", img: "img/fish-betta.png", width: 125, top: "58%", speed: "23s", delay: "17s", direction: "left-to-right", scale: 0.9, opacity: 0.82 },
-            { type: "betta", img: "img/fish-betta.png", width: 115, top: "24%", speed: "26s", delay: "25s", direction: "right-to-left", scale: 0.85, opacity: 0.78 },
-
-            // --- Cardinal Tetra School 1 (Upper-Mid, Left to Right) ---
-            { type: "tetra", top: "33%", speed: "18s", delay: "0.5s", direction: "left-to-right", scale: 0.75, opacity: 0.8 },
-            { type: "tetra", top: "36%", speed: "19s", delay: "1.2s", direction: "left-to-right", scale: 0.7, opacity: 0.75 },
-            { type: "tetra", top: "31%", speed: "18.5s", delay: "1.9s", direction: "left-to-right", scale: 0.72, opacity: 0.78 },
-            { type: "tetra", top: "38%", speed: "19.2s", delay: "2.6s", direction: "left-to-right", scale: 0.68, opacity: 0.72 },
-
-            // --- Cardinal Tetra School 2 (Mid-Lower, Right to Left) ---
-            { type: "tetra", top: "52%", speed: "17s", delay: "7s", direction: "right-to-left", scale: 0.72, opacity: 0.78 },
-            { type: "tetra", top: "55%", speed: "18s", delay: "7.6s", direction: "right-to-left", scale: 0.68, opacity: 0.72 },
-            { type: "tetra", top: "49%", speed: "17.4s", delay: "8.3s", direction: "right-to-left", scale: 0.7, opacity: 0.75 },
-
-            // --- Cardinal Tetra School 3 (Lower-Mid, Left to Right) ---
-            { type: "tetra", top: "66%", speed: "18.2s", delay: "13s", direction: "left-to-right", scale: 0.7, opacity: 0.75 },
-            { type: "tetra", top: "69%", speed: "19s", delay: "13.7s", direction: "left-to-right", scale: 0.66, opacity: 0.7 },
-            { type: "tetra", top: "64%", speed: "18.6s", delay: "14.4s", direction: "left-to-right", scale: 0.68, opacity: 0.72 },
-            { type: "tetra", top: "71%", speed: "19.4s", delay: "15.1s", direction: "left-to-right", scale: 0.65, opacity: 0.68 },
-
-            // --- Cardinal Tetra School 4 (Upper Surface Patrol, Right to Left) ---
-            { type: "tetra", top: "18%", speed: "16.8s", delay: "19s", direction: "right-to-left", scale: 0.68, opacity: 0.74 },
-            { type: "tetra", top: "21%", speed: "17.5s", delay: "19.7s", direction: "right-to-left", scale: 0.64, opacity: 0.7 },
-            { type: "tetra", top: "16%", speed: "17.1s", delay: "20.4s", direction: "right-to-left", scale: 0.66, opacity: 0.72 }
-        ];
-
-        fishFleet.forEach(f => {
-            const swimmer = document.createElement("div");
-            swimmer.className = `tank-swimming-fish fish-${f.type} dir-${f.direction}`;
-            if (f.top) swimmer.style.top = f.top;
-            if (f.bottom) swimmer.style.bottom = f.bottom;
-            swimmer.style.animationDuration = f.speed;
-            swimmer.style.animationDelay = f.delay;
-            swimmer.style.opacity = f.opacity;
-            swimmer.style.setProperty("--scale", f.scale);
-
-            if (f.img) {
-                swimmer.innerHTML = `<img src="${f.img}" alt="${f.type}" style="width: ${f.width}px; height: auto; display: block; filter: drop-shadow(0 6px 14px rgba(0,25,60,0.35)); pointer-events: none;">`;
-            } else {
-                swimmer.innerHTML = getFishSVG(f.type);
-            }
-            fishLayer.appendChild(swimmer);
-        });
-        container.appendChild(fishLayer);
-
-        // 4. Graceful Ribbon-Leaf Water Plants
+        // 3. Graceful Ribbon-Leaf Water Plants
         const plantsLayer = document.createElement("div");
         plantsLayer.className = "tank-plants-layer";
         plantsLayer.innerHTML = `
@@ -134,42 +67,6 @@
         container.appendChild(plantsLayer);
 
         document.body.prepend(container);
-    }
-
-    function getFishSVG(type) {
-        if (type === "discus") {
-            return `
-                <svg viewBox="0 0 120 100" width="75" height="65">
-                    <ellipse cx="55" cy="50" rx="45" ry="40" fill="#e65100"/>
-                    <path d="M95,50 L115,30 L110,50 L115,70 Z" fill="#e65100"/>
-                    <circle cx="30" cy="40" r="3.5" fill="#ffd54f"/>
-                    <circle cx="30" cy="40" r="1.5" fill="#000000"/>
-                </svg>
-            `;
-        } else if (type === "pleco") {
-            return `
-                <svg viewBox="0 0 130 50" width="85" height="35">
-                    <path d="M15,25 C10,20 15,15 35,17 C65,19 95,22 110,25 C95,28 65,31 35,33 C15,35 10,30 15,25 Z" fill="#37474f"/>
-                    <path d="M105,25 L125,12 L118,25 L125,38 Z" fill="#37474f"/>
-                    <circle cx="28" cy="22" r="2.5" fill="#ffb300"/>
-                </svg>
-            `;
-        } else if (type === "betta") {
-            return `
-                <svg viewBox="0 0 110 60" width="70" height="40">
-                    <path d="M25,30 C40,22 65,25 80,30 C95,18 105,28 100,38 C90,48 75,34 65,34 C48,42 35,38 25,30 Z" fill="#5e35b1"/>
-                    <circle cx="32" cy="28" r="2.5" fill="#ffffff"/>
-                </svg>
-            `;
-        } else {
-            return `
-                <svg viewBox="0 0 60 24" width="45" height="18">
-                    <path d="M8,12 C18,6 38,7 46,12 L56,6 L53,12 L56,18 L46,12 C38,17 18,18 8,12 Z" fill="#0277bd"/>
-                    <line x1="16" y1="10" x2="40" y2="10" stroke="#00e5ff" stroke-width="2"/>
-                    <circle cx="14" cy="11" r="1.5" fill="#ffffff"/>
-                </svg>
-            `;
-        }
     }
 
     if (document.readyState === "loading") {
