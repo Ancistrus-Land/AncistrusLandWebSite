@@ -11,8 +11,8 @@
     --anc-dark: #0f1c2e;
 
     /* Global Layout Design Tokens (Single Source of Truth) */
-    --anc-container-max-width: 1440px;
-    --anc-container-width: 95%;
+    --anc-container-max-width: 1540px;
+    --anc-container-width: 96%;
     --anc-panel-radius: 20px;
     --anc-panel-shadow: 0 10px 30px rgba(0, 30, 60, 0.12);
     --anc-panel-padding: 24px;
