@@ -1,113 +1,72 @@
 /**
- * Ancistrus Land Canada - Hero Showcase Slideshow
- * Automatically cycles through all products in the catalogue with a smooth timer.
- * Includes interactive prev/next controls, pause on hover, and direct links to product pages.
+ * Ancistrus Land Canada - Hero Showcase Ribbon
+ * Dynamically loads all fish from the live catalogue and renders them into an
+ * infinite, horizontally moving ribbon strip (left to right).
+ * Clicking any photo navigates directly to its shop-detail.html page.
  */
 
 (function () {
     "use strict";
 
-    let currentIndex = 0;
-    let timer = null;
-    let products = [];
-    const INTERVAL = 3500; // 3.5 seconds per slide
+    function initRibbon() {
+        const track = document.getElementById("hero-ribbon-track");
+        if (!track) return;
 
-    function initShowcase() {
-        // Resolve products from services or global array
+        let products = [];
         if (typeof CatalogService !== "undefined" && CatalogService.getAll) {
             products = CatalogService.getAll();
         } else if (typeof ANCISTRUS_PRODUCTS !== "undefined") {
             products = ANCISTRUS_PRODUCTS;
         }
 
+        // Retry if data is still loading
         if (!products || products.length === 0) {
-            setTimeout(initShowcase, 100);
+            setTimeout(initRibbon, 100);
             return;
         }
 
-        renderSlide(0);
-        startTimer();
+        // Clear any placeholder
+        track.innerHTML = "";
 
-        // Attach user control listeners
-        const container = document.getElementById("hero-showcase");
-        if (container) {
-            container.addEventListener("mouseenter", pauseTimer);
-            container.addEventListener("mouseleave", startTimer);
+        // Function to create an individual fish photo card
+        function createCard(p) {
+            const card = document.createElement("a");
+            card.className = "hero-ribbon-card";
+            card.href = `shop-detail.html?id=${encodeURIComponent(p.id)}`;
+            card.title = p.name || "Specimen";
+
+            const img = document.createElement("img");
+            img.className = "hero-ribbon-img";
+            img.src = p.image || "img/Fish 1.jpg";
+            img.alt = p.name || "Fish specimen";
+            img.loading = "lazy";
+
+            const overlay = document.createElement("div");
+            overlay.className = "hero-ribbon-overlay";
+            overlay.innerHTML = `<span class="hero-ribbon-view-btn"><i class="fas fa-eye me-1"></i> View Specimen</span>`;
+
+            card.appendChild(img);
+            card.appendChild(overlay);
+            return card;
         }
 
-        const btnPrev = document.getElementById("showcase-prev");
-        const btnNext = document.getElementById("showcase-next");
-        if (btnPrev) btnPrev.addEventListener("click", prevSlide);
-        if (btnNext) btnNext.addEventListener("click", nextSlide);
-    }
+        // Create the primary set of cards
+        const fragment = document.createDocumentFragment();
+        products.forEach(p => {
+            fragment.appendChild(createCard(p));
+        });
 
-    function renderSlide(index) {
-        if (!products || products.length === 0) return;
-        currentIndex = (index + products.length) % products.length;
-        const p = products[currentIndex];
+        // Duplicate the exact set once for a seamless, seamless infinite CSS translation loop
+        products.forEach(p => {
+            fragment.appendChild(createCard(p));
+        });
 
-        const imgEl = document.getElementById("showcase-img");
-        const nameEl = document.getElementById("showcase-name");
-        const priceEl = document.getElementById("showcase-price");
-        const badgeEl = document.getElementById("showcase-category");
-        const linkEl = document.getElementById("showcase-link");
-        const counterEl = document.getElementById("showcase-counter");
-
-        if (imgEl) {
-            imgEl.style.opacity = "0.3";
-            imgEl.style.transform = "scale(0.97)";
-            setTimeout(() => {
-                imgEl.src = p.image || "img/Fish 1.jpg";
-                imgEl.alt = p.name;
-                imgEl.style.opacity = "1";
-                imgEl.style.transform = "scale(1)";
-            }, 200);
-        }
-
-        if (nameEl) nameEl.textContent = p.name;
-        if (priceEl) {
-            const price = Number(p.price || 0).toFixed(2);
-            priceEl.textContent = `$${price} CAD`;
-        }
-        if (badgeEl) {
-            badgeEl.textContent = (p.subcategory || p.category || "Specialty Fish").toUpperCase();
-        }
-        if (linkEl) {
-            linkEl.href = `shop-detail.html?id=${p.id}`;
-        }
-        if (counterEl) {
-            counterEl.textContent = `${currentIndex + 1} / ${products.length}`;
-        }
-    }
-
-    function nextSlide() {
-        renderSlide(currentIndex + 1);
-        resetTimer();
-    }
-
-    function prevSlide() {
-        renderSlide(currentIndex - 1);
-        resetTimer();
-    }
-
-    function startTimer() {
-        pauseTimer();
-        timer = setInterval(nextSlide, INTERVAL);
-    }
-
-    function pauseTimer() {
-        if (timer) clearInterval(timer);
-        timer = null;
-    }
-
-    function resetTimer() {
-        pauseTimer();
-        startTimer();
+        track.appendChild(fragment);
     }
 
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initShowcase);
+        document.addEventListener("DOMContentLoaded", initRibbon);
     } else {
-        initShowcase();
+        initRibbon();
     }
 })();

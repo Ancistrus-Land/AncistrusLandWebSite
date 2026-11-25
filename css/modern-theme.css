@@ -369,110 +369,122 @@ body.dark-mode .theme-toggle-btn {
     padding: 16px !important;
 }
 
-/* 3. Hero Showcase Carousel - Compact Showcase Display (1/4 area) */
-.hero-slideshow-container {
+/* 3. Hero Showcase Ribbon - Continuous Moving Strip (Left to Right) */
+.hero-ribbon-wrapper {
     position: relative;
-    max-width: 420px;
-    margin: 0 auto;
-    border-radius: 18px;
+    width: 100%;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 12px 35px rgba(0, 35, 75, 0.22);
-    border: 2px solid rgba(255, 255, 255, 0.9);
+    padding: 12px 0;
+    border-radius: var(--anc-panel-radius, 20px);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: var(--anc-panel-shadow, 0 10px 30px rgba(0, 30, 60, 0.12));
+    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
 }
 
-.hero-slideshow-img {
+.hero-ribbon-track {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: max-content;
+    will-change: transform;
+    animation: ancRibbonMoveLeftToRight 55s linear infinite;
+}
+
+/* Pause motion smoothly when hovering anywhere over the strip */
+.hero-ribbon-wrapper:hover .hero-ribbon-track {
+    animation-play-state: paused;
+}
+
+/* Individual Fish Card in the Ribbon - Clean Photo-Only Showcase */
+.hero-ribbon-card {
+    position: relative;
+    flex: 0 0 240px;
+    width: 240px;
+    height: 180px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 25, 55, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-ribbon-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(0, 35, 80, 0.25);
+    border-color: var(--anc-accent, #00b4d8);
+    z-index: 10;
+}
+
+.hero-ribbon-img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 100%;
     object-fit: cover;
     display: block;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: transform 0.4s ease;
 }
 
-@media (max-width: 768px) {
-    .hero-slideshow-img {
-        aspect-ratio: 4 / 3;
+.hero-ribbon-card:hover .hero-ribbon-img {
+    transform: scale(1.08);
+}
+
+/* Subtle view hint on card hover */
+.hero-ribbon-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(2, 62, 138, 0.65) 100%);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    transition: opacity 0.25s ease;
+}
+
+.hero-ribbon-card:hover .hero-ribbon-overlay {
+    opacity: 1;
+}
+
+.hero-ribbon-view-btn {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--anc-primary, #0077b6);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+}
+
+/* Infinite Left-to-Right Translation Keyframe */
+/* Moves track from -50% to 0% so it scrolls continuously left-to-right */
+@keyframes ancRibbonMoveLeftToRight {
+    0% {
+        transform: translate3d(-50%, 0, 0);
+    }
+    100% {
+        transform: translate3d(0%, 0, 0);
     }
 }
 
-.hero-slideshow-caption {
-    background: linear-gradient(180deg, rgba(15, 28, 46, 0) 0%, rgba(15, 28, 46, 0.94) 100%);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 14px 14px 10px;
-    color: #ffffff;
+@media (max-width: 768px) {
+    .hero-ribbon-card {
+        flex: 0 0 190px;
+        width: 190px;
+        height: 145px;
+    }
+    .hero-ribbon-track {
+        gap: 12px;
+        animation-duration: 40s;
+    }
 }
-
-.hero-slideshow-caption h3 {
-    font-size: 15px !important;
-    margin-bottom: 2px !important;
-}
-
-.hero-slideshow-caption .fs-5 {
-    font-size: 14px !important;
-}
-
-.hero-slideshow-caption .btn {
-    padding: 3px 10px !important;
-    font-size: 12px !important;
-}
-
-.hero-slideshow-badge {
-    background: var(--anc-accent);
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    display: inline-block;
-    margin-bottom: 4px;
-}
-
-.hero-slideshow-indicators {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 14px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.hero-slideshow-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.88);
-    border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    color: var(--anc-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-    transition: all 0.2s ease;
-    z-index: 5;
-    font-size: 12px;
-}
-
-.hero-slideshow-btn:hover {
-    background: #ffffff;
-    color: var(--anc-primary);
-    transform: translateY(-50%) scale(1.08);
-}
-
-.hero-slideshow-btn.btn-prev { left: 8px; }
-.hero-slideshow-btn.btn-next { right: 8px; }
 
 /* 4. Value Highlights Grid (Canadian Guarantees) */
 .value-card {
