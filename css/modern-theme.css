@@ -164,6 +164,65 @@ body.dark-mode .theme-toggle-btn {
 }
 
 
+/* Unified Mobile Header Controls */
+.anc-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.anc-mobile-icon-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0, 119, 182, 0.08);
+    border: 1px solid rgba(0, 119, 182, 0.15);
+    color: var(--anc-primary);
+    font-size: 15px;
+    position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+.anc-mobile-icon-btn:hover {
+    background: rgba(0, 119, 182, 0.16);
+    color: var(--anc-primary-dark);
+}
+
+body.dark-mode .anc-mobile-icon-btn {
+    background: rgba(18, 38, 66, 0.95);
+    border-color: rgba(0, 180, 216, 0.3);
+    color: #f0f8ff;
+}
+
+.anc-mobile-icon-btn .anc-cart-count {
+    top: -4px !important;
+    right: -4px !important;
+    left: auto !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    font-size: 10px !important;
+    font-weight: 700;
+    line-height: 18px;
+    padding: 0 4px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.anc-menu-button {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 /* 1. Header Navigation: Transparent full-width container + Floating White Pill */
 #header-placeholder {
     position: relative;
