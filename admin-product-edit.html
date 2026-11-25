@@ -351,10 +351,19 @@
         }
 
         // Form Submit
-        function handleSaveProduct(e) {
+        async function handleSaveProduct(e) {
             e.preventDefault();
 
-            // Export crisp 4:3 cropped image
+            const saveBtn = document.querySelector("#product-form button[type='submit']");
+            const originalBtnHtml = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saving &amp; Uploading...';
+
+            const prodId = document.getElementById("form-id").value.trim();
+            const editId = document.getElementById("edit-product-id").value.trim();
+            let imageVal = document.getElementById("form-image").value.trim() || "img/Fish 1.jpg";
+
+            // 1. Export crisp 4:3 cropped image
             if (cropperInstance) {
                 const canvas = cropperInstance.getCroppedCanvas({
                     width: 800,
@@ -363,15 +372,38 @@
                     imageSmoothingQuality: 'high'
                 });
                 if (canvas) {
-                    finalImageDataUrl = canvas.toDataURL("image/jpeg", 0.9);
+                    finalImageDataUrl = canvas.toDataURL("image/jpeg", 0.88);
                 }
             }
 
-            let catalog = (typeof getActiveCatalog === "function") ? getActiveCatalog() : [];
-            const prodId = document.getElementById("form-id").value.trim();
-            const editId = document.getElementById("edit-product-id").value.trim();
+            // 2. If a new cropped image exists, upload ONLY the cropped photo to cloud storage
+            if (finalImageDataUrl && finalImageDataUrl.startsWith("data:image/")) {
+                try {
+                    const uploadFileName = `${prodId || 'specimen'}_${Date.now()}.jpg`;
+                    const uploadRes = await fetch('/api/store?action=upload-image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            fileName: uploadFileName,
+                            imageData: finalImageDataUrl,
+                            bucket: 'catalog'
+                        })
+                    });
+                    if (uploadRes.ok) {
+                        const uploadJson = await uploadRes.json();
+                        if (uploadJson && uploadJson.url) {
+                            imageVal = uploadJson.url; // Use persistent cloud CDN URL
+                        }
+                    }
+                } catch (uploadErr) {
+                    console.warn("Cloud storage upload fallback to dataUrl/local:", uploadErr);
+                    imageVal = finalImageDataUrl;
+                }
+            } else if (finalImageDataUrl) {
+                imageVal = finalImageDataUrl;
+            }
 
-            const imageVal = finalImageDataUrl || document.getElementById("form-image").value.trim() || "img/Fish 1.jpg";
+            let catalog = (typeof getActiveCatalog === "function") ? getActiveCatalog() : [];
 
             const newProduct = {
                 id: prodId,
@@ -393,7 +425,6 @@
                     catalog.unshift(newProduct);
                 }
             } else {
-                // Check if ID already exists
                 const existing = catalog.findIndex(p => p.id === prodId);
                 if (existing !== -1) {
                     catalog[existing] = newProduct;
@@ -402,7 +433,18 @@
                 }
             }
 
-            // Save in localStorage override
+            // 3. Save to Cloud Database
+            try {
+                await fetch('/api/store?action=products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ products: catalog })
+                });
+            } catch (dbErr) {
+                console.warn("Could not sync to cloud database:", dbErr);
+            }
+
+            // 4. Save to LocalStorage cache
             if (typeof saveCatalogOverride === "function") {
                 saveCatalogOverride(catalog);
             } else {
@@ -410,7 +452,7 @@
             }
 
             // Notify and return to dashboard
-            sessionStorage.setItem("admin_flash_message", isEditMode ? `"${newProduct.name}" updated successfully!` : `"${newProduct.name}" added to store!`);
+            sessionStorage.setItem("admin_flash_message", isEditMode ? `"${newProduct.name}" updated successfully in database!` : `"${newProduct.name}" added to cloud catalog!`);
             window.location.href = "admin.html";
         }
     </script>

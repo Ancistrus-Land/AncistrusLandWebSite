@@ -8,6 +8,7 @@ const { SettingsService } = require('./services/settingsService');
 const { CatalogService } = require('./services/catalogService');
 const { OrderService } = require('./services/orderService');
 const { AuthService } = require('./services/authService');
+const { StorageService } = require('./services/storageService');
 
 module.exports = async (req, res) => {
     // CORS headers
@@ -61,7 +62,21 @@ module.exports = async (req, res) => {
             }
         }
 
-        // --- 3. CUSTOMER ORDERS (Admin View) ---
+        // --- 3. CLOUD IMAGE UPLOAD & STORAGE ---
+        if (action === 'upload-image') {
+            if (req.method === 'POST') {
+                const body = await parseBody(req);
+                const { fileName, imageData, bucket } = body;
+                if (!imageData) {
+                    return sendJson(res, 400, { success: false, error: "imageData is required." });
+                }
+                const name = fileName || `specimen_${Date.now()}.jpg`;
+                const uploadResult = await StorageService.uploadImage(name, imageData, bucket || 'catalog');
+                return sendJson(res, 200, uploadResult);
+            }
+        }
+
+        // --- 4. CUSTOMER ORDERS (Admin View) ---
         if (action === 'orders') {
             if (req.method === 'GET') {
                 const orders = await OrderService.getAllOrders();
