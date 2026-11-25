@@ -65,7 +65,6 @@ export function hydrateStoreContacts() {
     const config = (typeof window.getStoreConfig === "function") ? window.getStoreConfig() : (window.STORE_CONFIG || {});
     const email = config.email || "contact@ancistrusland.com";
     const phone = config.phoneDisplay || "+1 (613) 857-7381";
-    const location = config.location || "22 Moresby Drive, Ottawa, Ontario, K2M 2E5";
     const waNumber = config.whatsappNumber || "16138577381";
     const waUrl = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
 
@@ -82,7 +81,7 @@ export function hydrateStoreContacts() {
         if (el.tagName === 'A') el.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
     });
     document.querySelectorAll('[data-store-contact="location"]').forEach(el => {
-        el.textContent = location;
+        el.remove();
     });
     document.querySelectorAll('[data-store-contact="whatsapp-link"]').forEach(el => {
         if (el.tagName === 'A') el.href = waUrl;

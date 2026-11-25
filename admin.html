@@ -347,15 +347,6 @@
                         <form onsubmit="handleSaveContacts(event)" class="mt-4">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label small fw-bold">Store Physical Facility / Location</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-map-marker-alt text-primary"></i></span>
-                                        <input type="text" id="contact-edit-location" class="form-control rounded-end-pill" required placeholder="Ottawa, Ontario, Canada">
-                                    </div>
-                                    <small class="text-muted">Displayed under "Get In Touch" and on official receipts.</small>
-                                </div>
-
-                                <div class="col-md-6">
                                     <label class="form-label small fw-bold">Primary Phone (Display &amp; Inquiries)</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-primary"></i></span>
@@ -703,7 +694,6 @@
 
         function loadContactsForm() {
             const config = (typeof getStoreConfig === "function") ? getStoreConfig() : (window.STORE_CONFIG || {});
-            document.getElementById("contact-edit-location").value = config.location || "22 Moresby Drive, Ottawa, Ontario, K2M 2E5";
             document.getElementById("contact-edit-phone").value = config.phoneDisplay || "+1 (613) 857-7381";
             document.getElementById("contact-edit-email").value = config.email || "contact@ancistrusland.com";
             document.getElementById("contact-edit-whatsapp").value = config.whatsappNumber || "16138577381";
@@ -712,7 +702,6 @@
         function handleSaveContacts(e) {
             e.preventDefault();
             const contacts = {
-                location: document.getElementById("contact-edit-location").value.trim(),
                 phoneDisplay: document.getElementById("contact-edit-phone").value.trim(),
                 email: document.getElementById("contact-edit-email").value.trim(),
                 whatsappNumber: document.getElementById("contact-edit-whatsapp").value.trim()

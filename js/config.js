@@ -14,7 +14,6 @@ export const STORE_CONFIG = Object.freeze({
     email: "contact@ancistrusland.com",
     phoneDisplay: "+1 (613) 857-7381",
     whatsappNumber: "16138577381",
-    location: "22 Moresby Drive, Ottawa, Ontario, K2M 2E5",
     
     // Admin Security
     adminEmail: "contact@ancistrusland.com",
