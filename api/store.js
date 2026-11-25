@@ -2,8 +2,8 @@
  * Ancistrus Land Canada - Cloud Store Management API Router
  * Delegates all operations to decoupled service layers.
  * Zero duplicated low-level HTTPS calls, zero hardcoded emails or secrets.
+ * Compliant with WHATWG URL API standards (zero DEP0169 warnings).
  */
-const url = require('url');
 const { SettingsService } = require('./services/settingsService');
 const { CatalogService } = require('./services/catalogService');
 const { OrderService } = require('./services/orderService');
@@ -21,8 +21,9 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const parsedUrl = url.parse(req.url, true);
-    const action = parsedUrl.query.action; // 'settings', 'products', 'orders', 'send-otp', 'verify-otp'
+    // Modern WHATWG URL API parsing
+    const parsedUrl = new URL(req.url, `https://${req.headers.host || 'localhost'}`);
+    const action = parsedUrl.searchParams.get('action'); // 'settings', 'products', 'orders', 'send-otp', 'verify-otp'
 
     try {
         // --- 1. STORE SETTINGS (Contacts, Location, Phone, Email) ---
@@ -53,7 +54,7 @@ module.exports = async (req, res) => {
             }
 
             if (req.method === 'DELETE') {
-                const id = parsedUrl.query.id;
+                const id = parsedUrl.searchParams.get('id');
                 if (!id) throw new Error("Product ID required for deletion");
                 await CatalogService.delete(id);
                 return sendJson(res, 200, { success: true, deleted: id });
