@@ -7,7 +7,20 @@ import { CartService } from './services.js';
 import { i18n } from './i18n.js';
 import './aquarium.js';
 
-// Theme controller
+// Theme controller with System Preference Detection and Dark Fallback
+function getPreferredTheme() {
+    const stored = localStorage.getItem("ancistrus_theme");
+    if (stored === "dark" || stored === "light") {
+        return stored;
+    }
+    // Device / OS theme auto-detection
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return "light";
+    }
+    // Default fallback: dark mode
+    return "dark";
+}
+
 function applyTheme(theme) {
     if (theme === "dark") {
         document.body.classList.add("dark-mode");
@@ -36,8 +49,16 @@ window.toggleTheme = function () {
 };
 
 // Initial theme setup immediately on load
-const savedTheme = localStorage.getItem("ancistrus_theme") || "light";
-applyTheme(savedTheme);
+applyTheme(getPreferredTheme());
+
+// Live listener for OS theme changes (only applies if the user hasn't manually set a preference)
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem("ancistrus_theme")) {
+            applyTheme(e.matches ? "dark" : "light");
+        }
+    });
+}
 
 // Hydrate dynamic contact information in header, footer, and pages
 export function hydrateStoreContacts() {
