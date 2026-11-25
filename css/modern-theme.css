@@ -164,6 +164,71 @@ body.dark-mode .theme-toggle-btn {
 }
 
 
+/* Developer Credit Badge (Info Tech Microsystems) */
+.itm-credit-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.itm-credit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--anc-dark) !important;
+    text-decoration: none !important;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(0, 119, 182, 0.06);
+    border: 1px solid rgba(0, 119, 182, 0.15);
+    transition: all 0.25s ease;
+}
+
+.itm-credit-link:hover {
+    background: rgba(0, 119, 182, 0.14);
+    color: var(--anc-primary) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 119, 182, 0.2);
+}
+
+.itm-logo {
+    height: 22px;
+    width: auto;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Light mode displays light logo */
+.itm-logo-dark {
+    display: none !important;
+}
+
+.itm-logo-light {
+    display: inline-block !important;
+}
+
+/* Dark mode displays dark logo */
+body.dark-mode .itm-credit-link {
+    background: rgba(18, 38, 66, 0.9);
+    border-color: rgba(0, 180, 216, 0.3);
+    color: #f0f8ff !important;
+}
+
+body.dark-mode .itm-credit-link:hover {
+    background: rgba(2, 62, 138, 0.5);
+    color: var(--anc-accent) !important;
+}
+
+body.dark-mode .itm-logo-light {
+    display: none !important;
+}
+
+body.dark-mode .itm-logo-dark {
+    display: inline-block !important;
+}
+
 /* Unified Mobile Header Controls */
 .anc-mobile-actions {
     display: flex;
